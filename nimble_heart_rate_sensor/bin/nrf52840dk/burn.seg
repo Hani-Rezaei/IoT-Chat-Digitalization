@@ -1,0 +1,4 @@
+loadfile /home/mj/Desktop/IoT-Chat-Digitalization/nimble_heart_rate_sensor/bin/nrf52840dk/nimble_heart_rate_sensor.elf
+r
+g
+exit

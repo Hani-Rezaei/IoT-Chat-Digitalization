@@ -1,0 +1,4 @@
+loadfile /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_networking/bin/nrf52840dk/gnrc_networking.elf
+r
+g
+exit
