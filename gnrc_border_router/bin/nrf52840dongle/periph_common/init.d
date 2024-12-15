@@ -53,7 +53,14 @@
  /home/mj/Desktop/RIOT/boards/common/nrf52/include/cfg_rtt_default.h \
  /home/mj/Desktop/RIOT/boards/common/nrf52/include/cfg_timer_default.h \
  /home/mj/Desktop/RIOT/drivers/include/periph/rtt.h \
- /home/mj/Desktop/RIOT/drivers/include/periph/hwrng.h
+ /home/mj/Desktop/RIOT/drivers/include/periph/hwrng.h \
+ /home/mj/Desktop/RIOT/drivers/include/periph/usbdev.h \
+ /home/mj/Desktop/RIOT/sys/include/usb.h \
+ /home/mj/Desktop/RIOT/boards/nrf52840dongle/include/board.h \
+ /home/mj/Desktop/RIOT/boards/common/nrf52/include/board_common.h \
+ /home/mj/Desktop/RIOT/drivers/include/periph/gpio.h \
+ /usr/lib/gcc/arm-none-eabi/13.2.1/include/limits.h \
+ /home/mj/Desktop/RIOT/sys/include/usb/usbopt.h
 /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/core/lib/include/kernel_defines.h:
 /home/mj/Desktop/RIOT/core/lib/include/modules.h:
@@ -116,3 +123,10 @@
 /home/mj/Desktop/RIOT/boards/common/nrf52/include/cfg_timer_default.h:
 /home/mj/Desktop/RIOT/drivers/include/periph/rtt.h:
 /home/mj/Desktop/RIOT/drivers/include/periph/hwrng.h:
+/home/mj/Desktop/RIOT/drivers/include/periph/usbdev.h:
+/home/mj/Desktop/RIOT/sys/include/usb.h:
+/home/mj/Desktop/RIOT/boards/nrf52840dongle/include/board.h:
+/home/mj/Desktop/RIOT/boards/common/nrf52/include/board_common.h:
+/home/mj/Desktop/RIOT/drivers/include/periph/gpio.h:
+/usr/lib/gcc/arm-none-eabi/13.2.1/include/limits.h:
+/home/mj/Desktop/RIOT/sys/include/usb/usbopt.h:

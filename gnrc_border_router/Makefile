@@ -2,14 +2,13 @@
 APPLICATION = gnrc_border_router
 
 # If no BOARD is found in the environment, use this default:
-# BOARD ?= native
-BOARD = nrf52840dongle
+BOARD ?= native
 
 # This has to be the absolute path to the RIOT base directory:
 RIOTBASE ?= $(CURDIR)/../../RIOT
 
 # Default to using ethos for providing the uplink when not on native
-UPLINK ?= ethos
+UPLINK ?= cdc-ecm
 
 # Check if the selected Uplink is valid
 ifeq (,$(filter ethos slip cdc-ecm wifi ethernet,$(UPLINK)))
@@ -32,6 +31,9 @@ USEMODULE += gnrc_icmpv6_echo
 USEMODULE += shell
 USEMODULE += shell_cmds_default
 USEMODULE += ps
+
+# Default channel of nRF52840DK
+DEFAULT_CHANNEL = 22
 
 # Optionally include RPL as a routing protocol. When includede gnrc_uhcpc will
 # configure the node as a RPL DODAG root when receiving a prefix.
@@ -58,6 +60,7 @@ endif
 ifeq (dhcpv6,$(PREFIX_CONF))
   # include DHCPv6 client for 6LoWPAN border router
   USEMODULE += gnrc_dhcpv6_client_6lbr
+  USEMODULE += dhcpv6_client_ia_na
 else ifeq (uhcp,$(PREFIX_CONF))
   # include UHCP client
   USEMODULE += gnrc_uhcpc

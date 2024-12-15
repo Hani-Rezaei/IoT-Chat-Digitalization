@@ -54,7 +54,8 @@
  /home/mj/Desktop/RIOT/core/lib/include/modules.h \
  /home/mj/Desktop/RIOT/core/lib/include/xfa.h \
  /home/mj/Desktop/RIOT/sys/include/flash_utils.h \
- /usr/include/newlib/string.h /usr/include/newlib/sys/string.h
+ /usr/include/newlib/string.h /usr/include/newlib/sys/string.h \
+ /home/mj/Desktop/RIOT/sys/include/usb_board_reset.h
 /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /usr/include/newlib/stdio.h:
 /usr/include/newlib/_ansi.h:
@@ -118,3 +119,4 @@
 /home/mj/Desktop/RIOT/sys/include/flash_utils.h:
 /usr/include/newlib/string.h:
 /usr/include/newlib/sys/string.h:
+/home/mj/Desktop/RIOT/sys/include/usb_board_reset.h:

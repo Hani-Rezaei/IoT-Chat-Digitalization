@@ -1,4 +1,0 @@
-loadfile /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dk/gnrc_border_router.elf
-r
-g
-exit
