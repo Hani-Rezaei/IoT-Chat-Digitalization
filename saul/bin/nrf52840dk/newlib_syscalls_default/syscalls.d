@@ -60,6 +60,7 @@
  /home/mj/Desktop/RIOT/core/include/msg.h \
  /home/mj/Desktop/RIOT/core/include/sched.h \
  /home/mj/Desktop/RIOT/core/lib/include/thread_config.h \
+ /home/mj/Desktop/RIOT/core/include/thread_flags.h \
  /home/mj/Desktop/RIOT/cpu/cortexm_common/include/thread_arch.h \
  /home/mj/Desktop/RIOT/sys/include/stdio_base.h \
  /home/mj/Desktop/RIOT/sys/include/isrpipe.h \
@@ -70,7 +71,20 @@
  /home/mj/Desktop/RIOT/core/lib/include/list.h \
  /home/mj/Desktop/RIOT/core/include/thread.h \
  /home/mj/Desktop/RIOT/sys/include/tsrb.h \
- /home/mj/Desktop/RIOT/core/lib/include/xfa.h
+ /home/mj/Desktop/RIOT/core/lib/include/xfa.h \
+ /usr/include/newlib/sys/time.h /usr/include/newlib/sys/_timeval.h \
+ /usr/include/newlib/machine/_time.h \
+ /home/mj/Desktop/RIOT/sys/include/div.h \
+ /home/mj/Desktop/RIOT/sys/include/xtimer.h \
+ /home/mj/Desktop/RIOT/sys/include/timex.h \
+ /home/mj/Desktop/RIOT/sys/include/time_units.h \
+ /home/mj/Desktop/RIOT/core/include/msg.h \
+ /home/mj/Desktop/RIOT/core/lib/include/rmutex.h \
+ /home/mj/Desktop/RIOT/sys/include/ztimer/xtimer_compat.h \
+ /home/mj/Desktop/RIOT/boards/nrf52840dk/include/board.h \
+ /home/mj/Desktop/RIOT/boards/common/nrf52/include/board_common.h \
+ /home/mj/Desktop/RIOT/sys/include/timex.h \
+ /home/mj/Desktop/RIOT/sys/include/ztimer.h
 /home/mj/Desktop/IoT-Chat-Digitalization/saul/bin/nrf52840dk/riotbuild/riotbuild.h:
 /usr/include/newlib/errno.h:
 /usr/include/newlib/sys/errno.h:
@@ -145,6 +159,7 @@
 /home/mj/Desktop/RIOT/core/include/msg.h:
 /home/mj/Desktop/RIOT/core/include/sched.h:
 /home/mj/Desktop/RIOT/core/lib/include/thread_config.h:
+/home/mj/Desktop/RIOT/core/include/thread_flags.h:
 /home/mj/Desktop/RIOT/cpu/cortexm_common/include/thread_arch.h:
 /home/mj/Desktop/RIOT/sys/include/stdio_base.h:
 /home/mj/Desktop/RIOT/sys/include/isrpipe.h:
@@ -156,3 +171,17 @@
 /home/mj/Desktop/RIOT/core/include/thread.h:
 /home/mj/Desktop/RIOT/sys/include/tsrb.h:
 /home/mj/Desktop/RIOT/core/lib/include/xfa.h:
+/usr/include/newlib/sys/time.h:
+/usr/include/newlib/sys/_timeval.h:
+/usr/include/newlib/machine/_time.h:
+/home/mj/Desktop/RIOT/sys/include/div.h:
+/home/mj/Desktop/RIOT/sys/include/xtimer.h:
+/home/mj/Desktop/RIOT/sys/include/timex.h:
+/home/mj/Desktop/RIOT/sys/include/time_units.h:
+/home/mj/Desktop/RIOT/core/include/msg.h:
+/home/mj/Desktop/RIOT/core/lib/include/rmutex.h:
+/home/mj/Desktop/RIOT/sys/include/ztimer/xtimer_compat.h:
+/home/mj/Desktop/RIOT/boards/nrf52840dk/include/board.h:
+/home/mj/Desktop/RIOT/boards/common/nrf52/include/board_common.h:
+/home/mj/Desktop/RIOT/sys/include/timex.h:
+/home/mj/Desktop/RIOT/sys/include/ztimer.h:

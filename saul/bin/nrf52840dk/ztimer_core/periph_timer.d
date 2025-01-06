@@ -45,6 +45,7 @@
  /home/mj/Desktop/RIOT/core/lib/include/assert.h \
  /home/mj/Desktop/RIOT/core/include/msg.h \
  /home/mj/Desktop/RIOT/core/lib/include/thread_config.h \
+ /home/mj/Desktop/RIOT/core/include/thread_flags.h \
  /home/mj/Desktop/RIOT/cpu/cortexm_common/include/thread_arch.h \
  /home/mj/Desktop/RIOT/core/lib/include/rmutex.h \
  /home/mj/Desktop/RIOT/drivers/include/periph/timer.h \
@@ -115,6 +116,7 @@
 /home/mj/Desktop/RIOT/core/lib/include/assert.h:
 /home/mj/Desktop/RIOT/core/include/msg.h:
 /home/mj/Desktop/RIOT/core/lib/include/thread_config.h:
+/home/mj/Desktop/RIOT/core/include/thread_flags.h:
 /home/mj/Desktop/RIOT/cpu/cortexm_common/include/thread_arch.h:
 /home/mj/Desktop/RIOT/core/lib/include/rmutex.h:
 /home/mj/Desktop/RIOT/drivers/include/periph/timer.h:

@@ -40,6 +40,7 @@
  /home/mj/Desktop/RIOT/cpu/nrf52/include/vendor/nrf52840_bitfields.h \
  /home/mj/Desktop/RIOT/cpu/nrf52/include/vendor/nrf52840_peripherals.h \
  /home/mj/Desktop/RIOT/core/include/sched.h \
+ /home/mj/Desktop/RIOT/core/include/thread_flags.h \
  /home/mj/Desktop/RIOT/cpu/cortexm_common/include/thread_arch.h \
  /home/mj/Desktop/RIOT/core/lib/include/irq.h \
  /home/mj/Desktop/RIOT/cpu/cortexm_common/include/irq_arch.h \
@@ -97,6 +98,7 @@
 /home/mj/Desktop/RIOT/cpu/nrf52/include/vendor/nrf52840_bitfields.h:
 /home/mj/Desktop/RIOT/cpu/nrf52/include/vendor/nrf52840_peripherals.h:
 /home/mj/Desktop/RIOT/core/include/sched.h:
+/home/mj/Desktop/RIOT/core/include/thread_flags.h:
 /home/mj/Desktop/RIOT/cpu/cortexm_common/include/thread_arch.h:
 /home/mj/Desktop/RIOT/core/lib/include/irq.h:
 /home/mj/Desktop/RIOT/cpu/cortexm_common/include/irq_arch.h:

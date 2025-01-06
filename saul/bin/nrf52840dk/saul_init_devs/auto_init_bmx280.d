@@ -58,6 +58,7 @@
  /home/mj/Desktop/RIOT/core/include/msg.h \
  /home/mj/Desktop/RIOT/core/include/sched.h \
  /home/mj/Desktop/RIOT/core/lib/include/thread_config.h \
+ /home/mj/Desktop/RIOT/core/include/thread_flags.h \
  /home/mj/Desktop/RIOT/cpu/cortexm_common/include/thread_arch.h \
  /home/mj/Desktop/RIOT/drivers/include/bmx280.h \
  /home/mj/Desktop/RIOT/drivers/include/saul.h \
@@ -138,6 +139,7 @@
 /home/mj/Desktop/RIOT/core/include/msg.h:
 /home/mj/Desktop/RIOT/core/include/sched.h:
 /home/mj/Desktop/RIOT/core/lib/include/thread_config.h:
+/home/mj/Desktop/RIOT/core/include/thread_flags.h:
 /home/mj/Desktop/RIOT/cpu/cortexm_common/include/thread_arch.h:
 /home/mj/Desktop/RIOT/drivers/include/bmx280.h:
 /home/mj/Desktop/RIOT/drivers/include/saul.h:
