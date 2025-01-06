@@ -6,24 +6,7 @@
 * @date    05.01.2025
 */
 
-#include <stdio.h>
-#include "saul_reg.h"
-#include "shell.h"
-
 #include "saul_utils.h"
-//////////////////////////
-///////// Log
-#include "log.h"
-#include <stdlib.h>
-
-///////// LED
-#include "clk.h"
-#include "board.h"
-#include "periph_conf.h"
-#include "timex.h"
-#include "ztimer.h"
-
-/////////////////////////
 
 // saul
 // ID	Class		Name

@@ -56,6 +56,14 @@
  /home/mj/Desktop/RIOT/sys/include/flash_utils.h \
  /usr/include/newlib/string.h /usr/include/newlib/sys/string.h \
  /home/mj/Desktop/IoT-Chat-Digitalization/saul/saul_utils.h \
+ /home/mj/Desktop/RIOT/sys/include/saul_reg.h \
+ /home/mj/Desktop/RIOT/drivers/include/saul.h /usr/include/newlib/errno.h \
+ /usr/include/newlib/sys/errno.h /usr/include/newlib/sys/types.h \
+ /usr/include/newlib/sys/_stdint.h \
+ /usr/include/newlib/sys/_pthreadtypes.h \
+ /usr/include/newlib/machine/types.h \
+ /home/mj/Desktop/RIOT/sys/include/phydat.h \
+ /home/mj/Desktop/RIOT/sys/include/phydat.h \
  /home/mj/Desktop/RIOT/core/lib/include/log.h \
  /usr/include/newlib/stdlib.h /usr/include/newlib/machine/stdlib.h \
  /home/mj/Desktop/RIOT/sys/include/clk.h \
@@ -81,10 +89,6 @@
  /home/mj/Desktop/IoT-Chat-Digitalization/saul/mqtt_utils.h \
  /home/mj/Desktop/RIOT/pkg/paho-mqtt/include/paho_mqtt.h \
  /home/mj/Desktop/RIOT/sys/include/net/sock/tcp.h \
- /usr/include/newlib/errno.h /usr/include/newlib/sys/errno.h \
- /usr/include/newlib/sys/types.h /usr/include/newlib/sys/_stdint.h \
- /usr/include/newlib/sys/_pthreadtypes.h \
- /usr/include/newlib/machine/types.h \
  /home/mj/Desktop/RIOT/sys/include/net/sock.h \
  /home/mj/Desktop/RIOT/sys/include/iolist.h /usr/include/newlib/unistd.h \
  /usr/include/newlib/sys/unistd.h \
@@ -233,6 +237,16 @@
 /usr/include/newlib/string.h:
 /usr/include/newlib/sys/string.h:
 /home/mj/Desktop/IoT-Chat-Digitalization/saul/saul_utils.h:
+/home/mj/Desktop/RIOT/sys/include/saul_reg.h:
+/home/mj/Desktop/RIOT/drivers/include/saul.h:
+/usr/include/newlib/errno.h:
+/usr/include/newlib/sys/errno.h:
+/usr/include/newlib/sys/types.h:
+/usr/include/newlib/sys/_stdint.h:
+/usr/include/newlib/sys/_pthreadtypes.h:
+/usr/include/newlib/machine/types.h:
+/home/mj/Desktop/RIOT/sys/include/phydat.h:
+/home/mj/Desktop/RIOT/sys/include/phydat.h:
 /home/mj/Desktop/RIOT/core/lib/include/log.h:
 /usr/include/newlib/stdlib.h:
 /usr/include/newlib/machine/stdlib.h:
@@ -259,12 +273,6 @@
 /home/mj/Desktop/IoT-Chat-Digitalization/saul/mqtt_utils.h:
 /home/mj/Desktop/RIOT/pkg/paho-mqtt/include/paho_mqtt.h:
 /home/mj/Desktop/RIOT/sys/include/net/sock/tcp.h:
-/usr/include/newlib/errno.h:
-/usr/include/newlib/sys/errno.h:
-/usr/include/newlib/sys/types.h:
-/usr/include/newlib/sys/_stdint.h:
-/usr/include/newlib/sys/_pthreadtypes.h:
-/usr/include/newlib/machine/types.h:
 /home/mj/Desktop/RIOT/sys/include/net/sock.h:
 /home/mj/Desktop/RIOT/sys/include/iolist.h:
 /usr/include/newlib/unistd.h:

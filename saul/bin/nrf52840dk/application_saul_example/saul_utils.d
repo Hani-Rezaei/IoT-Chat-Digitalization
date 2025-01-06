@@ -1,6 +1,7 @@
 /home/mj/Desktop/IoT-Chat-Digitalization/saul/bin/nrf52840dk/application_saul_example/saul_utils.o: \
  /home/mj/Desktop/IoT-Chat-Digitalization/saul/saul_utils.c \
  /home/mj/Desktop/IoT-Chat-Digitalization/saul/bin/nrf52840dk/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/saul/saul_utils.h \
  /usr/include/newlib/stdio.h /usr/include/newlib/_ansi.h \
  /usr/include/newlib/nano/newlib.h /usr/include/newlib/_newlib_version.h \
  /usr/include/newlib/sys/config.h /usr/include/newlib/machine/ieeefp.h \
@@ -63,7 +64,6 @@
  /home/mj/Desktop/RIOT/core/lib/include/xfa.h \
  /home/mj/Desktop/RIOT/sys/include/flash_utils.h \
  /usr/include/newlib/string.h /usr/include/newlib/sys/string.h \
- /home/mj/Desktop/IoT-Chat-Digitalization/saul/saul_utils.h \
  /home/mj/Desktop/RIOT/core/lib/include/log.h \
  /usr/include/newlib/stdlib.h /usr/include/newlib/machine/stdlib.h \
  /home/mj/Desktop/RIOT/sys/include/clk.h \
@@ -87,6 +87,7 @@
  /home/mj/Desktop/RIOT/core/include/thread.h \
  /home/mj/Desktop/RIOT/core/lib/include/rmutex.h
 /home/mj/Desktop/IoT-Chat-Digitalization/saul/bin/nrf52840dk/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/saul/saul_utils.h:
 /usr/include/newlib/stdio.h:
 /usr/include/newlib/_ansi.h:
 /usr/include/newlib/nano/newlib.h:
@@ -159,7 +160,6 @@
 /home/mj/Desktop/RIOT/sys/include/flash_utils.h:
 /usr/include/newlib/string.h:
 /usr/include/newlib/sys/string.h:
-/home/mj/Desktop/IoT-Chat-Digitalization/saul/saul_utils.h:
 /home/mj/Desktop/RIOT/core/lib/include/log.h:
 /usr/include/newlib/stdlib.h:
 /usr/include/newlib/machine/stdlib.h:
