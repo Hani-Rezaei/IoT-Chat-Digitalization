@@ -14,15 +14,6 @@
  /home/mj/Desktop/RIOT/core/lib/include/assert.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h \
  /usr/include/newlib/sys/stdio.h \
- /home/mj/Desktop/RIOT/sys/include/saul_reg.h \
- /home/mj/Desktop/RIOT/drivers/include/saul.h /usr/include/newlib/errno.h \
- /usr/include/newlib/sys/errno.h /usr/include/newlib/sys/types.h \
- /usr/include/newlib/sys/_stdint.h \
- /usr/include/newlib/sys/_pthreadtypes.h \
- /usr/include/newlib/machine/types.h \
- /home/mj/Desktop/RIOT/sys/include/phydat.h \
- /home/mj/Desktop/RIOT/core/lib/include/modules.h \
- /home/mj/Desktop/RIOT/sys/include/phydat.h \
  /home/mj/Desktop/RIOT/sys/include/shell.h \
  /home/mj/Desktop/RIOT/drivers/include/periph/pm.h \
  /home/mj/Desktop/RIOT/cpu/nrf52/include/periph_cpu.h \
@@ -60,6 +51,7 @@
  /home/mj/Desktop/RIOT/core/lib/include/thread_config.h \
  /home/mj/Desktop/RIOT/core/include/thread_flags.h \
  /home/mj/Desktop/RIOT/cpu/cortexm_common/include/thread_arch.h \
+ /home/mj/Desktop/RIOT/core/lib/include/modules.h \
  /home/mj/Desktop/RIOT/core/lib/include/xfa.h \
  /home/mj/Desktop/RIOT/sys/include/flash_utils.h \
  /usr/include/newlib/string.h /usr/include/newlib/sys/string.h \
@@ -86,8 +78,13 @@
  /home/mj/Desktop/RIOT/core/lib/include/list.h \
  /home/mj/Desktop/RIOT/core/include/thread.h \
  /home/mj/Desktop/RIOT/core/lib/include/rmutex.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/saul/mqtt_utils.h \
  /home/mj/Desktop/RIOT/pkg/paho-mqtt/include/paho_mqtt.h \
  /home/mj/Desktop/RIOT/sys/include/net/sock/tcp.h \
+ /usr/include/newlib/errno.h /usr/include/newlib/sys/errno.h \
+ /usr/include/newlib/sys/types.h /usr/include/newlib/sys/_stdint.h \
+ /usr/include/newlib/sys/_pthreadtypes.h \
+ /usr/include/newlib/machine/types.h \
  /home/mj/Desktop/RIOT/sys/include/net/sock.h \
  /home/mj/Desktop/RIOT/sys/include/iolist.h /usr/include/newlib/unistd.h \
  /usr/include/newlib/sys/unistd.h \
@@ -192,17 +189,6 @@
 /home/mj/Desktop/RIOT/core/lib/include/assert.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h:
 /usr/include/newlib/sys/stdio.h:
-/home/mj/Desktop/RIOT/sys/include/saul_reg.h:
-/home/mj/Desktop/RIOT/drivers/include/saul.h:
-/usr/include/newlib/errno.h:
-/usr/include/newlib/sys/errno.h:
-/usr/include/newlib/sys/types.h:
-/usr/include/newlib/sys/_stdint.h:
-/usr/include/newlib/sys/_pthreadtypes.h:
-/usr/include/newlib/machine/types.h:
-/home/mj/Desktop/RIOT/sys/include/phydat.h:
-/home/mj/Desktop/RIOT/core/lib/include/modules.h:
-/home/mj/Desktop/RIOT/sys/include/phydat.h:
 /home/mj/Desktop/RIOT/sys/include/shell.h:
 /home/mj/Desktop/RIOT/drivers/include/periph/pm.h:
 /home/mj/Desktop/RIOT/cpu/nrf52/include/periph_cpu.h:
@@ -241,6 +227,7 @@
 /home/mj/Desktop/RIOT/core/lib/include/thread_config.h:
 /home/mj/Desktop/RIOT/core/include/thread_flags.h:
 /home/mj/Desktop/RIOT/cpu/cortexm_common/include/thread_arch.h:
+/home/mj/Desktop/RIOT/core/lib/include/modules.h:
 /home/mj/Desktop/RIOT/core/lib/include/xfa.h:
 /home/mj/Desktop/RIOT/sys/include/flash_utils.h:
 /usr/include/newlib/string.h:
@@ -269,8 +256,15 @@
 /home/mj/Desktop/RIOT/core/lib/include/list.h:
 /home/mj/Desktop/RIOT/core/include/thread.h:
 /home/mj/Desktop/RIOT/core/lib/include/rmutex.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/saul/mqtt_utils.h:
 /home/mj/Desktop/RIOT/pkg/paho-mqtt/include/paho_mqtt.h:
 /home/mj/Desktop/RIOT/sys/include/net/sock/tcp.h:
+/usr/include/newlib/errno.h:
+/usr/include/newlib/sys/errno.h:
+/usr/include/newlib/sys/types.h:
+/usr/include/newlib/sys/_stdint.h:
+/usr/include/newlib/sys/_pthreadtypes.h:
+/usr/include/newlib/machine/types.h:
 /home/mj/Desktop/RIOT/sys/include/net/sock.h:
 /home/mj/Desktop/RIOT/sys/include/iolist.h:
 /usr/include/newlib/unistd.h:

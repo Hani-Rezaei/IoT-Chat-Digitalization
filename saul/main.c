@@ -7,13 +7,12 @@
  * @date    05.01.2025
  */
 
-///////// SAUL
 #include <stdio.h>
-#include "saul_reg.h"
 #include "shell.h"
 
+///////// SAUL
 #include "saul_utils.h"
-const char* bme_280_name = "BME280";
+// const char* bme_280_name = "BME280";
 
 ///////// Log
 #include "log.h"
@@ -27,52 +26,7 @@ const char* bme_280_name = "BME280";
 #include "ztimer.h"
 
 ///////// MQTT
-#include <string.h>
-#include <stdbool.h>
-#include "thread.h"
-#include "mutex.h"
-#include "paho_mqtt.h"
-#include "MQTTClient.h"
-
-#define MAIN_QUEUE_SIZE     (8)
-static msg_t _main_msg_queue[MAIN_QUEUE_SIZE];
-
-#define BUF_SIZE                        1024
-#define MQTT_VERSION_v311               4       /* MQTT v3.1.1 version is 4 */
-#define COMMAND_TIMEOUT_MS              4000
-
-#ifndef DEFAULT_MQTT_CLIENT_ID
-#define DEFAULT_MQTT_CLIENT_ID          ""
-#endif
-
-#ifndef DEFAULT_MQTT_USER
-#define DEFAULT_MQTT_USER               ""
-#endif
-
-#ifndef DEFAULT_MQTT_PWD
-#define DEFAULT_MQTT_PWD                ""
-#endif
-
-/**
- * @brief Default MQTT port
- */
-#define DEFAULT_MQTT_PORT               1883
-
-/**
- * @brief Keepalive timeout in seconds
- */
-#define DEFAULT_KEEPALIVE_SEC           10
-
-#ifndef MAX_LEN_TOPIC
-#define MAX_LEN_TOPIC                   100
-#endif
-
-#ifndef MAX_TOPICS
-#define MAX_TOPICS                      4
-#endif
-
-#define IS_CLEAN_SESSION                1
-#define IS_RETAINED_MSG                 0
+#include "mqtt_utils.h"
 
 static MQTTClient client;
 static Network network;
@@ -293,7 +247,7 @@ int cmd_handler(int argc, char **argv)
 {
     /* ... */
 
-    read_saul_reg_dev (bme_280_name);
+    // read_saul_reg_dev (bme_280_name);
     (void)argc;
     (void)argv;
 
