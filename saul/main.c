@@ -243,7 +243,7 @@ int cmd_handler(int argc, char **argv)
     /* ... */
 
     read_saul_reg_dev (nrf_temp);
-    read_saul_reg_dev (bme_280_name);
+    // read_saul_reg_dev (bme_280_name);
     (void)argc;
     (void)argv;
 
@@ -251,6 +251,58 @@ int cmd_handler(int argc, char **argv)
 
     return 0;
 }
+
+int mqtt_con(Network *network, MQTTClient *client) 
+{
+    char *remote_ip = BROKER_IPV6;
+
+    int ret = -1;
+
+    /* ensure client isn't connected in case of a new connection */
+    if (client->isconnected) {
+        printf("mqtt_example: client already connected, disconnecting it\n");
+        MQTTDisconnect(client);
+        NetworkDisconnect(network);
+        return -1;
+    }
+
+    int port = DEFAULT_MQTT_PORT;
+
+    MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
+    data.MQTTVersion = MQTT_VERSION_v311;
+
+    data.clientID.cstring = DEFAULT_MQTT_CLIENT_ID;
+    data.username.cstring = DEFAULT_MQTT_USER;
+    data.password.cstring = DEFAULT_MQTT_PWD;
+    data.keepAliveInterval = DEFAULT_KEEPALIVE_SEC;
+    data.cleansession = IS_CLEAN_SESSION;
+    data.willFlag = 0;
+
+    printf("mqtt_example: Connecting to MQTT Broker from %s %d\n",
+            remote_ip, port);
+    printf("mqtt_example: Trying to connect to %s, port: %d\n",
+            remote_ip, port);
+    ret = NetworkConnect(network, remote_ip, port);
+    if (ret < 0) {
+        printf("mqtt_example: Unable to connect\n");
+        return ret;
+    }
+
+    printf("user:%s clientId:%s password:%s\n", data.username.cstring,
+             data.clientID.cstring, data.password.cstring);
+    ret = MQTTConnect(client, &data);
+    if (ret < 0) {
+        printf("mqtt_example: Unable to connect client %d\n", ret);
+        _cmd_discon(0, NULL);
+        return ret;
+    }
+    else {
+        printf("mqtt_example: Connection successfully\n");
+    }
+
+    return (ret > 0) ? 0 : 1;
+}
+
 
 static unsigned char buf[BUF_SIZE];
 static unsigned char readbuf[BUF_SIZE];
@@ -290,10 +342,12 @@ int main(void)
 
     MQTTStartTask(&client);
 
+    int con_status = mqtt_con(&network, &client);
+    LOG_INFO("con_status: %d\n", con_status);
+    
     char line_buf[SHELL_DEFAULT_BUFSIZE];
     
     shell_run(shell_commands, line_buf, SHELL_DEFAULT_BUFSIZE);
-    // shell_run(NULL, line_buf, SHELL_DEFAULT_BUFSIZE);
 
     return 0;
 }

@@ -1,0 +1,4 @@
+loadfile /home/mj/Desktop/IoT-Chat-Digitalization/saul/bin/nrf52840dk/TextYourIoTDevice.elf
+r
+g
+exit

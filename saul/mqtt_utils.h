@@ -9,15 +9,18 @@
 #include "paho_mqtt.h"
 #include "MQTTClient.h"
 
-
-
 #ifndef BROKER_IPV6
-#define BROKER_IPV6                   100
+#define BROKER_IPV6                   "2600:1f18:74ea:15df:f67c:5919:5bab:51f1"
 #endif
 
+// topic both_directions both 1 
+#ifndef TOPIC_TO_SUBSCRIBE
+#define TOPIC_TO_SUBSCRIBE              "awsiot_to_localgateway"
+#endif
 
-
-
+#ifndef TOPIC_TO_PUBLISH
+#define TOPIC_TO_PUBLISH                "localgateway_to_awsiot"
+#endif
 
 #define MAIN_QUEUE_SIZE     (8)
 static msg_t _main_msg_queue[MAIN_QUEUE_SIZE];
@@ -41,7 +44,7 @@ static msg_t _main_msg_queue[MAIN_QUEUE_SIZE];
 /**
  * @brief Default MQTT port
  */
-#define DEFAULT_MQTT_PORT               1883
+#define DEFAULT_MQTT_PORT               8080
 
 /**
  * @brief Keepalive timeout in seconds
@@ -58,5 +61,6 @@ static msg_t _main_msg_queue[MAIN_QUEUE_SIZE];
 
 #define IS_CLEAN_SESSION                1
 #define IS_RETAINED_MSG                 0
+
 
 #endif /* MQTT_UTILS_H */
