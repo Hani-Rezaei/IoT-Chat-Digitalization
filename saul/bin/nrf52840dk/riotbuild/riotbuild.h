@@ -19,7 +19,7 @@
 #define CPU_FAM_NRF52 1
 #define CPU_MODEL_NRF52840XXAA 1
 #define CPU_CORE_CORTEX_M4F 1
-#define RIOT_APPLICATION "saul_example"
+#define RIOT_APPLICATION "TextYourIoTDevice"
 #define BOARD_NRF52840DK "nrf52840dk"
 #define RIOT_BOARD BOARD_NRF52840DK
 #define CPU_NRF52 "nrf52"
