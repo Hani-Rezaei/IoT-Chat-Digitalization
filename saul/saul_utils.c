@@ -1,10 +1,18 @@
 /**
-* @file    main.c
-* @brief   Beschreibung des Moduls oder der Datei.
-* @details Ausführlichere Informationen, falls erforderlich.
-* @author  Mohammadjavad Esmaeili
-* @date    05.01.2025
-*/
+ * @file    saul_utils.c
+ * @brief   Funktionen zum Lesen und Verarbeiten von SAUL-Geräten und deren Werten.
+ * @details Diese Datei enthält Funktionen, die mit der SAUL-Geräteliste interagieren und 
+ *          Sensordaten auslesen. Die ausgelesenen Daten werden in JSON-Format konvertiert. 
+ *          Es werden auch Geräteinformationen zu bestimmten Gerätetypen verarbeitet und geloggt.
+ * 
+ *          Die unterstützten Gerätetypen sind:
+ *          - Temperaturgeräte (SAUL_SENSE_TEMP)
+ *          - Druckgeräte (SAUL_SENSE_PRESS)
+ *          - Feuchtigkeitsgeräte (SAUL_SENSE_HUM)
+ * 
+ *          Weitere Gerätetypen und deren Verarbeitung können in Zukunft hinzugefügt werden.
+ * @author  Mohammadjavad Esmaeili
+ */
 
 #include "saul_utils.h"
 
@@ -23,13 +31,10 @@
 // #10	SENSE_PRESS	bme280
 // #11	SENSE_HUM	bme280
 
-/**
- * @brief Beschreibung der globalen Variable.
- */
 const char* nrf_temp = "NRF_TEMP";
 const char* bme_280_name = "bme280";
 
-int read_device_values(saul_reg_t* saul_device) {
+int read_device_values(saul_reg_t* saul_device, char** json_buffer) {
     // Nullprüfung des Geräts
     if (saul_device == NULL) {
         LOG_ERROR("Das übergebene Gerät ist NULL\n");
@@ -60,32 +65,26 @@ int read_device_values(saul_reg_t* saul_device) {
     LOG_INFO("json_size: %d\n", json_size);
 
     // Schritt 2: Puffer zuweisen
-    char* json_buffer = malloc(json_size);  // malloc gibt ausreichend Speicherplatz
+    *json_buffer = malloc(json_size);  // malloc gibt ausreichend Speicherplatz
 
     // Schritt 3: JSON in den Puffer schreiben
     if (json_buffer != NULL) {
-        phydat_to_json(&result, 1, json_buffer);
+        phydat_to_json(&result, num_elements, *json_buffer);
         // Jetzt kann json_buffer den JSON-String enthalten
-        printf("JSON: %s\n", json_buffer);
-        
-        // Nicht vergessen: den Speicher freizugeben
-        free(json_buffer);
+        printf("JSON: %s\n", *json_buffer);
+    
+        // Nicht vergessen: den Speicher freizugeben, wo er aufgerufen wird!
+        // free(json_buffer);
     } else {
         // Fehlerbehandlung, falls malloc fehlschlägt
         LOG_ERROR("Speicherzuweisung fehlgeschlagen\n");
+        return -3;
     }
 
     return 0; // Erfolgreicher Abschluss
 }
 
-/**
- * @brief   Eine kurze Zusammenfassung der Funktion.
- * @details Ausführlichere Beschreibung, falls erforderlich.
- *
- * @param[in]  param1   Beschreibung des ersten Parameters.
- * @param[out] param2   Beschreibung des zweiten Parameters.
- * @return     Beschreibung des Rückgabewerts.
- */
+
 int read_saul_reg_dev (const char* device_name){
 
     // Findet das Gerät anhand des Namens
@@ -105,15 +104,15 @@ int read_saul_reg_dev (const char* device_name){
         // Gerätetyp überprüfen und Werte lesen
         switch (device->driver->type) {
             case SAUL_SENSE_TEMP:
-                LOG_INFO("Temperaturgerät gefunden\n");
+                LOG_INFO("Temperaturgerät gefunden: SAUL_SENSE_TEMP\n");
                 break;
 
             case SAUL_SENSE_PRESS:
-                LOG_INFO("Druckgerät gefunden\n");
+                LOG_INFO("Druckgerät gefunden: SAUL_SENSE_PRESS\n");
                 break;
 
             case SAUL_SENSE_HUM:
-                LOG_INFO("Feuchtigkeitsgerät gefunden\n");
+                LOG_INFO("Feuchtigkeitsgerät gefunden: SAUL_SENSE_HUM\n");
                 break;
 
             default:
@@ -121,12 +120,21 @@ int read_saul_reg_dev (const char* device_name){
                 device = device->next;
                 continue; // Zum nächsten Gerät wechseln
         }
+        
+        // JSON-Daten aus dem Gerät lesen
+        char* json_buffer = NULL;
+        int status = read_device_values(device, &json_buffer);
+        // Fehlerprüfung
+        if (status != 0) {
+            LOG_ERROR("Fehler beim Lesen von Werten des Geräts '%s', Fehlercode: %d\n",
+                      device->name, status);
+        } else {
+            // JSON-Daten verarbeiten
+            LOG_INFO("JSON-Daten für Gerät '%s': %s\n", device->name, json_buffer);
 
-        // Gemeinsame Funktion für das Lesen und Verarbeiten von Werten
-        if (read_device_values(device) != 0) {
-            LOG_ERROR("Fehler beim Lesen von Werten des Geräts '%s'\n", device->name);
+            // JSON-Puffer freigeben
+            free(json_buffer);
         }
-
         // Zum nächsten Gerät wechseln
         device = device->next;
     }
