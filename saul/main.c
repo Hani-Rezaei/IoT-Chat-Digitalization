@@ -9,22 +9,18 @@
 #include <stdio.h>
 #include "shell.h"
 
-///////// SAUL
+// SAUL
 #include "saul_utils.h"
 // const char* bme_280_name = "BME280";
 
-///////// Log
+// Log
 #include "log.h"
 #include <stdlib.h>
 
-///////// LED
-#include "clk.h"
-#include "board.h"
-#include "periph_conf.h"
-#include "timex.h"
-#include "ztimer.h"
+// LEDs
+#include "blinky_utils.h"
 
-///////// MQTT
+// MQTT
 #include "mqtt_utils.h"
 
 static MQTTClient client;
