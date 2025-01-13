@@ -10,7 +10,7 @@ A project for exploring digitalization through interactive IoT devices, focusing
     ``` doxygen -g ```
 3. Die generierte Doxyfile anpassen:
     ```plaintext
-    /IoT-Chat-Digitalization/Doxyfile
+    ~/Doxyfile/
 4. Doxygen ausführen:
     ```bash
     doxygen Doxyfile
