@@ -1,5 +1,5 @@
 # name of your application
-APPLICATION = saul_example
+APPLICATION = TextYourIoTDevice
 
 # If no BOARD is found in the environment, use this default:
 BOARD ?= native
@@ -22,11 +22,6 @@ QUIET ?= 1
 
 include Makefile.saul
 include Makefile.mqtt
-
-
-
-# Alternative method to add files in subfolders using wildcards
-# SRC += $(wildcard *.c folder/*.c folder/**/*.c)
 
 include $(RIOTBASE)/Makefile.include
 
