@@ -9,6 +9,17 @@
 #include "paho_mqtt.h"
 #include "MQTTClient.h"
 
+
+
+
+#ifndef BROKER_IPV6
+#define BROKER_IPV6                   100
+#endif
+
+
+
+
+
 #define MAIN_QUEUE_SIZE     (8)
 static msg_t _main_msg_queue[MAIN_QUEUE_SIZE];
 

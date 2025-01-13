@@ -1,121 +1,121 @@
-// #include "mqtt_utils.h"
+#include "mqtt_utils.h"
 
-// static unsigned get_qos(const char *str)
-// {
-//     int qos = atoi(str);
+static MQTTClient client;
+static Network network;
+static int topic_cnt = 0;
+static char _topic_to_subscribe[MAX_TOPICS][MAX_LEN_TOPIC];
 
-//     switch (qos) {
-//     case 1:     return QOS1;
-//     case 2:     return QOS2;
-//     default:    return QOS0;
-//     }
-// }
+static unsigned get_qos(const char *str)
+{
+    int qos = atoi(str);
 
-// static void _on_msg_received(MessageData *data)
-// {
-//     printf("paho_mqtt_example: message received on topic"
-//            " %.*s: %.*s\n",
-//            (int)data->topicName->lenstring.len,
-//            data->topicName->lenstring.data, (int)data->message->payloadlen,
-//            (char *)data->message->payload);
+    switch (qos) {
+    case 1:     return QOS1;
+    case 2:     return QOS2;
+    default:    return QOS0;
+    }
+}
 
-//     printf(" (char *)data->message->payload = %s/n",  (char *)data->message->payload);
-// }
+static void _on_msg_received(MessageData *data)
+{
+    printf("paho_mqtt_example: message received on topic"
+           " %.*s: %.*s\n",
+           (int)data->topicName->lenstring.len,
+           data->topicName->lenstring.data, (int)data->message->payloadlen,
+           (char *)data->message->payload);
+}
 
-// static int _cmd_discon(int argc, char **argv)
-// {
-//     (void)argc;
-//     (void)argv;
+static int _cmd_discon()
+{
+    topic_cnt = 0;
+    int res = MQTTDisconnect(&client);
+    if (res < 0) {
+        printf("mqtt_example: Unable to disconnect\n");
+    }
+    else {
+        printf("mqtt_example: Disconnect successful\n");
+    }
 
-//     topic_cnt = 0;
-//     int res = MQTTDisconnect(&client);
-//     if (res < 0) {
-//         printf("mqtt_example: Unable to disconnect\n");
-//     }
-//     else {
-//         printf("mqtt_example: Disconnect successful\n");
-//     }
+    NetworkDisconnect(&network);
+    return res;
+}
 
-//     NetworkDisconnect(&network);
-//     return res;
-// }
+static int _cmd_con(int argc, char **argv)
+{
+    if (argc < 2) {
+        printf(
+            "usage: %s <brokerip addr> [port] [clientID] [user] [password] "
+            "[keepalivetime]\n",
+            argv[0]);
+        return 1;
+    }
 
-// static int _cmd_con(int argc, char **argv)
-// {
-//     if (argc < 2) {
-//         printf(
-//             "usage: %s <brokerip addr> [port] [clientID] [user] [password] "
-//             "[keepalivetime]\n",
-//             argv[0]);
-//         return 1;
-//     }
+    char *remote_ip = argv[1];
 
-//     char *remote_ip = argv[1];
+    int ret = -1;
 
-//     int ret = -1;
+    /* ensure client isn't connected in case of a new connection */
+    if (client.isconnected) {
+        printf("mqtt_example: client already connected, disconnecting it\n");
+        MQTTDisconnect(&client);
+        NetworkDisconnect(&network);
+    }
 
-//     /* ensure client isn't connected in case of a new connection */
-//     if (client.isconnected) {
-//         printf("mqtt_example: client already connected, disconnecting it\n");
-//         MQTTDisconnect(&client);
-//         NetworkDisconnect(&network);
-//     }
+    int port = DEFAULT_MQTT_PORT;
+    if (argc > 2) {
+        port = atoi(argv[2]);
+    }
 
-//     int port = DEFAULT_MQTT_PORT;
-//     if (argc > 2) {
-//         port = atoi(argv[2]);
-//     }
+    MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
+    data.MQTTVersion = MQTT_VERSION_v311;
 
-//     MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
-//     data.MQTTVersion = MQTT_VERSION_v311;
+    data.clientID.cstring = DEFAULT_MQTT_CLIENT_ID;
+    if (argc > 3) {
+        data.clientID.cstring = argv[3];
+    }
 
-//     data.clientID.cstring = DEFAULT_MQTT_CLIENT_ID;
-//     if (argc > 3) {
-//         data.clientID.cstring = argv[3];
-//     }
+    data.username.cstring = DEFAULT_MQTT_USER;
+    if (argc > 4) {
+        data.username.cstring = argv[4];
+    }
 
-//     data.username.cstring = DEFAULT_MQTT_USER;
-//     if (argc > 4) {
-//         data.username.cstring = argv[4];
-//     }
+    data.password.cstring = DEFAULT_MQTT_PWD;
+    if (argc > 5) {
+        data.password.cstring = argv[5];
+    }
 
-//     data.password.cstring = DEFAULT_MQTT_PWD;
-//     if (argc > 5) {
-//         data.password.cstring = argv[5];
-//     }
+    data.keepAliveInterval = DEFAULT_KEEPALIVE_SEC;
+    if (argc > 6) {
+        data.keepAliveInterval = atoi(argv[6]);
+    }
 
-//     data.keepAliveInterval = DEFAULT_KEEPALIVE_SEC;
-//     if (argc > 6) {
-//         data.keepAliveInterval = atoi(argv[6]);
-//     }
+    data.cleansession = IS_CLEAN_SESSION;
+    data.willFlag = 0;
 
-//     data.cleansession = IS_CLEAN_SESSION;
-//     data.willFlag = 0;
+    printf("mqtt_example: Connecting to MQTT Broker from %s %d\n",
+            remote_ip, port);
+    printf("mqtt_example: Trying to connect to %s, port: %d\n",
+            remote_ip, port);
+    ret = NetworkConnect(&network, remote_ip, port);
+    if (ret < 0) {
+        printf("mqtt_example: Unable to connect\n");
+        return ret;
+    }
 
-//     printf("mqtt_example: Connecting to MQTT Broker from %s %d\n",
-//             remote_ip, port);
-//     printf("mqtt_example: Trying to connect to %s, port: %d\n",
-//             remote_ip, port);
-//     ret = NetworkConnect(&network, remote_ip, port);
-//     if (ret < 0) {
-//         printf("mqtt_example: Unable to connect\n");
-//         return ret;
-//     }
+    printf("user:%s clientId:%s password:%s\n", data.username.cstring,
+             data.clientID.cstring, data.password.cstring);
+    ret = MQTTConnect(&client, &data);
+    if (ret < 0) {
+        printf("mqtt_example: Unable to connect client %d\n", ret);
+        _cmd_discon(0, NULL);
+        return ret;
+    }
+    else {
+        printf("mqtt_example: Connection successfully\n");
+    }
 
-//     printf("user:%s clientId:%s password:%s\n", data.username.cstring,
-//              data.clientID.cstring, data.password.cstring);
-//     ret = MQTTConnect(&client, &data);
-//     if (ret < 0) {
-//         printf("mqtt_example: Unable to connect client %d\n", ret);
-//         _cmd_discon(0, NULL);
-//         return ret;
-//     }
-//     else {
-//         printf("mqtt_example: Connection successfully\n");
-//     }
-
-//     return (ret > 0) ? 0 : 1;
-// }
+    return (ret > 0) ? 0 : 1;
+}
 
 // static int _cmd_pub(int argc, char **argv)
 // {
