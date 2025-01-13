@@ -4,7 +4,6 @@
  * @details 
  *
  * @author  Mohammadjavad Esmaeili
- * @date    05.01.2025
  */
 
 #include <stdio.h>
