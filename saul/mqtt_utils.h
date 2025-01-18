@@ -1,7 +1,6 @@
 #ifndef MQTT_UTILS_H
 #define MQTT_UTILS_H
 
-///////// MQTT
 #include <string.h>
 #include <stdbool.h>
 #include "thread.h"

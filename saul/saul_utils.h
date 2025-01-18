@@ -55,7 +55,7 @@ extern const char* bme_280_name;
  * @note Der Aufrufer sollte sicherstellen, dass der zurückgegebene `json_buffer` nach 
  *       der Verwendung mit `free(json_buffer)` freigegeben wird.
  */
-int read_device_values(saul_reg_t*, char**);
+int read_device_values(saul_reg_t* saul_device, char** json_buffer);
 
 /**
  * @brief Liest und verarbeitet alle Geräte eines bestimmten Typs aus einer SAUL-Geräteliste.
@@ -78,6 +78,6 @@ int read_device_values(saul_reg_t*, char**);
  *       Der Aufrufer kann die Rückgabewerte verwenden, um Fehler zu diagnostizieren und 
  *       gegebenenfalls Maßnahmen zu ergreifen.
  */
-int read_saul_reg_dev (const char*);
+int read_saul_reg_dev (const char* device_name);
 
 #endif  /* SAUL_UTILS_H */

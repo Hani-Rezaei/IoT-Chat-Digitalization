@@ -84,7 +84,6 @@ int read_device_values(saul_reg_t* saul_device, char** json_buffer) {
     return 0; // Erfolgreicher Abschluss
 }
 
-
 int read_saul_reg_dev (const char* device_name){
 
     // Findet das Gerät anhand des Namens
