@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/paho-mqtt/bin/nrf52840dk/paho-mqtt-packet/MQTTFormat.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/MQTT/paho-mqtt/bin/nrf52840dk/paho-mqtt-packet/MQTTFormat.o: \
  /home/mj/Desktop/RIOT/build/pkg/paho-mqtt/MQTTPacket/src/MQTTFormat.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/paho-mqtt/bin/nrf52840dk/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/MQTT/paho-mqtt/bin/nrf52840dk/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/build/pkg/paho-mqtt/MQTTPacket/src/StackTrace.h \
  /usr/include/newlib/stdio.h /usr/include/newlib/_ansi.h \
  /usr/include/newlib/nano/newlib.h /usr/include/newlib/_newlib_version.h \
@@ -22,7 +22,7 @@
  /home/mj/Desktop/RIOT/build/pkg/paho-mqtt/MQTTPacket/src/MQTTUnsubscribe.h \
  /home/mj/Desktop/RIOT/build/pkg/paho-mqtt/MQTTPacket/src/MQTTFormat.h \
  /usr/include/newlib/string.h /usr/include/newlib/sys/string.h
-/home/mj/Desktop/IoT-Chat-Digitalization/paho-mqtt/bin/nrf52840dk/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/MQTT/paho-mqtt/bin/nrf52840dk/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/build/pkg/paho-mqtt/MQTTPacket/src/StackTrace.h:
 /usr/include/newlib/stdio.h:
 /usr/include/newlib/_ansi.h:

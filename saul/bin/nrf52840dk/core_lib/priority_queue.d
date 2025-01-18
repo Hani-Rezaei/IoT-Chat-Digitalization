@@ -42,6 +42,7 @@
  /home/mj/Desktop/RIOT/build/pkg/cmsis/CMSIS/Core/Include/mpu_armv7.h \
  /home/mj/Desktop/RIOT/cpu/nrf52/include/vendor/nrf52840_bitfields.h \
  /home/mj/Desktop/RIOT/cpu/nrf52/include/vendor/nrf52840_peripherals.h \
+ /home/mj/Desktop/RIOT/core/include/thread_flags.h \
  /home/mj/Desktop/RIOT/cpu/cortexm_common/include/thread_arch.h \
  /home/mj/Desktop/RIOT/sys/include/architecture.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/limits.h \
@@ -96,6 +97,7 @@
 /home/mj/Desktop/RIOT/build/pkg/cmsis/CMSIS/Core/Include/mpu_armv7.h:
 /home/mj/Desktop/RIOT/cpu/nrf52/include/vendor/nrf52840_bitfields.h:
 /home/mj/Desktop/RIOT/cpu/nrf52/include/vendor/nrf52840_peripherals.h:
+/home/mj/Desktop/RIOT/core/include/thread_flags.h:
 /home/mj/Desktop/RIOT/cpu/cortexm_common/include/thread_arch.h:
 /home/mj/Desktop/RIOT/sys/include/architecture.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/limits.h:

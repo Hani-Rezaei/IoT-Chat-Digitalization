@@ -48,6 +48,7 @@
  /home/mj/Desktop/RIOT/core/include/msg.h \
  /home/mj/Desktop/RIOT/core/include/sched.h \
  /home/mj/Desktop/RIOT/core/lib/include/thread_config.h \
+ /home/mj/Desktop/RIOT/core/include/thread_flags.h \
  /home/mj/Desktop/RIOT/cpu/cortexm_common/include/thread_arch.h \
  /home/mj/Desktop/RIOT/boards/common/nrf52/include/cfg_clock_32_1.h \
  /home/mj/Desktop/RIOT/boards/common/nrf52/include/cfg_i2c_default.h \
@@ -55,8 +56,8 @@
  /home/mj/Desktop/RIOT/boards/common/nrf52/include/cfg_timer_default.h \
  /home/mj/Desktop/RIOT/boards/nrf52840dk/include/board.h \
  /home/mj/Desktop/RIOT/boards/common/nrf52/include/board_common.h \
- /home/mj/Desktop/RIOT/drivers/include/periph/i2c.h \
- /usr/lib/gcc/arm-none-eabi/13.2.1/include/limits.h
+ /home/mj/Desktop/RIOT/drivers/include/periph/rtt.h \
+ /home/mj/Desktop/RIOT/drivers/include/periph/hwrng.h
 /home/mj/Desktop/IoT-Chat-Digitalization/saul/bin/nrf52840dk/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/core/lib/include/kernel_defines.h:
 /home/mj/Desktop/RIOT/core/lib/include/modules.h:
@@ -113,6 +114,7 @@
 /home/mj/Desktop/RIOT/core/include/msg.h:
 /home/mj/Desktop/RIOT/core/include/sched.h:
 /home/mj/Desktop/RIOT/core/lib/include/thread_config.h:
+/home/mj/Desktop/RIOT/core/include/thread_flags.h:
 /home/mj/Desktop/RIOT/cpu/cortexm_common/include/thread_arch.h:
 /home/mj/Desktop/RIOT/boards/common/nrf52/include/cfg_clock_32_1.h:
 /home/mj/Desktop/RIOT/boards/common/nrf52/include/cfg_i2c_default.h:
@@ -120,5 +122,5 @@
 /home/mj/Desktop/RIOT/boards/common/nrf52/include/cfg_timer_default.h:
 /home/mj/Desktop/RIOT/boards/nrf52840dk/include/board.h:
 /home/mj/Desktop/RIOT/boards/common/nrf52/include/board_common.h:
-/home/mj/Desktop/RIOT/drivers/include/periph/i2c.h:
-/usr/lib/gcc/arm-none-eabi/13.2.1/include/limits.h:
+/home/mj/Desktop/RIOT/drivers/include/periph/rtt.h:
+/home/mj/Desktop/RIOT/drivers/include/periph/hwrng.h:

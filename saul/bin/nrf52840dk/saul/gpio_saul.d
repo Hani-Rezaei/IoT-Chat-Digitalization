@@ -59,6 +59,7 @@
  /home/mj/Desktop/RIOT/core/include/msg.h \
  /home/mj/Desktop/RIOT/core/include/sched.h \
  /home/mj/Desktop/RIOT/core/lib/include/thread_config.h \
+ /home/mj/Desktop/RIOT/core/include/thread_flags.h \
  /home/mj/Desktop/RIOT/cpu/cortexm_common/include/thread_arch.h \
  /home/mj/Desktop/RIOT/boards/nrf52840dk/include/periph_conf.h \
  /home/mj/Desktop/RIOT/boards/common/nrf52xxxdk/include/periph_conf_common.h \
@@ -137,6 +138,7 @@
 /home/mj/Desktop/RIOT/core/include/msg.h:
 /home/mj/Desktop/RIOT/core/include/sched.h:
 /home/mj/Desktop/RIOT/core/lib/include/thread_config.h:
+/home/mj/Desktop/RIOT/core/include/thread_flags.h:
 /home/mj/Desktop/RIOT/cpu/cortexm_common/include/thread_arch.h:
 /home/mj/Desktop/RIOT/boards/nrf52840dk/include/periph_conf.h:
 /home/mj/Desktop/RIOT/boards/common/nrf52xxxdk/include/periph_conf_common.h:

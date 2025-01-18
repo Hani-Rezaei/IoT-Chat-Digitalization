@@ -1,136 +1,322 @@
+/**
+ * @file    main.c
+ * @brief   
+ * @details 
+ *
+ * @author  Mohammadjavad Esmaeili
+ */
 
 #include <stdio.h>
-#include "saul_reg.h"
 #include "shell.h"
 
-//////////////////////////
-// #include "led.h"
-/////////////////////////
+// SAUL
+#include "saul_utils.h"
+// const char* bme_280_name = "BME280";
 
-// saul
-// ID	Class		Name
-// #0	SENSE_BTN	Button 1
-// #1	SENSE_BTN	Button 2
-// #2	SENSE_BTN	Button 3
-// #3	SENSE_BTN	Button 4
-// #4	ACT_DIMMER	LED 1
-// #5	ACT_DIMMER	LED 2
-// #6	ACT_DIMMER	LED 3
-// #7	ACT_DIMMER	LED 4
-// #8	SENSE_TEMP	NRF_TEMP
-// #9	SENSE_TEMP	bme280
-// #10	SENSE_PRESS	bme280
-// #11	SENSE_HUM	bme280
+// Log
+#include "log.h"
+#include <stdlib.h>
 
-const char* nrf_temp = "NRF_TEMP";
-const char* bme_280_name = "bme280";
+// LEDs
+#include "blinky_utils.h"
 
-saul_reg_t* find_saul_reg_dev_with_name (const char* dev_name){
-    saul_reg_t* saul_reg_dev = saul_reg_find_name(dev_name);
-    if (saul_reg_dev != NULL)
-        return saul_reg_dev;
-    
-    return NULL;
-}
+// MQTT
+#include "mqtt_utils.h"
 
-// saul_reg_t* find_saul_reg_with_name_type (const char* sensor_name){
-//     saul_reg_t* saul_bme280 = saul_reg_find_name(sensor_name);
-//     if (saul_bme280 != NULL)
-//         return saul_bme280;
-    
-//     return NULL;
-// }
+static MQTTClient client;
+static Network network;
+static int topic_cnt = 0;
+static char _topic_to_subscribe[MAX_TOPICS][MAX_LEN_TOPIC];
 
-int read_saul_reg_dev (saul_reg_t* dev, phydat_t* result){
+static unsigned get_qos(const char *str)
+{
+    int qos = atoi(str);
 
-    saul_reg_t* device = saul_reg_find_name(bme_280_name);
-
-    while (device != NULL) {
-        // Klasse und Name des aktuellen Geräts prüfen
-        printf("Gerät: %s, Klasse: %d\n", device->name, device->driver->type);
-
-        if (device->driver->type == SAUL_SENSE_TEMP) {
-            printf("Temperaturgerät gefunden:\n");
-            read_and_print_device_values(device);
-        } else if (device->driver->type == SAUL_SENSE_PRESS) {
-            printf("Druckgerät gefunden:\n");
-            read_and_print_device_values(device);
-        } else if (device->driver->type == SAUL_SENSE_HUM) {
-            printf("Feuchtigkeitsgerät gefunden:\n");
-            read_and_print_device_values(device);
-        } 
-        
-        // Zum nächsten Gerät wechseln
-        device = device->next;
+    switch (qos) {
+    case 1:     return QOS1;
+    case 2:     return QOS2;
+    default:    return QOS0;
     }
 }
 
-void read_and_print_device_values(saul_reg_t* saul_device) {
-    if (saul_device == NULL) {
-        printf("Gerät ist NULL!\n");
-        return;
+static void _on_msg_received(MessageData *data)
+{
+    printf("paho_mqtt_example: message received on topic"
+           " %.*s: %.*s\n",
+           (int)data->topicName->lenstring.len,
+           data->topicName->lenstring.data, (int)data->message->payloadlen,
+           (char *)data->message->payload);
+
+    printf(" (char *)data->message->payload = %s/n",  (char *)data->message->payload);
+}
+
+static int _cmd_discon(int argc, char **argv)
+{
+    (void)argc;
+    (void)argv;
+
+    topic_cnt = 0;
+    int res = MQTTDisconnect(&client);
+    if (res < 0) {
+        printf("mqtt_example: Unable to disconnect\n");
+    }
+    else {
+        printf("mqtt_example: Disconnect successful\n");
     }
 
-    phydat_t result;
-    int num_elements = saul_reg_read(saul_device, &result);
-    if (num_elements > 0) {
-        for (int i = 0; i < num_elements; i++) {
-            printf("Wert[%d]: %d, Einheit: %d, Skalierung: %d\n", i, result.val[i], result.unit, result.scale);
-        }
-    } else {
-        printf("Fehler beim Lesen von Gerät: %s\n", saul_device->name);
-    }
+    NetworkDisconnect(&network);
+    return res;
 }
+
+static int _cmd_con(int argc, char **argv)
+{
+    if (argc < 2) {
+        printf(
+            "usage: %s <brokerip addr> [port] [clientID] [user] [password] "
+            "[keepalivetime]\n",
+            argv[0]);
+        return 1;
+    }
+
+    char *remote_ip = argv[1];
+
+    int ret = -1;
+
+    /* ensure client isn't connected in case of a new connection */
+    if (client.isconnected) {
+        printf("mqtt_example: client already connected, disconnecting it\n");
+        MQTTDisconnect(&client);
+        NetworkDisconnect(&network);
+    }
+
+    int port = DEFAULT_MQTT_PORT;
+    if (argc > 2) {
+        port = atoi(argv[2]);
+    }
+
+    MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
+    data.MQTTVersion = MQTT_VERSION_v311;
+
+    data.clientID.cstring = DEFAULT_MQTT_CLIENT_ID;
+    if (argc > 3) {
+        data.clientID.cstring = argv[3];
+    }
+
+    data.username.cstring = DEFAULT_MQTT_USER;
+    if (argc > 4) {
+        data.username.cstring = argv[4];
+    }
+
+    data.password.cstring = DEFAULT_MQTT_PWD;
+    if (argc > 5) {
+        data.password.cstring = argv[5];
+    }
+
+    data.keepAliveInterval = DEFAULT_KEEPALIVE_SEC;
+    if (argc > 6) {
+        data.keepAliveInterval = atoi(argv[6]);
+    }
+
+    data.cleansession = IS_CLEAN_SESSION;
+    data.willFlag = 0;
+
+    printf("mqtt_example: Connecting to MQTT Broker from %s %d\n",
+            remote_ip, port);
+    printf("mqtt_example: Trying to connect to %s, port: %d\n",
+            remote_ip, port);
+    ret = NetworkConnect(&network, remote_ip, port);
+    if (ret < 0) {
+        printf("mqtt_example: Unable to connect\n");
+        return ret;
+    }
+
+    printf("user:%s clientId:%s password:%s\n", data.username.cstring,
+             data.clientID.cstring, data.password.cstring);
+    ret = MQTTConnect(&client, &data);
+    if (ret < 0) {
+        printf("mqtt_example: Unable to connect client %d\n", ret);
+        _cmd_discon(0, NULL);
+        return ret;
+    }
+    else {
+        printf("mqtt_example: Connection successfully\n");
+    }
+
+    return (ret > 0) ? 0 : 1;
+}
+
+static int _cmd_pub(int argc, char **argv)
+{
+    enum QoS qos = QOS0;
+
+    if (argc < 3) {
+        printf("usage: %s <topic name> <string msg> [QoS level]\n",
+               argv[0]);
+        return 1;
+    }
+    if (argc == 4) {
+        qos = get_qos(argv[3]);
+    }
+    MQTTMessage message;
+    message.qos = qos;
+    message.retained = IS_RETAINED_MSG;
+    message.payload = argv[2];
+    message.payloadlen = strlen(message.payload);
+
+    int rc;
+    if ((rc = MQTTPublish(&client, argv[1], &message)) < 0) {
+        printf("mqtt_example: Unable to publish (%d)\n", rc);
+    }
+    else {
+        printf("mqtt_example: Message (%s) has been published to topic %s"
+               "with QOS %d\n",
+               (char *)message.payload, argv[1], (int)message.qos);
+    }
+
+    return rc;
+}
+
+static int _cmd_sub(int argc, char **argv)
+{
+    enum QoS qos = QOS0;
+
+    if (argc < 2) {
+        printf("usage: %s <topic name> [QoS level]\n", argv[0]);
+        return 1;
+    }
+
+    if (argc >= 3) {
+        qos = get_qos(argv[2]);
+    }
+
+    if (topic_cnt > MAX_TOPICS) {
+        printf("mqtt_example: Already subscribed to max %d topics,"
+                "call 'unsub' command\n", topic_cnt);
+        return -1;
+    }
+
+    if (strlen(argv[1]) > MAX_LEN_TOPIC) {
+        printf("mqtt_example: Not subscribing, topic too long %s\n", argv[1]);
+        return -1;
+    }
+    strncpy(_topic_to_subscribe[topic_cnt], argv[1], strlen(argv[1]));
+
+    printf("mqtt_example: Subscribing to %s\n", _topic_to_subscribe[topic_cnt]);
+    int ret = MQTTSubscribe(&client,
+              _topic_to_subscribe[topic_cnt], qos, _on_msg_received);
+    if (ret < 0) {
+        printf("mqtt_example: Unable to subscribe to %s (%d)\n",
+               _topic_to_subscribe[topic_cnt], ret);
+        _cmd_discon(0, NULL);
+    }
+    else {
+        printf("mqtt_example: Now subscribed to %s, QOS %d\n",
+               argv[1], (int) qos);
+        topic_cnt++;
+    }
+    return ret;
+}
+
+static int _cmd_unsub(int argc, char **argv)
+{
+    if (argc < 2) {
+        printf("usage %s <topic name>\n", argv[0]);
+        return 1;
+    }
+
+    int ret = MQTTUnsubscribe(&client, argv[1]);
+
+    if (ret < 0) {
+        printf("mqtt_example: Unable to unsubscribe from topic: %s\n", argv[1]);
+        _cmd_discon(0, NULL);
+    }
+    else {
+        printf("mqtt_example: Unsubscribed from topic:%s\n", argv[1]);
+        topic_cnt--;
+    }
+    return ret;
+}
+
 
 int cmd_handler(int argc, char **argv)
 {
     /* ... */
-    // saul_reg_t* saul_bme280 = find_saul_reg_with_name(bme_280_name);
-    
-    // //saul_bme280 = saul_reg_find_type_and_name(9,bme_280_name);
 
-    // if (saul_bme280 != NULL)
-    // {
-    //     printf("saul gefunden!\n");
-    //     phydat_t result;
-    //     int element_number_saul_reg_read = read_saul_reg(saul_bme280, &result);
-    //     if (element_number_saul_reg_read >= 0)
-    //     {
-    //         printf("element_number_saul_reg_read = %d\n", element_number_saul_reg_read);
-    //         // for (int i = 0; i < (int)PHYDAT_DIM; i++) {
-    //         //     if (i < element_number_saul_reg_read) { // Nur gültige Werte ausgeben
-    //         //         printf("Wert[%d]: %d, Einheit: %d, Skalierung: %d\n",
-    //         //             i, result.val[i], result.unit, result.scale);
-    //         //     }
-    //         // }
-    //         for (int i = 0; i < 3; i++) {
-    //            printf("Wert[%d]: %d, Einheit: %d, Skalierung: %d\n",
-    //            i, result.val[i], result.unit, result.scale);
-    //         }
-    //     }
-    //     else{
-    //         printf("element_number_saul_reg_read  < 0 = %d\n", element_number_saul_reg_read);
-    //         return -1;
-    //     }
-    // }
-    // else
-    // {
-    //     printf("saul NICHT gefunden");
-    //     return -1;
-    // }   
-
-
-
+    read_saul_reg_dev (nrf_temp);
+    // read_saul_reg_dev (bme_280_name);
     (void)argc;
     (void)argv;
+
+    //LED1_OFF;
 
     return 0;
 }
 
-// static const shell_command_t commands[] = {
-//     //    { "command name", "command description", cmd_handler }, 
-//     { "cmd_handler", NULL, cmd_handler }
-// };
+int mqtt_con(Network *network, MQTTClient *client) 
+{
+    char *remote_ip = BROKER_IPV6;
+
+    int ret = -1;
+
+    /* ensure client isn't connected in case of a new connection */
+    if (client->isconnected) {
+        printf("mqtt_example: client already connected, disconnecting it\n");
+        MQTTDisconnect(client);
+        NetworkDisconnect(network);
+        return -1;
+    }
+
+    int port = DEFAULT_MQTT_PORT;
+
+    MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
+    data.MQTTVersion = MQTT_VERSION_v311;
+
+    data.clientID.cstring = DEFAULT_MQTT_CLIENT_ID;
+    data.username.cstring = DEFAULT_MQTT_USER;
+    data.password.cstring = DEFAULT_MQTT_PWD;
+    data.keepAliveInterval = DEFAULT_KEEPALIVE_SEC;
+    data.cleansession = IS_CLEAN_SESSION;
+    data.willFlag = 0;
+
+    printf("mqtt_example: Connecting to MQTT Broker from %s %d\n",
+            remote_ip, port);
+    printf("mqtt_example: Trying to connect to %s, port: %d\n",
+            remote_ip, port);
+    ret = NetworkConnect(network, remote_ip, port);
+    if (ret < 0) {
+        printf("mqtt_example: Unable to connect\n");
+        return ret;
+    }
+
+    printf("user:%s clientId:%s password:%s\n", data.username.cstring,
+             data.clientID.cstring, data.password.cstring);
+    ret = MQTTConnect(client, &data);
+    if (ret < 0) {
+        printf("mqtt_example: Unable to connect client %d\n", ret);
+        _cmd_discon(0, NULL);
+        return ret;
+    }
+    else {
+        printf("mqtt_example: Connection successfully\n");
+    }
+
+    return (ret > 0) ? 0 : 1;
+}
+
+
+static unsigned char buf[BUF_SIZE];
+static unsigned char readbuf[BUF_SIZE];
+
+static const shell_command_t shell_commands[] =
+{
+    { "con",    "connect to MQTT broker",             _cmd_con    },
+    { "discon", "disconnect from the current broker", _cmd_discon },
+    { "pub",    "publish something",                  _cmd_pub    },
+    { "sub",    "subscribe topic",                    _cmd_sub    },
+    { "unsub",  "unsubscribe from topic",             _cmd_unsub  },
+    { "cmd_handler",    NULL,                         cmd_handler },
+    { NULL,     NULL,                                 NULL        }
+};
 
 int main(void)
 {
@@ -139,10 +325,29 @@ int main(void)
 
     printf("This application runs on %s\n", RIOT_BOARD);
 
+    if (IS_USED(MODULE_GNRC_ICMPV6_ECHO)) {
+        msg_init_queue(_main_msg_queue, MAIN_QUEUE_SIZE);
+    }
+#ifdef MODULE_LWIP
+    /* let LWIP initialize */
+    ztimer_sleep(ZTIMER_MSEC, 1 * MS_PER_SEC);
+#endif
 
+    NetworkInit(&network);
+
+    MQTTClientInit(&client, &network, COMMAND_TIMEOUT_MS, buf, BUF_SIZE,
+                   readbuf,
+                   BUF_SIZE);
+    printf("Running mqtt paho example. Type help for commands info\n");
+
+    MQTTStartTask(&client);
+
+    int con_status = mqtt_con(&network, &client);
+    LOG_INFO("con_status: %d\n", con_status);
+    
     char line_buf[SHELL_DEFAULT_BUFSIZE];
-    shell_run(commands, line_buf, SHELL_DEFAULT_BUFSIZE);
-    // shell_run(NULL, line_buf, SHELL_DEFAULT_BUFSIZE);
+    
+    shell_run(shell_commands, line_buf, SHELL_DEFAULT_BUFSIZE);
 
     return 0;
 }

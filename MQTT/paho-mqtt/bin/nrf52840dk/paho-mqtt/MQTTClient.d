@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/paho-mqtt/bin/nrf52840dk/paho-mqtt/MQTTClient.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/MQTT/paho-mqtt/bin/nrf52840dk/paho-mqtt/MQTTClient.o: \
  /home/mj/Desktop/RIOT/build/pkg/paho-mqtt/MQTTClient-C/src/MQTTClient.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/paho-mqtt/bin/nrf52840dk/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/MQTT/paho-mqtt/bin/nrf52840dk/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/build/pkg/paho-mqtt/MQTTClient-C/src/MQTTClient.h \
  /home/mj/Desktop/RIOT/build/pkg/paho-mqtt/MQTTPacket/src/MQTTPacket.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h \
@@ -153,7 +153,7 @@
  /home/mj/Desktop/RIOT/sys/net/sock/async/event/sock_async_ctx.h \
  /home/mj/Desktop/RIOT/sys/include/net/sock/ip.h \
  /home/mj/Desktop/RIOT/sys/include/net/sock/udp.h
-/home/mj/Desktop/IoT-Chat-Digitalization/paho-mqtt/bin/nrf52840dk/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/MQTT/paho-mqtt/bin/nrf52840dk/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/build/pkg/paho-mqtt/MQTTClient-C/src/MQTTClient.h:
 /home/mj/Desktop/RIOT/build/pkg/paho-mqtt/MQTTPacket/src/MQTTPacket.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h:
