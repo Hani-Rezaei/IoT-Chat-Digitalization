@@ -36,28 +36,6 @@ extern const char* nrf_temp;
 extern const char* bme_280_name;
 
 /**
- * @brief Liest die Werte eines SAUL-Geräts und gibt sie als JSON zurück.
- *
- * Diese Funktion liest die Sensordaten eines SAUL-Geräts aus und konvertiert diese in ein 
- * JSON-Format. Die JSON-Daten werden in einem dynamisch allokierten Puffer gespeichert, dessen 
- * Adresse an den Aufrufer übergeben wird. Der Aufrufer ist dafür verantwortlich, den Speicher 
- * nach der Verwendung freizugeben.
- *
- * @param[in] saul_device  Zeiger auf das SAUL-Gerät, dessen Werte ausgelesen werden sollen.
- * @param[out] json_buffer Zeiger auf einen Zeiger, der die Adresse des allokierten Puffers 
- *                         enthält, der die JSON-Daten speichern wird.
- *
- * @return int Rückgabewert, der den Status der Operation angibt:
- *         - 0 bei Erfolg
- *         - Negativer Wert bei einem Fehler (z.B. beim Lesen des Geräts oder bei der 
- *           Speicherzuweisung)
- *
- * @note Der Aufrufer sollte sicherstellen, dass der zurückgegebene `json_buffer` nach 
- *       der Verwendung mit `free(json_buffer)` freigegeben wird.
- */
-int read_device_values(saul_reg_t*, char**);
-
-/**
  * @brief Liest und verarbeitet alle Geräte eines bestimmten Typs aus einer SAUL-Geräteliste.
  *
  * Diese Funktion sucht nach einem Gerät mit dem angegebenen Namen, iteriert über alle 
@@ -79,5 +57,9 @@ int read_device_values(saul_reg_t*, char**);
  *       gegebenenfalls Maßnahmen zu ergreifen.
  */
 int read_saul_reg_dev (const char*);
+
+int read_bme280_temperature (const char*, char* json_buffer, size_t* json_size);
+int read_bme280_pressure (const char* device_name, char* json_buffer, size_t* json_size);
+int read_bme280_humidity (const char* device_name, char* json_buffer, size_t* json_size);
 
 #endif  /* SAUL_UTILS_H */

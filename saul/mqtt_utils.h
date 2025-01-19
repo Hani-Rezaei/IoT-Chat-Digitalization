@@ -10,16 +10,23 @@
 #include "MQTTClient.h"
 
 #ifndef BROKER_IPV6
-#define BROKER_IPV6                   "2600:1f18:74ea:15df:f67c:5919:5bab:51f1"
+#define BROKER_IPV6         "2600:1f18:74ea:15df:f67c:5919:5bab:51f1"
 #endif
 
-// topic both_directions both 1 
-#ifndef TOPIC_TO_SUBSCRIBE
-#define TOPIC_TO_SUBSCRIBE              "awsiot_to_localgateway"
+#ifndef TOPIC_TEMPERATURE
+#define TOPIC_TEMPERATURE   "both_directions/temperature"
 #endif
 
-#ifndef TOPIC_TO_PUBLISH
-#define TOPIC_TO_PUBLISH                "localgateway_to_awsiot"
+#ifndef TOPIC_HUMIDITY
+#define TOPIC_HUMIDITY      "both_directions/humidity"
+#endif
+
+#ifndef TOPIC_PRESSURE
+#define TOPIC_PRESSURE      "both_directions/pressure"
+#endif
+
+#ifndef TOPIC_ALL_VALUES
+#define TOPIC_ALL_VALUES    "both_directions/all_values"
 #endif
 
 #define MAIN_QUEUE_SIZE     (8)
