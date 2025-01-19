@@ -46,8 +46,6 @@ static void _on_msg_received(MessageData *data)
            (int)data->topicName->lenstring.len,
            data->topicName->lenstring.data, (int)data->message->payloadlen,
            (char *)data->message->payload);
-
-    printf(" (char *)data->message->payload = %s/n",  (char *)data->message->payload);
 }
 
 static int _cmd_discon(int argc, char **argv)
@@ -239,6 +237,7 @@ static int _cmd_unsub(int argc, char **argv)
 
 int cmd_handler(int argc, char **argv)
 {
+
     read_saul_reg_dev (nrf_temp);
     // read_saul_reg_dev (bme_280_name);
     (void)argc;
