@@ -35,31 +35,11 @@ extern const char* nrf_temp;
  */
 extern const char* bme_280_name;
 
-/**
- * @brief Liest und verarbeitet alle Geräte eines bestimmten Typs aus einer SAUL-Geräteliste.
- *
- * Diese Funktion sucht nach einem Gerät mit dem angegebenen Namen, iteriert über alle 
- * Geräte in der SAUL-Geräteliste und liest die zugehörigen Werte aus. Wenn das Gerät erfolgreich 
- * gelesen wird, werden die Werte im JSON-Format zurückgegeben und geloggt.
- * Für jedes Gerät wird der entsprechende Gerätetyp überprüft, und je nach Gerätetyp erfolgt 
- * eine spezifische Verarbeitung.
- *
- * @param[in] device_name Der Name des Geräts, das in der SAUL-Datenbank gefunden und verarbeitet 
- *                        werden soll.
- *
- * @return int Rückgabewert, der den Status der Operation angibt:
- *         - 0 bei Erfolg
- *         - -1 wenn kein Gerät mit dem angegebenen Namen gefunden wurde
- *         - Negativer Wert bei Fehlern während des Lesens oder der Verarbeitung der Geräte
- *
- * @note Die Funktion verarbeitet die Geräte der SAUL-Geräteliste in einer Schleife. 
- *       Der Aufrufer kann die Rückgabewerte verwenden, um Fehler zu diagnostizieren und 
- *       gegebenenfalls Maßnahmen zu ergreifen.
- */
-int read_saul_reg_dev (const char*);
-
 int read_bme280_temperature (const char*, char* json_buffer, size_t* json_size);
 int read_bme280_pressure (const char* device_name, char* json_buffer, size_t* json_size);
 int read_bme280_humidity (const char* device_name, char* json_buffer, size_t* json_size);
+
+void escape_json(const char *input, char *output);
+
 
 #endif  /* SAUL_UTILS_H */

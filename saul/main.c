@@ -32,8 +32,6 @@ static char saul_response[1024];
 static char saul_topic_to_publish[MAX_LEN_TOPIC];
 
 static int bme280_pub(int argc, char **argv);
-static int _cmd_pub(int argc, char **argv);
-
 
 static unsigned get_qos(const char *str)
 {
@@ -144,7 +142,7 @@ static void _on_msg_received(MessageData *data)
     // Antwort ausgeben (oder publizieren)
     printf("Response to publish: %s\n", saul_response);
 
-    bme280_pub(0, NULL);
+    // bme280_pub(0, NULL);
 }
 
 static int _cmd_discon(int argc, char **argv)
@@ -259,13 +257,15 @@ static int bme280_pub(int argc, char **argv)
     message.payloadlen = strlen(message.payload);
 
     int rc;
-    if ((rc = MQTTPublish(&client, saul_topic_to_publish, &message)) < 0) {
+    // if ((rc = MQTTPublish(&client, saul_topic_to_publish, &message)) < 0) {
+    if ((rc = MQTTPublish(&client, TOPIC_TEMPERATURE, &message)) < 0) {
         printf("mqtt_example: Unable to publish (%d)\n", rc);
     }
     else {
         printf("mqtt_example: Message (%s) has been published to topic %s"
                "with QOS %d\n",
-               (char *)message.payload, saul_topic_to_publish, (int)message.qos);
+            //    (char *)message.payload, saul_topic_to_publish, (int)message.qos);
+               (char *)message.payload, TOPIC_TEMPERATURE, (int)message.qos);
     }
     return rc;
 }
@@ -385,7 +385,9 @@ static const shell_command_t shell_commands[] =
     { "sub",    "subscribe topic",                    _cmd_sub    },
     { "unsub",  "unsubscribe from topic",             _cmd_unsub  },
     { "cmd_handler",    NULL,                         cmd_handler },
-    { "bme280_pub", "publish BME280 Values after subscribe", bme280_pub}
+    { "bme280_pub", "publish BME280 Values after subscribe", bme280_pub},
+    { NULL,     NULL,                                 NULL        }
+
 };
 
 int main(void)

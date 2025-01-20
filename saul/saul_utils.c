@@ -36,72 +36,15 @@ const char* bme_280_name = "bme280";
 
 void escape_json(const char *input, char *output) {
 
-    *output++ = '"'; // Öffnendes äußeres Anführungszeichen hinzufügen
+    // *output++ = '"'; // Öffnendes äußeres Anführungszeichen hinzufügen
     while (*input) {
         if (*input == '"') {
             *output++ = '\\'; // Escape-Zeichen hinzufügen
         }
         *output++ = *input++;
     }
-    *output++ = '"'; // Schließendes äußeres Anführungszeichen hinzufügen
+    //*output++ = '"'; // Schließendes äußeres Anführungszeichen hinzufügen
     *output = '\0'; // Null-Terminierung
-}
-
-int read_saul_reg_dev (const char* device_name){
-
-    // Findet das Gerät anhand des Namens
-    saul_reg_t* device = saul_reg_find_name(device_name);
-
-    // Nullprüfung für das gefundene Gerät
-    if (device == NULL) {
-        LOG_ERROR("Kein Gerät mit dem Namen '%s' gefunden\n", device_name);
-        return -1; // Fehlercode zurückgeben
-    }
-
-    // Iteration über die Geräte in der Liste
-    while (device != NULL) {
-        // Gerätedetails ausgeben
-        LOG_INFO("Gerät: %s, Klasse: %d\n", device->name, device->driver->type);
-
-        // Gerätetyp überprüfen und Werte lesen
-        switch (device->driver->type) {
-            case SAUL_SENSE_TEMP:
-                LOG_INFO("Temperaturgerät gefunden: SAUL_SENSE_TEMP\n");
-                break;
-
-            case SAUL_SENSE_PRESS:
-                LOG_INFO("Druckgerät gefunden: SAUL_SENSE_PRESS\n");
-                break;
-
-            case SAUL_SENSE_HUM:
-                LOG_INFO("Feuchtigkeitsgerät gefunden: SAUL_SENSE_HUM\n");
-                break;
-
-            default:
-                LOG_WARNING("Unbekannter Gerätetyp: %d\n", device->driver->type);
-                device = device->next;
-                continue; // Zum nächsten Gerät wechseln
-        }
-        
-        // // JSON-Daten aus dem Gerät lesen
-        // char* json_buffer = NULL;
-        // int status = read_device_values(device, &json_buffer);
-        // // Fehlerprüfung
-        // if (status != 0) {
-        //     LOG_ERROR("Fehler beim Lesen von Werten des Geräts '%s', Fehlercode: %d\n",
-        //               device->name, status);
-        // } else {
-        //     // JSON-Daten verarbeiten
-        //     LOG_INFO("JSON-Daten für Gerät '%s': %s\n", device->name, json_buffer);
-
-        //     // JSON-Puffer freigeben
-        //     free(json_buffer);
-        // }
-        // Zum nächsten Gerät wechseln
-        device = device->next;
-    }
-
-    return 0; // Erfolgreicher Abschluss
 }
 
 int read_bme280_temperature (const char* device_name, char* escape_json_buffer, size_t* json_size){
@@ -127,9 +70,7 @@ int read_bme280_temperature (const char* device_name, char* escape_json_buffer, 
             
             // Initialisierung der Datenstruktur
             phydat_t result;
-            int num_elements = saul_reg_read(device, &result);
-            LOG_INFO("number of elements: %d\n", num_elements);
-            
+            int num_elements = saul_reg_read(device, &result);            
             // Überprüfen, ob das Lesen erfolgreich war
             if (num_elements <= 0) {
                 LOG_ERROR("Fehler beim Lesen des Geräts '%s' (Klasse: %d)\n",
@@ -146,30 +87,36 @@ int read_bme280_temperature (const char* device_name, char* escape_json_buffer, 
 
             // Schritt 1: Puffergröße ermitteln (maximale Größe)
             *json_size = phydat_to_json(&result, num_elements, NULL);  // json_buffer = NULL, nur Größe berechnen
-            char json_buffer[1024];  // Angemessene Puffergröße
+            if (*json_size == 0) {
+                LOG_ERROR("Fehler bei der Berechnung der JSON-Größe.\n");
+                return -2; // Fehlercode: Ungültige JSON-Größe
+            }
+            // Schritt 2: Dynamischer Speicher für JSON-Daten
+            char json_buffer[1024]; // Speicher für JSON-Puffer
             LOG_INFO("json_size: %zu\n", *json_size);
 
-            // Schritt 2: JSON in den übergebenen Puffer schreiben
-            if (escape_json_buffer != NULL && *json_size > 0) {
-                phydat_to_json(&result, num_elements, json_buffer);  // JSON-Daten in den Puffer schreiben
-                escape_json(json_buffer, escape_json_buffer);
+            phydat_to_json(&result, num_elements, json_buffer);  // JSON-Daten in den Puffer schreiben
+
+            if (escape_json_buffer != NULL) {
+                // escape_json(json_buffer, escape_json_buffer);
+                strncpy(escape_json_buffer, json_buffer, *json_size);
+
                 printf("JSON ohne \": %s\n", json_buffer); // Ausgabe der JSON-Daten
                 printf("JSON mit \": %s\n", escape_json_buffer); // Ausgabe der JSON-Daten
             } else {
                 LOG_ERROR("Fehler: Ungültiger Puffer oder Größe\n");
-                return -2; // Fehlercode
+                return -4; // Fehlercode
             }
-            return 0; // Erfolgreicher Abschluss
+            break; // Erfolgreicher Abschluss
         }
-        else
-            // Zum nächsten Gerät wechseln
-            device = device->next;
+        // Zum nächsten Gerät wechseln
+        device = device->next;
     }
 
     return 0; // Erfolgreicher Abschluss
 }
 
-int read_bme280_humidity (const char* device_name, char* json_buffer, size_t* json_size){
+int read_bme280_humidity (const char* device_name, char* escape_json_buffer, size_t* json_size){
 
     // Findet das Gerät anhand des Namens
     saul_reg_t* device = saul_reg_find_name(device_name);
@@ -211,12 +158,14 @@ int read_bme280_humidity (const char* device_name, char* json_buffer, size_t* js
             
             // Schritt 1: Puffergröße ermitteln (maximale Größe)
             *json_size = phydat_to_json(&result, num_elements, NULL);  // json_buffer = NULL, nur Größe berechnen
+            char json_buffer[512];  // Angemessene Puffergröße
             LOG_INFO("json_size: %zu\n", *json_size);
 
             // Schritt 2: JSON in den übergebenen Puffer schreiben
-            if (json_buffer != NULL && *json_size > 0) {
+            if (escape_json_buffer != NULL && *json_size > 0) {
                 phydat_to_json(&result, num_elements, json_buffer);  // JSON-Daten in den Puffer schreiben
-                printf("JSON: %s\n", json_buffer); // Ausgabe der JSON-Daten
+                strncpy(escape_json_buffer, json_buffer, *json_size);
+                printf("JSON: %s\n", escape_json_buffer); // Ausgabe der JSON-Daten
             } else {
                 LOG_ERROR("Fehler: Ungültiger Puffer oder Größe\n");
                 return -2; // Fehlercode
@@ -231,7 +180,7 @@ int read_bme280_humidity (const char* device_name, char* json_buffer, size_t* js
     return 0; // Erfolgreicher Abschluss
 }
 
-int read_bme280_pressure (const char* device_name, char* json_buffer, size_t* json_size){
+int read_bme280_pressure (const char* device_name, char* escape_json_buffer, size_t* json_size){
 
     // Findet das Gerät anhand des Namens
     saul_reg_t* device = saul_reg_find_name(device_name);
@@ -273,12 +222,14 @@ int read_bme280_pressure (const char* device_name, char* json_buffer, size_t* js
 
             // Schritt 1: Puffergröße ermitteln (maximale Größe)
             *json_size = phydat_to_json(&result, num_elements, NULL);  // json_buffer = NULL, nur Größe berechnen
+            char json_buffer[512];  // Angemessene Puffergröße
             LOG_INFO("json_size: %zu\n", *json_size);
 
             // Schritt 2: JSON in den übergebenen Puffer schreiben
-            if (json_buffer != NULL && *json_size > 0) {
+            if (escape_json_buffer != NULL && *json_size > 0) {
                 phydat_to_json(&result, num_elements, json_buffer);  // JSON-Daten in den Puffer schreiben
-                printf("JSON: %s\n", json_buffer); // Ausgabe der JSON-Daten
+                strncpy(escape_json_buffer, json_buffer, *json_size);
+                printf("JSON: %s\n", escape_json_buffer); // Ausgabe der JSON-Daten
             } else {
                 LOG_ERROR("Fehler: Ungültiger Puffer oder Größe\n");
                 return -2; // Fehlercode
