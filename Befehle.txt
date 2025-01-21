@@ -1,0 +1,13 @@
+ifconfig
+
+con 2600:1f18:74ea:15df:f67c:5919:5bab:51f1
+
+sub both_directions/temperature
+
+pub both_directions/temperature "{\"message\": \"Hello from nRF52840dk\"}"
+
+pub both_directions/temperature "{\"d\":23.29,\"u\":\"°C\"}"
+pub both_directions/temperature "{\"d\":60,\"u\":\"%\"}"
+pub both_directions/temperature "{\"d\":10040e1,\"u\":\"Pa\"}"
+
+{\"d\":22.57,\"u\":\"°C\"}

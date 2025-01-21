@@ -10,16 +10,17 @@ The system uses LEDs for status indication and includes logging and monitoring c
 2. [System Architecture](#system-architecture)
 3. [Features](#features)
 4. [Requirements](#requirements)
-5. [Setup Instructions](#setup-instructions)
+5. [Project structure](#project-structure)
+6. [Setup Instructions](#setup-instructions)
     - [1. Flashing the DK](#1-flashing-the-dk)
     - [2. Setting up the MQTT Broker](#2-setting-up-the-mqtt-broker)
     - [3. Configuring AWS IoT Core](#3-configuring-aws-iot-core)
     - [4. Telegram Bot Setup](#4-telegram-bot-setup)
     - [5. Linking Everything](#5-linking-everything)
-6. [Testing the System](#6-testing-the-system)
-7. [Troubleshooting](#7-troubleshooting)
-8. [Documentation](#8-documentation)
-9. [License](#9-license)
+7. [Testing the System](#testing-the-system)
+8. [Troubleshooting](#troubleshooting)
+9. [Documentation](#documentation)
+10. [License](#license)
 
 ---
 
@@ -74,6 +75,27 @@ Implement logging for debugging and monitoring IoT devices using AWS CloudWatch
 - nRF Desktop Connect APP: For flashing the firmware in Dongle
 ---
 
+## **Project structure**
+
+## 🗂️ Project Structure
+The following is an overview of the project's structure:
+
+```plaintext
+TextYourIoTDevice/
+├── AWS_Conf/               # Contains configuration from AWS such as security certificates project).
+├── blinky/                 # temporär ???
+├── Board_Datasheet/        # Contains the datasheets of the board and sensors
+├── Dongle/                 # Contains the code that is flashed on the dongle as a border router and the IPv6-address of dongle 
+│   ├── gnrc_border_router/ # The code of gnrc_border_router of RIOT flashed on the dongle
+│   ├── IP_Dongle.txt       # The IPv6-address and the interface name of dongle 
+├── images/                 # The images
+├── saul/                   # 
+│   ├── bin/                #
+│   ├── Doxyfiles           # 
+│   └── views.py            # 
+├── archive.zip/            # 
+└── README.md               # 
+```
 ## **Setup Instructions**
 
 ### **1. Flashing the DK**
@@ -105,6 +127,8 @@ Implement logging for debugging and monitoring IoT devices using AWS CloudWatch
 
 ### **2. Setting up the MQTT Broker**
 
+1. Contact developers to get the broker up and running
+
 1. Launch an AWS EC2 instance (Ubuntu) and SSH into it:
 
 2. Install Mosquitto:
@@ -116,8 +140,8 @@ Implement logging for debugging and monitoring IoT devices using AWS CloudWatch
     - Copy the AWS IoT Core certificates to the instance:
         ```bash
         scp -i your-key.pem /path/to/certificate.pem.crt ubuntu@your-ec2-public-ip:/path/to/ec2
-    scp -i your-key.pem /path/to/private.pem.key ubuntu@your-ec2-public-ip:/path/to/ec2
-    scp -i your-key.pem /path/to/AmazonRootCA1.pem ubuntu@your-ec2-public-ip:/path/to/ec2
+        scp -i your-key.pem /path/to/private.pem.key ubuntu@your-ec2-public-ip:/path/to/ec2
+        scp -i your-key.pem /path/to/AmazonRootCA1.pem ubuntu@your-ec2-public-ip:/path/to/ec2
         ```
     - Edit the Mosquitto configuration file (/etc/mosquitto/mosquitto.conf):
         ```bash
@@ -127,10 +151,11 @@ Implement logging for debugging and monitoring IoT devices using AWS CloudWatch
         keyfile /path/to/private.pem.key
         require_certificate true
         ```
-4. Restart Mosquitto::
+4. Restart Mosquitto:
     ```bash
     sudo systemctl restart mosquitto
     ```
+5. run a subscribe mosquitto
 
 ### **3. Configuring AWS IoT Core**
 1. Register your device in AWS IoT Core and download the
@@ -138,9 +163,10 @@ Implement logging for debugging and monitoring IoT devices using AWS CloudWatch
 3. Create an IoT Thing and link it with the certificates.
 
 ### **4. Telegram Bot Setup**
-1. Create a new bot using BotFather on Telegram.
-2. Note the API token provided by BotFather.
-3. Create a webhook to connect the bot to AWS IoT Core. Use a Python script with python-telegram-bot or an AWS Lambda function.
+- Using the Telegram Bot TextYourIoTDevice
+```bash
+    Username: @TextYourIoTDevicebot
+```
 
 ### **5. Linking Everything**
 1. Ensure the DK is connected to the Mosquitto broker:
@@ -159,34 +185,43 @@ Implement logging for debugging and monitoring IoT devices using AWS CloudWatch
 2. Send a message via the Telegram bot and observe it being processed by AWS IoT Core.
 3. Monitor logs in AWS CloudWatch for debugging and performance insights.
 ### **7. Troubleshooting**
-- Issue: DK cannot connect to Mosquitto.
-    Solution: Verify the broker IP and TLS certificates.
-- Issue: Messages are not visible in AWS IoT Core.
-    Solution: Check the Mosquitto configuration and AWS IoT policies.
+1. Issue: DK cannot connect to Mosquitto.
++ **Solution:** Verify the broker IP and TLS certificates.
+---
+2. Issue: Messages are not visible in AWS IoT Core.
+- **Solution:** Check the Mosquitto configuration and AWS IoT policies.
+---
+
 ### **8. Documentation**
-- Inline Code Documentation: Doxygen is used for code-level documentation.
-    - Doxygen
-        1. ```bash
+**1. Inline Code Documentation and code structur:** 
+
+- Doxygen is used for code-level documentation.
+    1. Doxygen
+        ```bash
             sudo apt install doxygen
-            ```
-        2. Doxygen-Konfigurationsdatei generieren:
-            ```bash
-             doxygen -g
-            ```
-        3. Die generierte Doxyfile anpassen:
-            ```plaintext
-            ~/Doxyfile/
-        4. Doxygen ausführen:
-            ```bash
-            doxygen Doxyfile
-        5. Die generierte Dokumentation wird im angegebenen *OUTPUT_DIRECTORY* gespeichert.
-        6. Im einem Browser, um die Dokumentation anzusehen:
-            ```bash
-            xdg-open doc/html/index.html  # Auf Linux
-            open doc/html/index.html      # Auf macOS
-            ```
-- README: Detailed steps for setup and usage.
-- Final Documentation: Comprehensive project report.
+        ```
+    2. Doxygen-Konfigurationsdatei generieren:
+        ```bash
+            doxygen -g
+        ```
+    3. Die generierte Doxyfile anpassen:
+        ```plaintext
+        ~/Doxyfile/
+        ```
+    4. Doxygen ausführen:
+        ```bash
+        doxygen Doxyfile
+        ```
+    5. Die generierte Dokumentation wird im angegebenen *OUTPUT_DIRECTORY* gespeichert.
+    
+    6. Im einem Browser, um die Dokumentation anzusehen:
+        ```bash
+        xdg-open doc/html/index.html  # Auf Linux
+        open doc/html/index.html      # Auf macOS
+        ```
+**2. README.md:** This documentation (detailed steps for setup and usage).
+
+**3. Final Documentation:** Comprehensive project report.
 
 ### **9. License**
 

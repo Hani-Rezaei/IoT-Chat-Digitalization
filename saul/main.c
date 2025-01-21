@@ -28,6 +28,11 @@ static Network network;
 static int topic_cnt = 0;
 static char _topic_to_subscribe[MAX_TOPICS][MAX_LEN_TOPIC];
 
+static char saul_response[1024];
+static char saul_topic_to_publish[MAX_LEN_TOPIC];
+
+static int bme280_pub(int argc, char **argv);
+
 static unsigned get_qos(const char *str)
 {
     int qos = atoi(str);
@@ -39,15 +44,105 @@ static unsigned get_qos(const char *str)
     }
 }
 
+// Funktion entscheidet, welcher Wert als Antwort gepublisht werden soll
+static char *get_response(const char *topic) {
+    
+    // static char response[64]; // Speicher für die Antwort
+    static char escape_json_buffer[1024];  // Angemessene Puffergröße
+    size_t json_size;
+    // Reaktion auf spezifische Topics
+    if (strncmp(topic, TOPIC_TEMPERATURE, strlen(TOPIC_TEMPERATURE)) == 0) {
+
+        // int temp = atoi(message); // Konvertiere Nachricht in Integer
+        // snprintf(response, sizeof(response), "High temperature: %d°C", temp);
+        int res = read_bme280_temperature (bme_280_name, escape_json_buffer, &json_size);
+        if (res >= 0) {
+            printf("Temperatur: %d\n", res);
+            printf("JSON-Daten: %s\n", escape_json_buffer);
+        } else {
+            printf("Fehler: %d\n", res);
+        }
+    } 
+    else if (strncmp(topic, TOPIC_HUMIDITY, strlen(TOPIC_HUMIDITY)) == 0) {
+        // int humidity = atoi(message); // Konvertiere Nachricht in Integer
+        // snprintf(response, sizeof(response), "Humidity level: %d%%", humidity);
+        int res = read_bme280_humidity (bme_280_name, escape_json_buffer, &json_size);
+        if (res >= 0) {
+            printf("humidity: %d\n", res);
+            printf("JSON-Daten: %s\n", escape_json_buffer);
+        } else {
+            printf("Fehler: %d\n", res);
+        }
+    } 
+    else if (strncmp(topic, TOPIC_PRESSURE, strlen(TOPIC_PRESSURE)) == 0) {
+        // int pressure = atoi(message); // Konvertiere Nachricht in Integer
+        // snprintf(response, sizeof(response), "Pressure level: %d%%", pressure);
+        int res = read_bme280_pressure (bme_280_name, escape_json_buffer, &json_size);
+        if (res >= 0) {
+            printf("Pressure: %d\n", res);
+            printf("JSON-Daten: %s\n", escape_json_buffer);
+        } else {
+            printf("Fehler: %d\n", res);
+        }
+    } 
+    // else if (strncmp(topic, TOPIC_ALL_VALUES, strlen(TOPIC_ALL_VALUES)) == 0) {
+    //     int pressure = atoi(message); // Konvertiere Nachricht in Integer
+    //     snprintf(response, sizeof(response), "Pressure level: %d%%", pressure);
+    //     int res = read_bme280_temperature (bme_280_name, escape_json_buffer, &json_size);
+    //     if (res >= 0) {
+    //         printf("All: %d\n", res);
+    //         printf("JSON-Daten: %s\n", escape_json_buffer);
+    //     } else {
+    //         printf("Fehler: %d\n", res);
+    //     }
+    // } 
+    else {
+        // Kein spezifisches Topic erkannt
+        snprintf(escape_json_buffer, sizeof(escape_json_buffer), "No action for topic: %s", topic);
+    }
+    // return response;
+    return escape_json_buffer;
+}
+
 static void _on_msg_received(MessageData *data)
 {
+    // const MQTTMessage *msg = data->message;
+
     printf("paho_mqtt_example: message received on topic"
            " %.*s: %.*s\n",
            (int)data->topicName->lenstring.len,
            data->topicName->lenstring.data, (int)data->message->payloadlen,
            (char *)data->message->payload);
 
-    printf(" (char *)data->message->payload = %s/n",  (char *)data->message->payload);
+    // Zugriff auf das Topic
+    const char *topic = data->topicName->lenstring.data;
+    int topic_len = data->topicName->lenstring.len;
+
+    // Kopieren des Topics in den globalen Speicher
+    if (topic_len < MAX_LEN_TOPIC) {
+        strncpy(saul_topic_to_publish, topic, topic_len);
+        saul_topic_to_publish[topic_len] = '\0'; // Null-Terminierung erzwingen
+    } else {
+        fprintf(stderr, "Fehler: Topic ist zu lang, um global gespeichert zu werden.\n");
+    }
+    // Ausgabe der global gespeicherten Daten
+    printf("Global Topic: %s\n", saul_topic_to_publish);
+
+    // Topic und Message ausgeben
+    // printf("Received message on topic '%.*s': '%.*s'\n", 
+    //        topic_len, topic, message_len, message);
+
+    const char* response = get_response(topic);
+        if (response) {
+        snprintf(saul_response, sizeof(saul_response), "%s", response);
+    } else {
+        fprintf(stderr, "Fehler: Keine gültige Antwort generiert.\n");
+        saul_response[0] = '\0'; // Leeren String setzen
+    }
+    // Antwort ausgeben (oder publizieren)
+    printf("Response to publish: %s\n", saul_response);
+
+    // bme280_pub(0, NULL);
 }
 
 static int _cmd_discon(int argc, char **argv)
@@ -145,6 +240,36 @@ static int _cmd_con(int argc, char **argv)
     return (ret > 0) ? 0 : 1;
 }
 
+static int bme280_pub(int argc, char **argv)
+{
+    (void)argc;
+    (void)argv;
+
+    enum QoS qos = QOS0;
+
+    MQTTMessage message;
+    message.qos = qos;
+    message.retained = IS_RETAINED_MSG;
+
+    message.payload = saul_response;
+    printf("saul_response: %s\n",saul_response);
+
+    message.payloadlen = strlen(message.payload);
+
+    int rc;
+    // if ((rc = MQTTPublish(&client, saul_topic_to_publish, &message)) < 0) {
+    if ((rc = MQTTPublish(&client, TOPIC_TEMPERATURE, &message)) < 0) {
+        printf("mqtt_example: Unable to publish (%d)\n", rc);
+    }
+    else {
+        printf("mqtt_example: Message (%s) has been published to topic %s"
+               "with QOS %d\n",
+            //    (char *)message.payload, saul_topic_to_publish, (int)message.qos);
+               (char *)message.payload, TOPIC_TEMPERATURE, (int)message.qos);
+    }
+    return rc;
+}
+
 static int _cmd_pub(int argc, char **argv)
 {
     enum QoS qos = QOS0;
@@ -237,12 +362,9 @@ static int _cmd_unsub(int argc, char **argv)
     return ret;
 }
 
-
 int cmd_handler(int argc, char **argv)
 {
-    /* ... */
-
-    read_saul_reg_dev (nrf_temp);
+    // read_saul_reg_dev (nrf_temp);
     // read_saul_reg_dev (bme_280_name);
     (void)argc;
     (void)argv;
@@ -251,58 +373,6 @@ int cmd_handler(int argc, char **argv)
 
     return 0;
 }
-
-int mqtt_con(Network *network, MQTTClient *client) 
-{
-    char *remote_ip = BROKER_IPV6;
-
-    int ret = -1;
-
-    /* ensure client isn't connected in case of a new connection */
-    if (client->isconnected) {
-        printf("mqtt_example: client already connected, disconnecting it\n");
-        MQTTDisconnect(client);
-        NetworkDisconnect(network);
-        return -1;
-    }
-
-    int port = DEFAULT_MQTT_PORT;
-
-    MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
-    data.MQTTVersion = MQTT_VERSION_v311;
-
-    data.clientID.cstring = DEFAULT_MQTT_CLIENT_ID;
-    data.username.cstring = DEFAULT_MQTT_USER;
-    data.password.cstring = DEFAULT_MQTT_PWD;
-    data.keepAliveInterval = DEFAULT_KEEPALIVE_SEC;
-    data.cleansession = IS_CLEAN_SESSION;
-    data.willFlag = 0;
-
-    printf("mqtt_example: Connecting to MQTT Broker from %s %d\n",
-            remote_ip, port);
-    printf("mqtt_example: Trying to connect to %s, port: %d\n",
-            remote_ip, port);
-    ret = NetworkConnect(network, remote_ip, port);
-    if (ret < 0) {
-        printf("mqtt_example: Unable to connect\n");
-        return ret;
-    }
-
-    printf("user:%s clientId:%s password:%s\n", data.username.cstring,
-             data.clientID.cstring, data.password.cstring);
-    ret = MQTTConnect(client, &data);
-    if (ret < 0) {
-        printf("mqtt_example: Unable to connect client %d\n", ret);
-        _cmd_discon(0, NULL);
-        return ret;
-    }
-    else {
-        printf("mqtt_example: Connection successfully\n");
-    }
-
-    return (ret > 0) ? 0 : 1;
-}
-
 
 static unsigned char buf[BUF_SIZE];
 static unsigned char readbuf[BUF_SIZE];
@@ -315,7 +385,9 @@ static const shell_command_t shell_commands[] =
     { "sub",    "subscribe topic",                    _cmd_sub    },
     { "unsub",  "unsubscribe from topic",             _cmd_unsub  },
     { "cmd_handler",    NULL,                         cmd_handler },
+    { "bme280_pub", "publish BME280 Values after subscribe", bme280_pub},
     { NULL,     NULL,                                 NULL        }
+
 };
 
 int main(void)
@@ -341,9 +413,6 @@ int main(void)
     printf("Running mqtt paho example. Type help for commands info\n");
 
     MQTTStartTask(&client);
-
-    int con_status = mqtt_con(&network, &client);
-    LOG_INFO("con_status: %d\n", con_status);
     
     char line_buf[SHELL_DEFAULT_BUFSIZE];
     
