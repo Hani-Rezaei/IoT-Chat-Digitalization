@@ -1,4 +1,0 @@
-loadfile /home/mj/Desktop/IoT-Chat-Digitalization/emcute_mqttsn/bin/nrf52840dk/emcute_mqttsn.elf
-r
-g
-exit
