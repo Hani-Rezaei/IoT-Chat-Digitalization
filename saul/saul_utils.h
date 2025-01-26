@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include "saul_reg.h"
 #include "shell.h"
+#include <math.h>
 
 // Log
 #include "log.h"
@@ -35,8 +36,8 @@ extern const char* nrf_temp;
  */
 extern const char* bme_280_name;
 
-int read_bme280_temperature (const char*, char* json_buffer, size_t* json_size);
-int read_bme280_pressure (const char* device_name, char* json_buffer, size_t* json_size);
+int read_bme280_temperature (const char*, const char* request_unit, char* json_buffer, size_t* json_size);
+int read_bme280_pressure (const char* device_name, const char* request_unit, char* json_buffer, size_t* json_size);
 int read_bme280_humidity (const char* device_name, char* json_buffer, size_t* json_size);
 
 void escape_json(const char *input, char *output);
