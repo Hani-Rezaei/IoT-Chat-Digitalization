@@ -1,2 +1,0 @@
-https://www.az-delivery.de/blogs/azdelivery-blog-fur-arduino-und-raspberry-pi/dht20-ein-neuer-temperatur-und-luftfeuchtigkeitssensor
-
