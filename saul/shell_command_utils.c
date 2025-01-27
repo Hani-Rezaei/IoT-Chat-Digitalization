@@ -199,3 +199,15 @@
 //     }
 //     return ret;
 // }
+
+// int cmd_handler(int argc, char **argv)
+// {
+//     // read_saul_reg_dev (nrf_temp);
+//     // read_saul_reg_dev (bme_280_name);
+//     (void)argc;
+//     (void)argv;
+
+//     //LED1_OFF;
+
+//     return 0;
+// }
