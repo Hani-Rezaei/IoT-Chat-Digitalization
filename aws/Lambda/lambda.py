@@ -98,7 +98,6 @@ def send_info_selection_message(chat_id):
             [{"text": "🌡 Temperature", "callback_data": "temperature"}],
             [{"text": "💧 Humidity", "callback_data": "humidity"}],
             [{"text": "🌬 Air Pressure", "callback_data": "air_pressure"}],
-            # [{"text": "📊 All Info", "callback_data": "all_info"}]
         ]
     }
     payload = {
@@ -117,7 +116,7 @@ def process_callback_data(chat_id, callback_data):
     """
     Processes the callback data from button clicks and sends the appropriate command to IoT Core.
     """
-    if callback_data in ["temperature", "humidity", "air_pressure", "all_info"]:
+    if callback_data in ["temperature", "humidity", "air_pressure"]:
         # user_settings[chat_id] = {"selected_info": callback_data}
         if callback_data == "temperature":
             send_temperature_unit_buttons(chat_id)
@@ -129,18 +128,14 @@ def process_callback_data(chat_id, callback_data):
             # Fetch humidity directly (no unit selection needed)
             preferences = {"humidity": "%"}
             return fetch_data_from_iot(chat_id, "get_humidity", preferences)
-        elif callback_data == "all_info":
-            # Fetch all info (default units for all)
-            preferences = {"temperature": "celsius", "pressure": "pa", "humidity": "%"}
-            return fetch_data_from_iot(chat_id, "get_all_info", preferences)
 
-    elif callback_data in ["celsius", "fahrenheit"]:
+    elif callback_data in ["°C", "°F"]:
         preferences = user_settings.get(chat_id, {})
         preferences["temperature"] = callback_data
         user_settings[chat_id] = preferences
         return fetch_data_from_iot(chat_id, "get_temperature", preferences)
 
-    elif callback_data in ["pa", "bar"]:
+    elif callback_data in ["Pa", "Bar"]:
         preferences = user_settings.get(chat_id, {})
         preferences["pressure"] = callback_data
         user_settings[chat_id] = preferences
@@ -156,8 +151,8 @@ def send_temperature_unit_buttons(chat_id):
     url = f"https://api.telegram.org/bot{TELEGRAM_API_TOKEN}/sendMessage"
     buttons = {
         "inline_keyboard": [
-            [{"text": "🌡 Celsius (°C)", "callback_data": "celsius"}],
-            [{"text": "🌡 Fahrenheit (°F)", "callback_data": "fahrenheit"}]
+            [{"text": "🌡 Celsius (°C)", "callback_data": "°C"}],
+            [{"text": "🌡 Fahrenheit (°F)", "callback_data": "°F"}]
         ]
     }
     payload = {
@@ -175,8 +170,8 @@ def send_pressure_unit_buttons(chat_id):
     url = f"https://api.telegram.org/bot{TELEGRAM_API_TOKEN}/sendMessage"
     buttons = {
         "inline_keyboard": [
-            [{"text": "🌬 Pascals (Pa)", "callback_data": "pa"}],
-            [{"text": "🌬 Bar (Bar)", "callback_data": "bar"}]
+            [{"text": "🌬 Pascals (Pa)", "callback_data": "Pa"}],
+            [{"text": "🌬 Bar (Bar)", "callback_data": "Bar"}]
         ]
     }
     payload = {
@@ -195,16 +190,16 @@ def fetch_data_from_iot(chat_id, function_name, preferences):
     topic_mapping = {
         "get_temperature": "both_directions/temperature",
         "get_humidity": "both_directions/humidity",
-        "get_air_pressure": "both_directions/pressure",
-        "get_all_info": "both_directions/all_values"
+        "get_air_pressure": "both_directions/pressure"
     }
 
     # Determine the topic based on the function_name
     topic = topic_mapping.get(function_name, "both_directions")
     
     # Construct the payload
+    preference_value = next(iter(preferences.values()))  # Get the first value from the dictionary
     payload = {
-        "units": preferences
+        "u": preference_value  # Assign the value directly to "u"
     }
 
     try:
@@ -215,8 +210,6 @@ def fetch_data_from_iot(chat_id, function_name, preferences):
             payload=json.dumps(payload)
         )
         print(f"Successfully published to {topic}: {response}")
-
-        preference_value = next(iter(preferences.values()))  # Get the first value from the dictionary
 
         return f"✅ Fetching {function_name.replace('get_', ' ')} data with preference: {preference_value}."
     except Exception as e:
