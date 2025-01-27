@@ -1,0 +1,137 @@
+\doxysection{saul\+\_\+utils.\+c File Reference}
+\hypertarget{saul__utils_8c}{}\label{saul__utils_8c}\index{saul\_utils.c@{saul\_utils.c}}
+
+
+Funktionen zum Lesen und Verarbeiten von SAUL-\/\+Geräten und deren Werten.  
+
+
+{\ttfamily \#include "{}saul\+\_\+utils.\+h"{}}\newline
+Include dependency graph for saul\+\_\+utils.\+c\+:
+% FIG 0
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{saul__utils_8c_a4866dda0a01c81f5a64da142d7d119f9}{read\+\_\+device\+\_\+values}} (saul\+\_\+reg\+\_\+t \texorpdfstring{$\ast$}{*}saul\+\_\+device, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}json\+\_\+buffer)
+\begin{DoxyCompactList}\small\item\em Liest die Werte eines SAUL-\/\+Geräts und gibt sie als JSON zurück. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{saul__utils_8c_a652912178a6f197a3bd8e95c1695682f}{read\+\_\+saul\+\_\+reg\+\_\+dev}} (const char \texorpdfstring{$\ast$}{*}device\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Liest und verarbeitet alle Geräte eines bestimmten Typs aus einer SAUL-\/\+Geräteliste. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{saul__utils_8c_a728a5f7dd7f7e7cf48ce6ec9c6104370}{nrf\+\_\+temp}} = "{}NRF\+\_\+\+TEMP"{}
+\begin{DoxyCompactList}\small\item\em Name des NRF\+\_\+\+TEMP Geräts ~\newline
+ \end{DoxyCompactList}\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{saul__utils_8c_a8648884f1f8c1f38281376f873131ddd}{bme\+\_\+280\+\_\+name}} = "{}bme280"{}
+\begin{DoxyCompactList}\small\item\em Name des BME\+\_\+280 Sensors ~\newline
+ \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Funktionen zum Lesen und Verarbeiten von SAUL-\/\+Geräten und deren Werten. 
+
+Diese Datei enthält Funktionen, die mit der SAUL-\/\+Geräteliste interagieren und Sensordaten auslesen. Die ausgelesenen Daten werden in JSON-\/\+Format konvertiert. Es werden auch Geräteinformationen zu bestimmten Gerätetypen verarbeitet und geloggt.
+
+Die unterstützten Gerätetypen sind\+:
+\begin{DoxyItemize}
+\item Temperaturgeräte (SAUL\+\_\+\+SENSE\+\_\+\+TEMP)
+\item Druckgeräte (SAUL\+\_\+\+SENSE\+\_\+\+PRESS)
+\item Feuchtigkeitsgeräte (SAUL\+\_\+\+SENSE\+\_\+\+HUM)
+\end{DoxyItemize}
+
+Weitere Gerätetypen und deren Verarbeitung können in Zukunft hinzugefügt werden. \begin{DoxyAuthor}{Author}
+Mohammadjavad Esmaeili 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+05.\+01.\+2025 
+\end{DoxyDate}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{saul__utils_8c_a4866dda0a01c81f5a64da142d7d119f9}\label{saul__utils_8c_a4866dda0a01c81f5a64da142d7d119f9} 
+\index{saul\_utils.c@{saul\_utils.c}!read\_device\_values@{read\_device\_values}}
+\index{read\_device\_values@{read\_device\_values}!saul\_utils.c@{saul\_utils.c}}
+\doxysubsubsection{\texorpdfstring{read\_device\_values()}{read\_device\_values()}}
+{\footnotesize\ttfamily int read\+\_\+device\+\_\+values (\begin{DoxyParamCaption}\item[{saul\+\_\+reg\+\_\+t \texorpdfstring{$\ast$}{*}}]{saul\+\_\+device,  }\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{json\+\_\+buffer }\end{DoxyParamCaption})}
+
+
+
+Liest die Werte eines SAUL-\/\+Geräts und gibt sie als JSON zurück. 
+
+Diese Funktion liest die Sensordaten eines SAUL-\/\+Geräts aus und konvertiert diese in ein JSON-\/\+Format. Die JSON-\/\+Daten werden in einem dynamisch allokierten Puffer gespeichert, dessen Adresse an den Aufrufer übergeben wird. Der Aufrufer ist dafür verantwortlich, den Speicher nach der Verwendung freizugeben.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em saul\+\_\+device} & Zeiger auf das SAUL-\/\+Gerät, dessen Werte ausgelesen werden sollen. \\
+\hline
+\mbox{\texttt{ out}}  & {\em json\+\_\+buffer} & Zeiger auf einen Zeiger, der die Adresse des allokierten Puffers enthält, der die JSON-\/\+Daten speichern wird.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Rückgabewert, der den Status der Operation angibt\+:
+\begin{DoxyItemize}
+\item 0 bei Erfolg
+\item Negativer Wert bei einem Fehler (z.\+B. beim Lesen des Geräts oder bei der Speicherzuweisung)
+\end{DoxyItemize}
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Der Aufrufer sollte sicherstellen, dass der zurückgegebene {\ttfamily json\+\_\+buffer} nach der Verwendung mit {\ttfamily free(json\+\_\+buffer)} freigegeben wird. 
+\end{DoxyNote}
+\Hypertarget{saul__utils_8c_a652912178a6f197a3bd8e95c1695682f}\label{saul__utils_8c_a652912178a6f197a3bd8e95c1695682f} 
+\index{saul\_utils.c@{saul\_utils.c}!read\_saul\_reg\_dev@{read\_saul\_reg\_dev}}
+\index{read\_saul\_reg\_dev@{read\_saul\_reg\_dev}!saul\_utils.c@{saul\_utils.c}}
+\doxysubsubsection{\texorpdfstring{read\_saul\_reg\_dev()}{read\_saul\_reg\_dev()}}
+{\footnotesize\ttfamily int read\+\_\+saul\+\_\+reg\+\_\+dev (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{device\+\_\+name }\end{DoxyParamCaption})}
+
+
+
+Liest und verarbeitet alle Geräte eines bestimmten Typs aus einer SAUL-\/\+Geräteliste. 
+
+Diese Funktion sucht nach einem Gerät mit dem angegebenen Namen, iteriert über alle Geräte in der SAUL-\/\+Geräteliste und liest die zugehörigen Werte aus. Wenn das Gerät erfolgreich gelesen wird, werden die Werte im JSON-\/\+Format zurückgegeben und geloggt. Für jedes Gerät wird der entsprechende Gerätetyp überprüft, und je nach Gerätetyp erfolgt eine spezifische Verarbeitung.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em device\+\_\+name} & Der Name des Geräts, das in der SAUL-\/\+Datenbank gefunden und verarbeitet werden soll.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Rückgabewert, der den Status der Operation angibt\+:
+\begin{DoxyItemize}
+\item 0 bei Erfolg
+\item -\/1 wenn kein Gerät mit dem angegebenen Namen gefunden wurde
+\item Negativer Wert bei Fehlern während des Lesens oder der Verarbeitung der Geräte
+\end{DoxyItemize}
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Die Funktion verarbeitet die Geräte der SAUL-\/\+Geräteliste in einer Schleife. Der Aufrufer kann die Rückgabewerte verwenden, um Fehler zu diagnostizieren und gegebenenfalls Maßnahmen zu ergreifen. 
+\end{DoxyNote}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{saul__utils_8c_a8648884f1f8c1f38281376f873131ddd}\label{saul__utils_8c_a8648884f1f8c1f38281376f873131ddd} 
+\index{saul\_utils.c@{saul\_utils.c}!bme\_280\_name@{bme\_280\_name}}
+\index{bme\_280\_name@{bme\_280\_name}!saul\_utils.c@{saul\_utils.c}}
+\doxysubsubsection{\texorpdfstring{bme\_280\_name}{bme\_280\_name}}
+{\footnotesize\ttfamily const char\texorpdfstring{$\ast$}{*} bme\+\_\+280\+\_\+name = "{}bme280"{}}
+
+
+
+Name des BME\+\_\+280 Sensors ~\newline
+ 
+
+\begin{DoxyNote}{Note}
+Diese Variablen sind konstant und kann nicht verändert werden. 
+\end{DoxyNote}
+\Hypertarget{saul__utils_8c_a728a5f7dd7f7e7cf48ce6ec9c6104370}\label{saul__utils_8c_a728a5f7dd7f7e7cf48ce6ec9c6104370} 
+\index{saul\_utils.c@{saul\_utils.c}!nrf\_temp@{nrf\_temp}}
+\index{nrf\_temp@{nrf\_temp}!saul\_utils.c@{saul\_utils.c}}
+\doxysubsubsection{\texorpdfstring{nrf\_temp}{nrf\_temp}}
+{\footnotesize\ttfamily const char\texorpdfstring{$\ast$}{*} nrf\+\_\+temp = "{}NRF\+\_\+\+TEMP"{}}
+
+
+
+Name des NRF\+\_\+\+TEMP Geräts ~\newline
+ 
+
+\begin{DoxyNote}{Note}
+Diese Variablen sind konstant und kann nicht verändert werden. 
+\end{DoxyNote}

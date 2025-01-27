@@ -34,57 +34,20 @@
 const char* nrf_temp = "NRF_TEMP";
 const char* bme_280_name = "bme280";
 
-int read_device_values(saul_reg_t* saul_device, char** json_buffer) {
-    // Nullprüfung des Geräts
-    if (saul_device == NULL) {
-        LOG_ERROR("Das übergebene Gerät ist NULL\n");
-        return -1; // Fehlercode
+void escape_json(const char *input, char *output) {
+
+    // *output++ = '"'; // Öffnendes äußeres Anführungszeichen hinzufügen
+    while (*input) {
+        if (*input == '"') {
+            *output++ = '\\'; // Escape-Zeichen hinzufügen
+        }
+        *output++ = *input++;
     }
-
-    // Initialisierung der Datenstruktur
-    phydat_t result;
-    int num_elements = saul_reg_read(saul_device, &result);
-    LOG_INFO("number of elements: %d\n", num_elements);
-    
-    // Überprüfen, ob das Lesen erfolgreich war
-    if (num_elements <= 0) {
-        LOG_ERROR("Fehler beim Lesen des Geräts '%s' (Klasse: %d)\n",
-                  saul_device->name, saul_device->driver->type);
-        return -2; // Fehlercode
-    }
-
-    // Ausgabe der gelesenen Werte
-    LOG_INFO("Werte des Geräts '%s' (Klasse: %d):\n", saul_device->name, saul_device->driver->type);
-    for (int i = 0; i < num_elements; i++) {
-        LOG_INFO("  Wert[%d] = %d, Einheit = %d, Skalierung = %d\n",
-                 i, result.val[i], result.unit, result.scale);
-    }
-
-    // Schritt 1: Puffergröße ermitteln
-    size_t json_size = phydat_to_json(&result, num_elements, NULL);  // json_buffer = NULL, nur Größe berechnen
-    LOG_INFO("json_size: %d\n", json_size);
-
-    // Schritt 2: Puffer zuweisen
-    *json_buffer = malloc(json_size);  // malloc gibt ausreichend Speicherplatz
-
-    // Schritt 3: JSON in den Puffer schreiben
-    if (json_buffer != NULL) {
-        phydat_to_json(&result, num_elements, *json_buffer);
-        // Jetzt kann json_buffer den JSON-String enthalten
-        printf("JSON: %s\n", *json_buffer);
-    
-        // Nicht vergessen: den Speicher freizugeben, wo er aufgerufen wird!
-        // free(json_buffer);
-    } else {
-        // Fehlerbehandlung, falls malloc fehlschlägt
-        LOG_ERROR("Speicherzuweisung fehlgeschlagen\n");
-        return -3;
-    }
-
-    return 0; // Erfolgreicher Abschluss
+    //*output++ = '"'; // Schließendes äußeres Anführungszeichen hinzufügen
+    *output = '\0'; // Null-Terminierung
 }
 
-int read_saul_reg_dev (const char* device_name){
+int read_bme280_temperature (const char* device_name, const char* request_unit, char* escape_json_buffer, size_t* json_size){
 
     // Findet das Gerät anhand des Namens
     saul_reg_t* device = saul_reg_find_name(device_name);
@@ -101,41 +64,242 @@ int read_saul_reg_dev (const char* device_name){
         LOG_INFO("Gerät: %s, Klasse: %d\n", device->name, device->driver->type);
 
         // Gerätetyp überprüfen und Werte lesen
-        switch (device->driver->type) {
-            case SAUL_SENSE_TEMP:
-                LOG_INFO("Temperaturgerät gefunden: SAUL_SENSE_TEMP\n");
-                break;
+        if (device->driver->type == SAUL_SENSE_TEMP)
+        {
+            LOG_INFO("Temperaturgerät gefunden: SAUL_SENSE_TEMP\n");
+            
+            // Initialisierung der Datenstruktur
+            phydat_t result;
+            int num_elements = saul_reg_read(device, &result);
+            LOG_INFO("num_elements:%d\n",num_elements);
+            // Überprüfen, ob das Lesen erfolgreich war
+            if (num_elements <= 0) {
+                LOG_ERROR("Fehler beim Lesen des Geräts '%s' (Klasse: %d)\n",
+                        device->name, device->driver->type);
+                return -1; // Fehlercode
+            }
 
-            case SAUL_SENSE_PRESS:
-                LOG_INFO("Druckgerät gefunden: SAUL_SENSE_PRESS\n");
-                break;
+            // Verarbeitung der Rohdaten mit Skalierung
+            for (int i = 0; i < num_elements; i++) {
+                if (strcmp(request_unit, "°C") == 0 && result.unit == UNIT_TEMP_C) {
+                    LOG_INFO("Einheit ist bereits °C, keine Konvertierung nötig.\n");
+                } else if (strcmp(request_unit, "°F") == 0 && result.unit == UNIT_TEMP_C) {
+                    // Rohwert skalieren: tatsächlicher Wert = val * 10^scale
+                    float scaled_value = result.val[i] * pow(10, result.scale);
+                    // Celsius nach Fahrenheit konvertieren
+                    scaled_value = (scaled_value * 9 / 5) + 32;
+                    result.unit = UNIT_TEMP_F;
+                    // Rückskalierung in die phydat-Struktur
+                    result.val[i] = (int16_t)(scaled_value * 100); // In Integer konvertieren (z. B. für 2 Dezimalstellen)
+                    result.scale = -2; // Neue Skalierung setzen
+                    LOG_INFO("Konvertierung nach Fahrenheit durchgeführt: %.2f °F\n", scaled_value);
+                } else {
+                    LOG_ERROR("Angeforderte Einheit '%s' wird nicht unterstützt oder passt nicht zum Gerät.\n", request_unit);
+                    return -3; // Fehlercode für ungültige Einheit
+                }
+            }
 
-            case SAUL_SENSE_HUM:
-                LOG_INFO("Feuchtigkeitsgerät gefunden: SAUL_SENSE_HUM\n");
-                break;
+            // Ausgabe der gelesenen Werte
+            LOG_INFO("NACH DEM KONVERTIEREN\n");
+            LOG_INFO("Werte des Geräts '%s' (Klasse: %d):\n", device->name, device->driver->type);
+            LOG_INFO("num_elements: %d\n", num_elements);
+            for (int i = 0; i < num_elements; i++) {
+                LOG_INFO("  Wert[%d] = %d, Einheit = %d, Skalierung = %d\n",
+                        i, result.val[i], result.unit, result.scale);
+            }
 
-            default:
-                LOG_WARNING("Unbekannter Gerätetyp: %d\n", device->driver->type);
-                device = device->next;
-                continue; // Zum nächsten Gerät wechseln
-        }
-        
-        // JSON-Daten aus dem Gerät lesen
-        char* json_buffer = NULL;
-        int status = read_device_values(device, &json_buffer);
-        // Fehlerprüfung
-        if (status != 0) {
-            LOG_ERROR("Fehler beim Lesen von Werten des Geräts '%s', Fehlercode: %d\n",
-                      device->name, status);
-        } else {
-            // JSON-Daten verarbeiten
-            LOG_INFO("JSON-Daten für Gerät '%s': %s\n", device->name, json_buffer);
+            // Schritt 1: Puffergröße ermitteln (maximale Größe)
+            *json_size = phydat_to_json(&result, num_elements, NULL);  // json_buffer = NULL, nur Größe berechnen
+            if (*json_size == 0) {
+                LOG_ERROR("Fehler bei der Berechnung der JSON-Größe.\n");
+                return -2; // Fehlercode: Ungültige JSON-Größe
+            }
+            // Schritt 2: Dynamischer Speicher für JSON-Daten
+            char json_buffer[1024]; // Speicher für JSON-Puffer
+            LOG_INFO("json_size: %zu\n", *json_size);
 
-            // JSON-Puffer freigeben
-            free(json_buffer);
+            phydat_to_json(&result, num_elements, json_buffer);  // JSON-Daten in den Puffer schreiben
+
+            if (escape_json_buffer != NULL) {
+                // escape_json(json_buffer, escape_json_buffer);
+                strncpy(escape_json_buffer, json_buffer, *json_size);
+
+                printf("JSON \": %s\n", escape_json_buffer); // Ausgabe der JSON-Daten
+            } else {
+                LOG_ERROR("Fehler: Ungültiger Puffer oder Größe\n");
+                return -4; // Fehlercode
+            }
+            break; // Erfolgreicher Abschluss
         }
         // Zum nächsten Gerät wechseln
         device = device->next;
+    }
+
+    return 0; // Erfolgreicher Abschluss
+}
+
+int read_bme280_humidity (const char* device_name, char* escape_json_buffer, size_t* json_size){
+
+    // Findet das Gerät anhand des Namens
+    saul_reg_t* device = saul_reg_find_name(device_name);
+
+    // Nullprüfung für das gefundene Gerät
+    if (device == NULL) {
+        LOG_ERROR("Kein Gerät mit dem Namen '%s' gefunden\n", device_name);
+        return -1; // Fehlercode zurückgeben
+    }
+
+    // Iteration über die Geräte in der Liste
+    while (device != NULL) {
+        // Gerätedetails ausgeben
+        LOG_INFO("Gerät: %s, Klasse: %d\n", device->name, device->driver->type);
+
+        // Gerätetyp überprüfen und Werte lesen
+        if (device->driver->type == SAUL_SENSE_HUM)
+        {
+            LOG_INFO("Temperaturgerät gefunden: SAUL_SENSE_TEMP\n");
+            
+            // Initialisierung der Datenstruktur
+            phydat_t result;
+            int num_elements = saul_reg_read(device, &result);
+            LOG_INFO("number of elements: %d\n", num_elements);
+            
+            // Überprüfen, ob das Lesen erfolgreich war
+            if (num_elements <= 0) {
+                LOG_ERROR("Fehler beim Lesen des Geräts '%s' (Klasse: %d)\n",
+                        device->name, device->driver->type);
+                return -1; // Fehlercode
+            }
+
+            // Ausgabe der gelesenen Werte
+            LOG_INFO("Werte des Geräts '%s' (Klasse: %d):\n", device->name, device->driver->type);
+            for (int i = 0; i < num_elements; i++) {
+                LOG_INFO("  Wert[%d] = %d, Einheit = %d, Skalierung = %d\n",
+                        i, result.val[i], result.unit, result.scale);
+            }
+            
+            // Schritt 1: Puffergröße ermitteln (maximale Größe)
+            *json_size = phydat_to_json(&result, num_elements, NULL);  // json_buffer = NULL, nur Größe berechnen
+            char json_buffer[512];  // Angemessene Puffergröße
+            LOG_INFO("json_size: %zu\n", *json_size);
+
+            // Schritt 2: JSON in den übergebenen Puffer schreiben
+            if (escape_json_buffer != NULL && *json_size > 0) {
+                phydat_to_json(&result, num_elements, json_buffer);  // JSON-Daten in den Puffer schreiben
+                strncpy(escape_json_buffer, json_buffer, *json_size);
+                printf("JSON: %s\n", escape_json_buffer); // Ausgabe der JSON-Daten
+            } else {
+                LOG_ERROR("Fehler: Ungültiger Puffer oder Größe\n");
+                return -2; // Fehlercode
+            }
+            return 0; // Erfolgreicher Abschluss
+        }
+        else
+            // Zum nächsten Gerät wechseln
+            device = device->next;
+    }
+
+    return 0; // Erfolgreicher Abschluss
+}
+
+int read_bme280_pressure (const char* device_name, const char* request_unit, char* escape_json_buffer, size_t* json_size){
+
+    // Findet das Gerät anhand des Namens
+    saul_reg_t* device = saul_reg_find_name(device_name);
+
+    // Nullprüfung für das gefundene Gerät
+    if (device == NULL) {
+        LOG_ERROR("Kein Gerät mit dem Namen '%s' gefunden\n", device_name);
+        return -1; // Fehlercode zurückgeben
+    }
+
+    // Iteration über die Geräte in der Liste
+    while (device != NULL) {
+        // Gerätedetails ausgeben
+        LOG_INFO("Gerät: %s, Klasse: %d\n", device->name, device->driver->type);
+
+        // Gerätetyp überprüfen und Werte lesen
+        if (device->driver->type == SAUL_SENSE_PRESS)
+        {
+            LOG_INFO("Temperaturgerät gefunden: SAUL_SENSE_TEMP\n");
+            
+            // Initialisierung der Datenstruktur
+            phydat_t result;
+            int num_elements = saul_reg_read(device, &result);
+            LOG_INFO("number of elements: %d\n", num_elements);
+            
+            // Überprüfen, ob das Lesen erfolgreich war
+            if (num_elements <= 0) {
+                LOG_ERROR("Fehler beim Lesen des Geräts '%s' (Klasse: %d)\n",
+                        device->name, device->driver->type);
+                return -1; // Fehlercode
+            }
+
+            // Ausgabe der gelesenen Werte
+            LOG_INFO("VOR DEM KONVERTIEREN\n");
+            LOG_INFO("Werte des Geräts '%s' (Klasse: %d):\n", device->name, device->driver->type);
+            LOG_INFO("num_elements: %d\n", num_elements);
+            for (int i = 0; i < num_elements; i++) {
+                LOG_INFO("  Wert[%d] = %d, Einheit = %d, Skalierung = %d\n",
+                        i, result.val[i], result.unit, result.scale);
+            }
+            
+            // Verarbeitung der Rohdaten mit Skalierung
+            for (int i = 0; i < num_elements; i++) {
+                if (strcmp(request_unit, "Pa") == 0 && result.unit == UNIT_PA) {
+                    LOG_INFO("Einheit ist bereits °C, keine Konvertierung nötig.\n");
+                } else if (strcmp(request_unit, "Bar") == 0 && result.unit == UNIT_PA) {
+                    // Skalierung und Konvertierung
+                    float normalized_value = result.val[i] * pow(10, result.scale); // Wert in Pascal
+                    float bar_value = normalized_value / 100000.0f;
+                    
+                    // Debugging der Zwischenschritte
+                    printf("Rohwert in Pascal: %f\n", normalized_value);
+                    printf("Wert in Bar: %f\n", bar_value);
+
+                    // Vergewissern, dass der Wert in einem sinnvollen Bereich liegt
+                    if (bar_value < -327.68 || bar_value > 327.67) {  // Anpassen der Grenzen basierend auf der Präzision
+                        LOG_ERROR("Fehler: Der Wert in Bar überschreitet die Grenzen des zulässigen Bereichs: %.5f\n", bar_value);
+                        return -1; // Fehlercode, wenn der Wert außerhalb des zulässigen Bereichs ist
+                    }
+
+                    result.val[i] = (int16_t)(bar_value * 100.0f);  // Umrechnung in Bar
+                    result.unit = UNIT_BAR;                         // Einheit auf Bar setzen
+                    result.scale = -2;                              // Neue Skalierung setzen, um Bar zu repräsentieren (Skalierung von 100)            
+                    LOG_INFO("Konvertierung von Pa nach Bar durchgeführt: %.5f Bar\n", bar_value);
+                } else {
+                    LOG_ERROR("Angeforderte Einheit '%s' wird nicht unterstützt oder passt nicht zum Gerät.\n", request_unit);
+                    return -3; // Fehlercode für ungültige Einheit
+                }
+            }
+
+            // Ausgabe der gelesenen Werte
+            LOG_INFO("NACH DEM KONVERTIEREN\n");
+            LOG_INFO("Werte des Geräts '%s' (Klasse: %d):\n", device->name, device->driver->type);
+            for (int i = 0; i < num_elements; i++) {
+                LOG_INFO("  Wert[%d] = %d, Einheit = %d, Skalierung = %d\n",
+                        i, result.val[i], result.unit, result.scale);
+            }
+
+            // Schritt 1: Puffergröße ermitteln (maximale Größe)
+            *json_size = phydat_to_json(&result, num_elements, NULL);  // json_buffer = NULL, nur Größe berechnen
+            char json_buffer[512];  // Angemessene Puffergröße
+            LOG_INFO("json_size: %zu\n", *json_size);
+
+            // Schritt 2: JSON in den übergebenen Puffer schreiben
+            if (escape_json_buffer != NULL && *json_size > 0) {
+                phydat_to_json(&result, num_elements, json_buffer);  // JSON-Daten in den Puffer schreiben
+                strncpy(escape_json_buffer, json_buffer, *json_size);
+                printf("JSON: %s\n", escape_json_buffer); // Ausgabe der JSON-Daten
+            } else {
+                LOG_ERROR("Fehler: Ungültiger Puffer oder Größe\n");
+                return -2; // Fehlercode
+            }
+            return 0; // Erfolgreicher Abschluss
+        }
+        else
+            // Zum nächsten Gerät wechseln
+            device = device->next;
     }
 
     return 0; // Erfolgreicher Abschluss
