@@ -1,3 +1,12 @@
+// #include <stdio.h>
+// #include "shell.h"
+// #include "mqtt_utils.h"
+
+// static MQTTClient client;
+// static Network network;
+// static int topic_cnt = 0;
+// static char _topic_to_subscribe[MAX_TOPICS][MAX_LEN_TOPIC];
+
 // static unsigned get_qos(const char *str)
 // {
 //     int qos = atoi(str);
@@ -7,6 +16,15 @@
 //     case 2:     return QOS2;
 //     default:    return QOS0;
 //     }
+// }
+
+// static void _on_msg_received(MessageData *data)
+// {
+//     printf("paho_mqtt_example: message received on topic"
+//            " %.*s: %.*s\n",
+//            (int)data->topicName->lenstring.len,
+//            data->topicName->lenstring.data, (int)data->message->payloadlen,
+//            (char *)data->message->payload);
 // }
 
 // static int _cmd_discon(int argc, char **argv)
@@ -104,7 +122,6 @@
 //     return (ret > 0) ? 0 : 1;
 // }
 
-
 // static int _cmd_pub(int argc, char **argv)
 // {
 //     enum QoS qos = QOS0;
@@ -164,7 +181,6 @@
 //     printf("mqtt_example: Subscribing to %s\n", _topic_to_subscribe[topic_cnt]);
 //     int ret = MQTTSubscribe(&client,
 //               _topic_to_subscribe[topic_cnt], qos, _on_msg_received);
-//     printf("ret for subscribe %d\n", ret);
 //     if (ret < 0) {
 //         printf("mqtt_example: Unable to subscribe to %s (%d)\n",
 //                _topic_to_subscribe[topic_cnt], ret);
@@ -175,9 +191,7 @@
 //                argv[1], (int) qos);
 //         topic_cnt++;
 //     }
-
 //     return ret;
-// 
 // }
 
 // static int _cmd_unsub(int argc, char **argv)
@@ -200,14 +214,21 @@
 //     return ret;
 // }
 
-// int cmd_handler(int argc, char **argv)
+// int _cmd_handler(int argc, char **argv)
 // {
-//     // read_saul_reg_dev (nrf_temp);
-//     // read_saul_reg_dev (bme_280_name);
 //     (void)argc;
 //     (void)argv;
 
-//     //LED1_OFF;
-
 //     return 0;
 // }
+
+// static const shell_command_t shell_commands[] =
+// {
+//     { "con",    "connect to MQTT broker",             _cmd_con    },
+//     { "discon", "disconnect from the current broker", _cmd_discon },
+//     { "pub",    "publish something",                  _cmd_pub    },
+//     { "sub",    "subscribe topic",                    _cmd_sub    },
+//     { "unsub",  "unsubscribe from topic",             _cmd_unsub  },
+//     { "cmd_handler", "Zum Testen",                    _cmd_handler},
+//     { NULL,     NULL,                                 NULL        }
+// };
