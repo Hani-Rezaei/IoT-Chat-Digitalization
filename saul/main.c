@@ -367,7 +367,7 @@ int main(void)
 
     // Themen abonnieren
     // if (MQTTSubscribe(&client, _topic_to_subscribe[0], QOS0, _on_msg_received) < 0) {
-    if (MQTTSubscribe(&client,"awsiot_to_localgateway/#", QOS0, _on_msg_received) < 0) {
+    if (MQTTSubscribe(&client, TOPIC_TO_SUBSCRIBE, QOS0, _on_msg_received) < 0) {
         fprintf(stderr, "Fehler: Thema konnte nicht abonniert werden.\n");
         return -1;
     }
