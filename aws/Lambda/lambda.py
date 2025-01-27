@@ -23,6 +23,10 @@ def lambda_handler(event, context):
             callback_data = body.get("callback_query", {}).get("data")  # Data from button clicks
             user_message = body["message"]["text"].strip().lower() if "message" in body else None
 
+            # Save chat_id to user_settings if not already saved
+            if chat_id not in user_settings:
+                user_settings[chat_id] = {}
+
             # Handle button clicks
             if callback_data:
                 response_message = process_callback_data(chat_id, callback_data)
@@ -53,10 +57,11 @@ def lambda_handler(event, context):
             value = event.get("d", "unknown")
             unit = event.get("u", "unknown")
 
-            # chat_id = event.get("848343887", "unknown")
+            # Get the chat_id from user_settings (use a default if not found)
+            chat_id = next(iter(user_settings), 7812968215)
 
             # Send the data to Telegram
-            send_message_to_telegram(7812968215, f"Received data: {value} {unit}")
+            send_message_to_telegram(chat_id, f"Received data: {value} {unit}")
 
             return {
                 "statusCode": 200,
