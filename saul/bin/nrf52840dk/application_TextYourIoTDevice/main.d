@@ -63,7 +63,7 @@
  /usr/include/newlib/sys/_pthreadtypes.h \
  /usr/include/newlib/machine/types.h \
  /home/mj/Desktop/RIOT/sys/include/phydat.h \
- /home/mj/Desktop/RIOT/sys/include/phydat.h \
+ /home/mj/Desktop/RIOT/sys/include/phydat.h /usr/include/newlib/math.h \
  /home/mj/Desktop/RIOT/core/lib/include/log.h \
  /usr/include/newlib/stdlib.h /usr/include/newlib/machine/stdlib.h \
  /home/mj/Desktop/IoT-Chat-Digitalization/saul/blinky_utils.h \
@@ -248,6 +248,7 @@
 /usr/include/newlib/machine/types.h:
 /home/mj/Desktop/RIOT/sys/include/phydat.h:
 /home/mj/Desktop/RIOT/sys/include/phydat.h:
+/usr/include/newlib/math.h:
 /home/mj/Desktop/RIOT/core/lib/include/log.h:
 /usr/include/newlib/stdlib.h:
 /usr/include/newlib/machine/stdlib.h:
