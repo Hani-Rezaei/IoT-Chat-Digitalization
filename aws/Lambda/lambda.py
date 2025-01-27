@@ -7,9 +7,6 @@ import requests
 TELEGRAM_API_TOKEN = os.getenv("TELEGRAM_API_TOKEN")
 iot_client = boto3.client('iot-data', region_name='us-east-1')  # IoT Core client
 
-# Store user settings (in-memory for simplicity; consider a database for persistence)
-user_settings = {}
-
 def lambda_handler(event, context):
     try:
         # Log the incoming event
@@ -22,10 +19,6 @@ def lambda_handler(event, context):
             chat_id = body["message"]["chat"]["id"] if "message" in body else body["callback_query"]["message"]["chat"]["id"]
             callback_data = body.get("callback_query", {}).get("data")  # Data from button clicks
             user_message = body["message"]["text"].strip().lower() if "message" in body else None
-
-            # Save chat_id to user_settings if not already saved
-            if chat_id not in user_settings:
-                user_settings[chat_id] = {}
 
             # Handle button clicks
             if callback_data:
@@ -57,11 +50,8 @@ def lambda_handler(event, context):
             value = event.get("d", "unknown")
             unit = event.get("u", "unknown")
 
-            # Get the chat_id from user_settings (use a default if not found)
-            chat_id = next(iter(user_settings), 7812968215)
-
             # Send the data to Telegram
-            send_message_to_telegram(chat_id, f"Received data: {value} {unit}")
+            send_message_to_telegram(7812968215, f"Received data: {value} {unit}")
 
             return {
                 "statusCode": 200,
@@ -94,15 +84,14 @@ def send_info_selection_message(chat_id):
         "What information would you like to retrieve?\n\n"
         "1️⃣ Temperature\n"
         "2️⃣ Humidity\n"
-        "3️⃣ Air Pressure\n"
-        # "4️⃣ All Info"
+        "3️⃣ Air Pressure"
     )
     # Inline keyboard for selecting information
     buttons = {
         "inline_keyboard": [
             [{"text": "🌡 Temperature", "callback_data": "temperature"}],
             [{"text": "💧 Humidity", "callback_data": "humidity"}],
-            [{"text": "🌬 Air Pressure", "callback_data": "air_pressure"}],
+            [{"text": "🌬 Air Pressure", "callback_data": "air_pressure"}]
         ]
     }
     payload = {
@@ -122,7 +111,6 @@ def process_callback_data(chat_id, callback_data):
     Processes the callback data from button clicks and sends the appropriate command to IoT Core.
     """
     if callback_data in ["temperature", "humidity", "air_pressure"]:
-        # user_settings[chat_id] = {"selected_info": callback_data}
         if callback_data == "temperature":
             send_temperature_unit_buttons(chat_id)
             return "In which unit would you like the temperature? Choose one below:"
@@ -135,15 +123,11 @@ def process_callback_data(chat_id, callback_data):
             return fetch_data_from_iot(chat_id, "get_humidity", preferences)
 
     elif callback_data in ["°C", "°F"]:
-        preferences = user_settings.get(chat_id, {})
-        preferences["temperature"] = callback_data
-        user_settings[chat_id] = preferences
+        preferences = {"temperature": callback_data}
         return fetch_data_from_iot(chat_id, "get_temperature", preferences)
 
     elif callback_data in ["Pa", "Bar"]:
-        preferences = user_settings.get(chat_id, {})
-        preferences["pressure"] = callback_data
-        user_settings[chat_id] = preferences
+        preferences = {"pressure": callback_data}
         return fetch_data_from_iot(chat_id, "get_air_pressure", preferences)
 
     else:
