@@ -1,3 +1,14 @@
+// static unsigned get_qos(const char *str)
+// {
+//     int qos = atoi(str);
+
+//     switch (qos) {
+//     case 1:     return QOS1;
+//     case 2:     return QOS2;
+//     default:    return QOS0;
+//     }
+// }
+
 // static int _cmd_discon(int argc, char **argv)
 // {
 //     (void)argc;
