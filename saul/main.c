@@ -316,7 +316,7 @@ int main(void)
     puts("Welcome to RIOT!\n");
 
     printf("This application runs on %s\n", RIOT_BOARD);
-
+    
     if (IS_USED(MODULE_GNRC_ICMPV6_ECHO)) {
         msg_init_queue(_main_msg_queue, MAIN_QUEUE_SIZE);
     }

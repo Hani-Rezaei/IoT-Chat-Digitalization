@@ -20,6 +20,7 @@ DEVELHELP ?= 1
 # Change this to 0 show compiler invocation lines by default:
 QUIET ?= 1
 
+include Makefile.blinky
 include Makefile.saul
 include Makefile.mqtt
 
