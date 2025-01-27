@@ -13,4 +13,26 @@ pub both_directions/temperature "{\"d\":23.29,\"u\":\"°C\"}"
 pub both_directions/temperature "{\"d\":60,\"u\":\"%\"}"
 pub both_directions/temperature "{\"d\":10040e1,\"u\":\"Pa\"}"
 
-{\"d\":22.57,\"u\":\"°C\"}
+
+
+topic awsiot_to_localgateway/# both 1
+topic localgateway_to_awsiot/# both 1
+
+{"u":"°C"}
+
+Temp:
+°C
+°F
+
+ humidity:
+%
+
+Pressure:
+Pa
+Bar
+
+{
+ "u": "Pa"
+}
+
+
