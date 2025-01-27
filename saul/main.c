@@ -51,6 +51,7 @@ static int bme280_pub(int argc, char **argv)
 
     message.payloadlen = strlen(message.payload);
 
+
     int rc;
     if ((rc = MQTTPublish(&client, saul_topic_to_publish, &message)) < 0) {
         printf("mqtt_example: Unable to publish (%d)\n", rc);
@@ -70,6 +71,11 @@ static char *get_response(const char* topic, const char* request_unit) {
     size_t json_size;
     // Reaktion auf spezifische Topics
     if (strncmp(topic, TOPIC_TEMPERATURE, strlen(TOPIC_TEMPERATURE)) == 0) {
+        
+        size_t topic_len = strlen(TOPIC_TEMPERATURE_TO_PUBLISH);
+        strncpy(saul_topic_to_publish, TOPIC_TEMPERATURE_TO_PUBLISH, topic_len);
+        saul_topic_to_publish[topic_len] = '\0'; // Null-Terminierung erzwingen
+        
         int res = read_bme280_temperature (bme_280_name, request_unit, escape_json_buffer, &json_size);
         if (res >= 0) {
             printf("Temperatur: %d\n", res);
@@ -79,6 +85,11 @@ static char *get_response(const char* topic, const char* request_unit) {
         }
     } 
     else if (strncmp(topic, TOPIC_HUMIDITY, strlen(TOPIC_HUMIDITY)) == 0) {
+
+        size_t topic_len = strlen(TOPIC_HUMIDITY_TO_PUBLISH);
+        strncpy(saul_topic_to_publish, TOPIC_HUMIDITY_TO_PUBLISH, topic_len);
+        saul_topic_to_publish[topic_len] = '\0'; // Null-Terminierung erzwingen
+
         int res = read_bme280_humidity (bme_280_name, escape_json_buffer, &json_size);
         if (res >= 0) {
             printf("humidity: %d\n", res);
@@ -88,6 +99,11 @@ static char *get_response(const char* topic, const char* request_unit) {
         }
     } 
     else if (strncmp(topic, TOPIC_PRESSURE, strlen(TOPIC_PRESSURE)) == 0) {
+
+        size_t topic_len = strlen(TOPIC_PRESSURE_TO_PUBLISH);
+        strncpy(saul_topic_to_publish, TOPIC_PRESSURE_TO_PUBLISH, topic_len);
+        saul_topic_to_publish[topic_len] = '\0'; // Null-Terminierung erzwingen
+
         int res = read_bme280_pressure (bme_280_name, request_unit, escape_json_buffer, &json_size);
         if (res >= 0) {
             printf("Pressure: %d\n", res);
@@ -129,17 +145,18 @@ static void _on_msg_received(MessageData *data)
 
     // Zugriff auf das Topic
     const char *topic = data->topicName->lenstring.data;
-    int topic_len = data->topicName->lenstring.len;
+    // int topic_len = data->topicName->lenstring.len;
 
-    // Kopieren des Topics in den globalen Speicher
-    if (topic_len < MAX_LEN_TOPIC) {
-        strncpy(saul_topic_to_publish, topic, topic_len);
-        saul_topic_to_publish[topic_len] = '\0'; // Null-Terminierung erzwingen
-    } else {
-        fprintf(stderr, "Fehler: Topic ist zu lang, um global gespeichert zu werden.\n");
-    }
-    // Ausgabe der global gespeicherten Daten
-    printf("Global Topic: %s\n", saul_topic_to_publish);
+    // // Kopieren des Topics in den globalen Speicher
+    // if (topic_len < MAX_LEN_TOPIC) {
+    //     strncpy(saul_topic_to_publish, topic, topic_len);
+    //     saul_topic_to_publish[topic_len] = '\0'; // Null-Terminierung erzwingen
+
+    //     // Ausgabe der global gespeicherten Daten
+    //     printf("Global Topic: %s\n", saul_topic_to_publish);
+    // } else {
+    //     fprintf(stderr, "Fehler: Topic ist zu lang, um global gespeichert zu werden.\n");
+    // }
 
     // Payload in einen Null-terminierten String umwandeln
     char payload[256];
@@ -156,21 +173,21 @@ static void _on_msg_received(MessageData *data)
     const char *unit = parse_payload_for_unit(payload);
     if (unit) {
         printf("Einheit: %s\n", unit);
+        
+        const char* response = get_response(topic, unit);
+        if (response) {
+            snprintf(saul_response, sizeof(saul_response), "%s", response);
+            printf("Antwort generiert: %s\n", saul_response);
+            message_ready = 1;  // Flag setzen
+        } else {
+            fprintf(stderr, "Fehler: Keine gültige Antwort generiert.\n");
+            saul_response[0] = '\0'; // Leeren String setzen
+        }
+        // Antwort ausgeben (oder publizieren)
+        printf("Response to publish: %s\n", saul_response);
     } else {
         fprintf(stderr, "Fehler: Schlüssel 'u' nicht gefunden.\n");
     }
-
-    const char* response = get_response(topic, unit);
-    if (response) {
-        snprintf(saul_response, sizeof(saul_response), "%s", response);
-        printf("Antwort generiert: %s\n", saul_response);
-        message_ready = 1;  // Flag setzen
-    } else {
-        fprintf(stderr, "Fehler: Keine gültige Antwort generiert.\n");
-        saul_response[0] = '\0'; // Leeren String setzen
-    }
-    // Antwort ausgeben (oder publizieren)
-    printf("Response to publish: %s\n", saul_response);
 }
 
 static int _cmd_discon(int argc, char **argv)
@@ -350,7 +367,7 @@ int main(void)
 
     // Themen abonnieren
     // if (MQTTSubscribe(&client, _topic_to_subscribe[0], QOS0, _on_msg_received) < 0) {
-    if (MQTTSubscribe(&client,"both_directions/#", QOS0, _on_msg_received) < 0) {
+    if (MQTTSubscribe(&client,"awsiot_to_localgateway/#", QOS0, _on_msg_received) < 0) {
         fprintf(stderr, "Fehler: Thema konnte nicht abonniert werden.\n");
         return -1;
     }
