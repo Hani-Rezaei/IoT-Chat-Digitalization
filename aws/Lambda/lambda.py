@@ -193,14 +193,17 @@ def fetch_data_from_iot(chat_id, function_name, preferences):
     """
     # Map the function_name to the corresponding topic
     topic_mapping = {
-        "get_temperature": "both_directions/temperature",
-        "get_humidity": "both_directions/humidity",
-        "get_air_pressure": "both_directions/pressure"
+        "get_temperature": "awsiot_to_localgateway/temperature",
+        "get_humidity": "awsiot_to_localgateway/humidity",
+        "get_air_pressure": "awsiot_to_localgateway/pressure"
     }
 
     # Determine the topic based on the function_name
-    topic = topic_mapping.get(function_name, "both_directions")
+    topic = topic_mapping.get(function_name)
     
+    if not topic:
+        return "❌ Invalid topic for the requested function."
+
     # Construct the payload
     preference_value = next(iter(preferences.values()))  # Get the first value from the dictionary
     payload = {
