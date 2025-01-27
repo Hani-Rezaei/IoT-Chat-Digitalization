@@ -81,9 +81,9 @@ int read_bme280_temperature (const char* device_name, const char* request_unit, 
 
             // Verarbeitung der Rohdaten mit Skalierung
             for (int i = 0; i < num_elements; i++) {
-                if (strcmp(request_unit, "°C") == 0 && result.unit == UNIT_TEMP_C) {
-                    LOG_INFO("Einheit ist bereits °C, keine Konvertierung nötig.\n");
-                } else if (strcmp(request_unit, "°F") == 0 && result.unit == UNIT_TEMP_C) {
+                if (strcmp(request_unit, "\\u00b0C") == 0 && result.unit == UNIT_TEMP_C) {
+                    LOG_INFO("Einheit ist bereits C, keine Konvertierung nötig.\n");
+                } else if (strcmp(request_unit, "\\u00b0F") == 0 && result.unit == UNIT_TEMP_C) {
                     // Rohwert skalieren: tatsächlicher Wert = val * 10^scale
                     float scaled_value = result.val[i] * pow(10, result.scale);
                     // Celsius nach Fahrenheit konvertieren

@@ -28,12 +28,15 @@ static volatile int message_ready = 0;  // Flag zur Synchronisation
 
 static MQTTClient client;
 static Network network;
-static int topic_cnt = 0;
-// static char _topic_to_subscribe[MAX_TOPICS][MAX_LEN_TOPIC];
 
 static char saul_response[1024];
 static char saul_topic_to_publish[MAX_LEN_TOPIC];
 
+static unsigned char buf[BUF_SIZE];
+static unsigned char readbuf[BUF_SIZE];
+
+static int topic_cnt = 0;
+static char _topic_to_subscribe[MAX_TOPICS][MAX_LEN_TOPIC];
 
 static int bme280_pub(int argc, char **argv)
 {
@@ -195,7 +198,6 @@ static int _cmd_discon(int argc, char **argv)
     (void)argc;
     (void)argv;
 
-    topic_cnt = 0;
     int res = MQTTDisconnect(&client);
     if (res < 0) {
         printf("mqtt_example: Unable to disconnect\n");
@@ -208,7 +210,7 @@ static int _cmd_discon(int argc, char **argv)
     return res;
 }
 
-static int _cmd_con(int argc, char **argv)
+static int cmd_con(int argc, char **argv)
 {
     (void)argc;
     (void)argv;
@@ -259,59 +261,40 @@ static int _cmd_con(int argc, char **argv)
     return (ret > 0) ? 0 : 1;
 }
 
-// static int _cmd_sub(int argc, char **argv)
-// {
-//     (void)argc;
-//     (void)argv;
+static int cmd_sub(int argc, char **argv)
+{
+    (void)argc;
+    (void)argv;
     
-//     enum QoS qos = QOS0;
+    enum QoS qos = QOS0;
 
-//     if (topic_cnt > MAX_TOPICS) {
-//         printf("mqtt_example: Already subscribed to max %d topics,"
-//                 "call 'unsub' command\n", topic_cnt);
-//         return -1;
-//     }
+    if (topic_cnt > MAX_TOPICS) {
+        printf("mqtt_example: Already subscribed to max %d topics,"
+                "call 'unsub' command\n", topic_cnt);
+        return -1;
+    }
 
-//     if (strlen(TOPIC_TO_SUBSCRIBE) > MAX_LEN_TOPIC) {
-//         printf("mqtt_example: Not subscribing, topic too long %s\n", TOPIC_TO_SUBSCRIBE);
-//         return -1;
-//     }
-//     strncpy(_topic_to_subscribe[topic_cnt], TOPIC_TO_SUBSCRIBE, strlen(TOPIC_TO_SUBSCRIBE) + 1);
+    if (strlen(TOPIC_TO_SUBSCRIBE) > MAX_LEN_TOPIC) {
+        printf("mqtt_example: Not subscribing, topic too long %s\n", TOPIC_TO_SUBSCRIBE);
+        return -1;
+    }
+    strncpy(_topic_to_subscribe[topic_cnt], TOPIC_TO_SUBSCRIBE, strlen(TOPIC_TO_SUBSCRIBE) + 1);
 
-//     printf("mqtt_example: Subscribing to %s\n", _topic_to_subscribe[topic_cnt]);
-//     int ret = MQTTSubscribe(&client,
-//               _topic_to_subscribe[topic_cnt], qos, _on_msg_received);
-//     printf("ret for subscribe %d\n", ret);
-//     if (ret < 0) {
-//         printf("mqtt_example: Unable to subscribe to %s (%d)\n",
-//                _topic_to_subscribe[topic_cnt], ret);
-//         _cmd_discon(0, NULL);
-//     }
-//     else {
-//         printf("mqtt_example: Now subscribed to %s, QOS %d\n",
-//                TOPIC_TO_SUBSCRIBE, (int) qos);
-//         topic_cnt++;
-//     }
-
-//     return ret;
-// }
-
-static unsigned char buf[BUF_SIZE];
-static unsigned char readbuf[BUF_SIZE];
-
-// static const shell_command_t shell_commands[] =
-// {
-//     { "con",    "connect to MQTT broker",             _cmd_con    },
-//     { "discon", "disconnect from the current broker", _cmd_discon },
-//     // { "pub",    "publish something",                  _cmd_pub    },
-//     { "sub",    "subscribe topic",                    _cmd_sub    },
-//     // { "unsub",  "unsubscribe from topic",             _cmd_unsub  },
-//     // { "cmd_handler",    NULL,                         cmd_handler },
-//     { "bme280_pub", "publish BME280 Values after subscribe", bme280_pub},
-//     { NULL,     NULL,                                 NULL        }
-
-// };
-
+    printf("mqtt_example: Subscribing to %s\n", _topic_to_subscribe[topic_cnt]);
+    int ret = MQTTSubscribe(&client,
+              _topic_to_subscribe[topic_cnt], qos, _on_msg_received);
+    if (ret < 0) {
+        printf("mqtt_example: Unable to subscribe to %s (%d)\n",
+               _topic_to_subscribe[topic_cnt], ret);
+        _cmd_discon(0, NULL);
+    }
+    else {
+        printf("mqtt_example: Now subscribed to %s, QOS %d\n",
+               TOPIC_TO_SUBSCRIBE, (int) qos);
+        topic_cnt++;
+    }
+    return ret;
+}
 
 /**
  * Event-Loop: Verarbeitet Nachrichten aus der Queue und veröffentlicht diese.
@@ -331,8 +314,6 @@ static void custom_event_loop(void)
 int main(void)
 {
     puts("Welcome to RIOT!\n");
- 
-    puts("Type `help` for help, type `saul` to see all SAUL devices\n");
 
     printf("This application runs on %s\n", RIOT_BOARD);
 
@@ -349,28 +330,25 @@ int main(void)
     MQTTClientInit(&client, &network, COMMAND_TIMEOUT_MS, buf, BUF_SIZE,
                    readbuf,
                    BUF_SIZE);
-    printf("Running mqtt paho example. Type help for commands info\n");
 
     MQTTStartTask(&client);
     
     // Verbindung zum Broker herstellen
-    if (_cmd_con(0, NULL) < 0) {
+    if (cmd_con(0, NULL) < 0) {
         fprintf(stderr, "Fehler: Verbindung zum Broker fehlgeschlagen.\n");
         return -1;
     }
 
     // Automatisches Abonnieren eines Themas
-    // if (_cmd_sub(0, NULL) < 0) {
-    //     fprintf(stderr, "Fehler: Abonnieren des Themas fehlgeschlagen.\n");
-    //     return -1;
-    // }
-
-    // Themen abonnieren
-    // if (MQTTSubscribe(&client, _topic_to_subscribe[0], QOS0, _on_msg_received) < 0) {
-    if (MQTTSubscribe(&client, TOPIC_TO_SUBSCRIBE, QOS0, _on_msg_received) < 0) {
-        fprintf(stderr, "Fehler: Thema konnte nicht abonniert werden.\n");
+    if (cmd_sub(0, NULL) < 0) {
+        fprintf(stderr, "Fehler: Abonnieren des Themas fehlgeschlagen.\n");
         return -1;
     }
+    // if (MQTTSubscribe(&client, _topic_to_subscribe[0], QOS0, _on_msg_received) < 0) {
+    // if (MQTTSubscribe(&client, TOPIC_TO_SUBSCRIBE, QOS0, _on_msg_received) < 0) {
+    //     fprintf(stderr, "Fehler: Thema konnte nicht abonniert werden.\n");
+    //     return -1;
+    // }
 
     // Event-Loop starten
     custom_event_loop();
