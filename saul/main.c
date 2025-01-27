@@ -32,19 +32,33 @@ static char _topic_to_subscribe[MAX_TOPICS][MAX_LEN_TOPIC];
 static char saul_response[1024];
 static char saul_topic_to_publish[MAX_LEN_TOPIC];
 
-static int bme280_pub(int argc, char **argv);
+static int bme280_pub(int argc, char **argv)
+{
+    (void)argc;
+    (void)argv;
 
-// static unsigned get_qos(const char *str)
-// {
-//     int qos = atoi(str);
+    enum QoS qos = QOS0;
 
-//     switch (qos) {
-//     case 1:     return QOS1;
-//     case 2:     return QOS2;
-//     default:    return QOS0;
-//     }
-// }
+    MQTTMessage message;
+    message.qos = qos;
+    message.retained = IS_RETAINED_MSG;
 
+    message.payload = saul_response;
+    printf("saul_response: %s\n",saul_response);
+
+    message.payloadlen = strlen(message.payload);
+
+    int rc;
+    if ((rc = MQTTPublish(&client, saul_topic_to_publish, &message)) < 0) {
+        printf("mqtt_example: Unable to publish (%d)\n", rc);
+    }
+    else {
+        printf("mqtt_example: Message (%s) has been published to topic %s"
+               "with QOS %d\n",
+               (char *)message.payload, saul_topic_to_publish, (int)message.qos);
+    }
+    return rc;
+}
 // Funktion entscheidet, welcher Wert als Antwort gepublisht werden soll
 static char *get_response(const char* topic, const char* request_unit) {
     
@@ -242,34 +256,6 @@ static int _cmd_con(int argc, char **argv)
     }
 
     return (ret > 0) ? 0 : 1;
-}
-
-static int bme280_pub(int argc, char **argv)
-{
-    (void)argc;
-    (void)argv;
-
-    enum QoS qos = QOS0;
-
-    MQTTMessage message;
-    message.qos = qos;
-    message.retained = IS_RETAINED_MSG;
-
-    message.payload = saul_response;
-    printf("saul_response: %s\n",saul_response);
-
-    message.payloadlen = strlen(message.payload);
-
-    int rc;
-    if ((rc = MQTTPublish(&client, saul_topic_to_publish, &message)) < 0) {
-        printf("mqtt_example: Unable to publish (%d)\n", rc);
-    }
-    else {
-        printf("mqtt_example: Message (%s) has been published to topic %s"
-               "with QOS %d\n",
-               (char *)message.payload, saul_topic_to_publish, (int)message.qos);
-    }
-    return rc;
 }
 
 static int _cmd_sub(int argc, char **argv)
