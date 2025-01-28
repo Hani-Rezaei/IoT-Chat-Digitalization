@@ -14,10 +14,9 @@ The system uses LEDs for status indication and includes logging and monitoring c
 6. [Setup Instructions](#🚀-setup-instructions)
     - [1. Flashing the DK](#1-flashing-the-dk)
     - [2. Flashing the Dongle](#2-flashing-the-dongle)
-    - [3. Setting up the MQTT Broker](#3-setting-up-the-mqtt-broker)
-    - [4. Configuring AWS IoT Core](#4-configuring-aws-iot-core)
-    - [5. Telegram Bot Setup](#5-telegram-bot-setup)
-    - [6. Linking Everything](#6-linking-everything)
+    - [3. The MQTT Broker on AWS EC2](#3-the-mqtt-broker-on-aws-ec2)
+    - [4. The MQTT Broker on AWS IoT Core](#4-the-mqtt-broker-on-aws-iot-core)
+    - [5. Telegram Bot](#5-telegram-bot)
 7. [Testing the System](#🔬-testing-the-system)
 8. [Troubleshooting](#🛠️-troubleshooting)
 9. [Documentation](#📖-documentation)
@@ -39,9 +38,9 @@ The primary use case involves a DK that collects sensor data, sends it to an MQT
 3. **nRF52840 Dongle:** Functions as a border router for the DK.
 4. **Mosquitto (MQTT Broker):** Acts as an intermediary between the DK and AWS IoT Core.
 5. **AWS IoT Core:** Central hub for IoT device communication.
-6. 
-7. 
-8.
+6. **AWS Lamda:** 
+7. **AWS API Gateaway:** 
+8. **Webhook:** 
 9. **Telegram Bot:** Allows interaction with the IoT system.
 ---
 
@@ -128,47 +127,42 @@ TextYourIoTDevice/
     ```bash
     make BOARD=nrf52840dongle dongle/ all
     ```
-2. Flash the firmware:
+2. Copy created build .hex  
+
+3. start the tool:
 - ????????????????????
 
-### **3. Setting up the MQTT Broker**
+4. flash the firmware
 
-1. Contact developers to get the broker up and running
+### **3. The MQTT Broker on AWS EC2**
 
-2. Launch an AWS EC2 instance (Ubuntu) and SSH into it:
+The mqtt broker on AWS EC2 should work fine.
 
-3. Install Mosquitto:
-    ```bash
-    sudo apt update
-    sudo apt install mosquitto mosquitto-clients
-    ```
-4. Configure Mosquitto for TLS:
-    - Copy the AWS IoT Core certificates to the instance:
-        ```bash
-        scp -i your-key.pem /path/to/certificate.pem.crt ubuntu@your-ec2-public-ip:/path/to/ec2
-        scp -i your-key.pem /path/to/private.pem.key ubuntu@your-ec2-public-ip:/path/to/ec2
-        scp -i your-key.pem /path/to/AmazonRootCA1.pem ubuntu@your-ec2-public-ip:/path/to/ec2
-        ```
-    - Edit the Mosquitto configuration file (/etc/mosquitto/mosquitto.conf):
-        ```bash
-        listener 8883
-        cafile /path/to/AmazonRootCA1.pem
-        certfile /path/to/certificate.pem.crt
-        keyfile /path/to/private.pem.key
-        require_certificate true
-        ```
-4. Restart Mosquitto:
-    ```bash
-    sudo systemctl restart mosquitto
-    ```
-5. run a subscribe mosquitto
+If it doesn't, contact developers or look at the documentation. to know how the broker was created and configured.
 
-### **4. Configuring AWS IoT Core**
-1. Register your device in AWS IoT Core and download the
-2. device certificate, private key, and root CA. Attach an IoT policy to allow MQTT publish/subscribe actions.
-3. Create an IoT Thing and link it with the certificates.
+### **4. The MQTT Broker on AWS IoT Core**
+The mqtt broker on AWS IoT Core should work fine.
 
-### **5. Telegram Bot Setup**
+If it doesn't, contact developers or look at the documentation. to know how the broker was created and configured.
+
+### **5. Telegram Bot**
+Using the Telegram Bot **TextYourIoTDevice**
+```bash
+    Username: @TextYourIoTDevicebot
+```
+
+## 🔬 **Testing the System**
+1. Power on the DK and verify the LEDs indicate the connection status.
+2. Send a message via the Telegram bot and observe it being processed by AWS IoT Core.
+3. Monitor logs in AWS CloudWatch for debugging and performance insights.
+## 🛠️ **Troubleshooting**
+1. Issue: DK cannot connect to Mosquitto.
++ **Solution:** Verify the broker IP and TLS certificates.
+---
+2. Issue: Messages are not visible in AWS IoT Core.
+- **Solution:** Check the Mosquitto configuration and AWS IoT policies.
+---
+
 - Using the Telegram Bot TextYourIoTDevice
 ```bash
     Username: @TextYourIoTDevicebot
