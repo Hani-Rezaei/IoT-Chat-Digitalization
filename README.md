@@ -198,7 +198,7 @@ Using the Telegram Bot **TextYourIoTDevice**
 - Doxygen is used for code-level documentation.
     1. Doxygen
         ```bash
-            sudo apt install doxygen
+            sudo apt install doxygen # Auf Linux  
         ```
     2. Doxygen-Konfigurationsdatei generieren:
         ```bash
@@ -217,7 +217,6 @@ Using the Telegram Bot **TextYourIoTDevice**
     6. Im einem Browser, um die Dokumentation anzusehen:
         ```bash
         xdg-open doc/html/index.html  # Auf Linux
-        open doc/html/index.html      # Auf macOS
         ```
 - If required, there is inline code in each file
 
