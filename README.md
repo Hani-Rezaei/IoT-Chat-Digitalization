@@ -32,7 +32,7 @@ The primary use case involves a DK that collects sensor data, sends it to an MQT
 ---
 
 ## 📐 **System Architecture**
-![Drag Racing](images/architecture_bme280.png)
+![Drag Racing](images/architecture.png)
 ### **Components:**
 1. **Sensor BME280:**  Temperature, air pressure and humidity sensor
 2. **nRF52840 DK:** Publishes sensor data via MQTT.
