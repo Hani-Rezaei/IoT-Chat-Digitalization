@@ -47,7 +47,7 @@ void escape_json(const char *input, char *output) {
     *output = '\0'; // Null-Terminierung
 }
 
-int read_bme280_temperature (const char* device_name, char* escape_json_buffer, size_t* json_size){
+int read_bme280_temperature (const char* device_name, const char* request_unit, char* escape_json_buffer, size_t* json_size){
 
     // Findet das Gerät anhand des Namens
     saul_reg_t* device = saul_reg_find_name(device_name);
@@ -70,7 +70,8 @@ int read_bme280_temperature (const char* device_name, char* escape_json_buffer, 
             
             // Initialisierung der Datenstruktur
             phydat_t result;
-            int num_elements = saul_reg_read(device, &result);            
+            int num_elements = saul_reg_read(device, &result);
+            LOG_INFO("num_elements:%d\n",num_elements);
             // Überprüfen, ob das Lesen erfolgreich war
             if (num_elements <= 0) {
                 LOG_ERROR("Fehler beim Lesen des Geräts '%s' (Klasse: %d)\n",
@@ -78,8 +79,30 @@ int read_bme280_temperature (const char* device_name, char* escape_json_buffer, 
                 return -1; // Fehlercode
             }
 
+            // Verarbeitung der Rohdaten mit Skalierung
+            for (int i = 0; i < num_elements; i++) {
+                if (strcmp(request_unit, "°C") == 0 && result.unit == UNIT_TEMP_C) {
+                    LOG_INFO("Einheit ist bereits °C, keine Konvertierung nötig.\n");
+                } else if (strcmp(request_unit, "°F") == 0 && result.unit == UNIT_TEMP_C) {
+                    // Rohwert skalieren: tatsächlicher Wert = val * 10^scale
+                    float scaled_value = result.val[i] * pow(10, result.scale);
+                    // Celsius nach Fahrenheit konvertieren
+                    scaled_value = (scaled_value * 9 / 5) + 32;
+                    result.unit = UNIT_TEMP_F;
+                    // Rückskalierung in die phydat-Struktur
+                    result.val[i] = (int16_t)(scaled_value * 100); // In Integer konvertieren (z. B. für 2 Dezimalstellen)
+                    result.scale = -2; // Neue Skalierung setzen
+                    LOG_INFO("Konvertierung nach Fahrenheit durchgeführt: %.2f °F\n", scaled_value);
+                } else {
+                    LOG_ERROR("Angeforderte Einheit '%s' wird nicht unterstützt oder passt nicht zum Gerät.\n", request_unit);
+                    return -3; // Fehlercode für ungültige Einheit
+                }
+            }
+
             // Ausgabe der gelesenen Werte
+            LOG_INFO("NACH DEM KONVERTIEREN\n");
             LOG_INFO("Werte des Geräts '%s' (Klasse: %d):\n", device->name, device->driver->type);
+            LOG_INFO("num_elements: %d\n", num_elements);
             for (int i = 0; i < num_elements; i++) {
                 LOG_INFO("  Wert[%d] = %d, Einheit = %d, Skalierung = %d\n",
                         i, result.val[i], result.unit, result.scale);
@@ -101,8 +124,7 @@ int read_bme280_temperature (const char* device_name, char* escape_json_buffer, 
                 // escape_json(json_buffer, escape_json_buffer);
                 strncpy(escape_json_buffer, json_buffer, *json_size);
 
-                printf("JSON ohne \": %s\n", json_buffer); // Ausgabe der JSON-Daten
-                printf("JSON mit \": %s\n", escape_json_buffer); // Ausgabe der JSON-Daten
+                printf("JSON \": %s\n", escape_json_buffer); // Ausgabe der JSON-Daten
             } else {
                 LOG_ERROR("Fehler: Ungültiger Puffer oder Größe\n");
                 return -4; // Fehlercode
@@ -180,7 +202,7 @@ int read_bme280_humidity (const char* device_name, char* escape_json_buffer, siz
     return 0; // Erfolgreicher Abschluss
 }
 
-int read_bme280_pressure (const char* device_name, char* escape_json_buffer, size_t* json_size){
+int read_bme280_pressure (const char* device_name, const char* request_unit, char* escape_json_buffer, size_t* json_size){
 
     // Findet das Gerät anhand des Namens
     saul_reg_t* device = saul_reg_find_name(device_name);
@@ -214,6 +236,45 @@ int read_bme280_pressure (const char* device_name, char* escape_json_buffer, siz
             }
 
             // Ausgabe der gelesenen Werte
+            LOG_INFO("VOR DEM KONVERTIEREN\n");
+            LOG_INFO("Werte des Geräts '%s' (Klasse: %d):\n", device->name, device->driver->type);
+            LOG_INFO("num_elements: %d\n", num_elements);
+            for (int i = 0; i < num_elements; i++) {
+                LOG_INFO("  Wert[%d] = %d, Einheit = %d, Skalierung = %d\n",
+                        i, result.val[i], result.unit, result.scale);
+            }
+            
+            // Verarbeitung der Rohdaten mit Skalierung
+            for (int i = 0; i < num_elements; i++) {
+                if (strcmp(request_unit, "Pa") == 0 && result.unit == UNIT_PA) {
+                    LOG_INFO("Einheit ist bereits °C, keine Konvertierung nötig.\n");
+                } else if (strcmp(request_unit, "Bar") == 0 && result.unit == UNIT_PA) {
+                    // Skalierung und Konvertierung
+                    float normalized_value = result.val[i] * pow(10, result.scale); // Wert in Pascal
+                    float bar_value = normalized_value / 100000.0f;
+                    
+                    // Debugging der Zwischenschritte
+                    printf("Rohwert in Pascal: %f\n", normalized_value);
+                    printf("Wert in Bar: %f\n", bar_value);
+
+                    // Vergewissern, dass der Wert in einem sinnvollen Bereich liegt
+                    if (bar_value < -327.68 || bar_value > 327.67) {  // Anpassen der Grenzen basierend auf der Präzision
+                        LOG_ERROR("Fehler: Der Wert in Bar überschreitet die Grenzen des zulässigen Bereichs: %.5f\n", bar_value);
+                        return -1; // Fehlercode, wenn der Wert außerhalb des zulässigen Bereichs ist
+                    }
+
+                    result.val[i] = (int16_t)(bar_value * 100.0f);  // Umrechnung in Bar
+                    result.unit = UNIT_BAR;                         // Einheit auf Bar setzen
+                    result.scale = -2;                              // Neue Skalierung setzen, um Bar zu repräsentieren (Skalierung von 100)            
+                    LOG_INFO("Konvertierung von Pa nach Bar durchgeführt: %.5f Bar\n", bar_value);
+                } else {
+                    LOG_ERROR("Angeforderte Einheit '%s' wird nicht unterstützt oder passt nicht zum Gerät.\n", request_unit);
+                    return -3; // Fehlercode für ungültige Einheit
+                }
+            }
+
+            // Ausgabe der gelesenen Werte
+            LOG_INFO("NACH DEM KONVERTIEREN\n");
             LOG_INFO("Werte des Geräts '%s' (Klasse: %d):\n", device->name, device->driver->type);
             for (int i = 0; i < num_elements; i++) {
                 LOG_INFO("  Wert[%d] = %d, Einheit = %d, Skalierung = %d\n",
