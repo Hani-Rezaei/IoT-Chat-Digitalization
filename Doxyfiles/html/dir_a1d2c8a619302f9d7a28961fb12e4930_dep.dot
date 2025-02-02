@@ -1,0 +1,12 @@
+digraph "/home/mj/Desktop/IoT-Chat-Digitalization/saul/bin/nrf52840dk/stdio"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  compound=true
+  subgraph clusterdir_74b0b304e835b468d5f688d480ac56cc {
+    graph [ bgcolor="#edf0f7", pencolor="grey50", label="nrf52840dk", fontname=Helvetica,fontsize=10 style="filled,dashed", URL="dir_74b0b304e835b468d5f688d480ac56cc.html",tooltip=""]
+  dir_a1d2c8a619302f9d7a28961fb12e4930 [label="stdio", fillcolor="#edf0f7", color="grey25", style="filled,bold", URL="dir_a1d2c8a619302f9d7a28961fb12e4930.html",tooltip=""];
+  }
+}
