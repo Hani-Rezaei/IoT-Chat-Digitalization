@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/eui_provider/eui_provider.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/eui_provider/eui_provider.o: \
  /home/mj/Desktop/RIOT/sys/net/link_layer/eui_provider/eui_provider.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/core/lib/include/assert.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h \
  /home/mj/Desktop/RIOT/sys/net/link_layer/eui_provider/include/eui48_provider_params.h \
@@ -78,7 +78,7 @@
  /home/mj/Desktop/RIOT/sys/include/luid.h \
  /home/mj/Desktop/RIOT/sys/include/net/eui48.h \
  /home/mj/Desktop/RIOT/sys/include/net/eui64.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/core/lib/include/assert.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h:
 /home/mj/Desktop/RIOT/sys/net/link_layer/eui_provider/include/eui48_provider_params.h:

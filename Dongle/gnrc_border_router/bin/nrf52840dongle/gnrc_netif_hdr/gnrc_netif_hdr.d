@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/gnrc_netif_hdr/gnrc_netif_hdr.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/gnrc_netif_hdr/gnrc_netif_hdr.o: \
  /home/mj/Desktop/RIOT/sys/net/gnrc/netif/hdr/gnrc_netif_hdr.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/core/lib/include/assert.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h \
  /home/mj/Desktop/RIOT/sys/include/net/gnrc/netif/hdr.h \
@@ -125,7 +125,7 @@
  /home/mj/Desktop/RIOT/sys/include/net/gnrc/pktbuf.h \
  /home/mj/Desktop/RIOT/sys/include/net/gnrc/neterr.h \
  /home/mj/Desktop/RIOT/sys/include/time_units.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/core/lib/include/assert.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h:
 /home/mj/Desktop/RIOT/sys/include/net/gnrc/netif/hdr.h:

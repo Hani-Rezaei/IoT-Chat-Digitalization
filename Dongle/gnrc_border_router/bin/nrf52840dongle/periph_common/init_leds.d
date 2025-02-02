@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/periph_common/init_leds.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/periph_common/init_leds.o: \
  /home/mj/Desktop/RIOT/drivers/periph_common/init_leds.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/drivers/include/led.h \
  /home/mj/Desktop/RIOT/boards/nrf52840dongle/include/board.h \
  /home/mj/Desktop/RIOT/cpu/cortexm_common/include/cpu.h \
@@ -58,7 +58,7 @@
  /home/mj/Desktop/RIOT/boards/common/nrf52/include/cfg_clock_32_1.h \
  /home/mj/Desktop/RIOT/boards/common/nrf52/include/cfg_rtt_default.h \
  /home/mj/Desktop/RIOT/boards/common/nrf52/include/cfg_timer_default.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/drivers/include/led.h:
 /home/mj/Desktop/RIOT/boards/nrf52840dongle/include/board.h:
 /home/mj/Desktop/RIOT/cpu/cortexm_common/include/cpu.h:

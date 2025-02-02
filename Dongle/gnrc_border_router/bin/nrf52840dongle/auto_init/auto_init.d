@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/auto_init/auto_init.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/auto_init/auto_init.o: \
  /home/mj/Desktop/RIOT/sys/auto_init/auto_init.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h \
  /usr/include/newlib/stdio.h /usr/include/newlib/_ansi.h \
  /usr/include/newlib/nano/newlib.h /usr/include/newlib/_newlib_version.h \
@@ -30,7 +30,7 @@
  /home/mj/Desktop/RIOT/core/lib/include/xfa.h \
  /home/mj/Desktop/RIOT/core/lib/include/macros/xtstr.h \
  /home/mj/Desktop/RIOT/core/lib/include/modules.h \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/preprocessor/preprocessor_successor.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/preprocessor/preprocessor_successor.h \
  /home/mj/Desktop/RIOT/sys/auto_init/include/auto_init_priorities.h \
  /home/mj/Desktop/RIOT/core/lib/include/debug.h \
  /home/mj/Desktop/RIOT/core/include/thread.h \
@@ -54,7 +54,7 @@
  /home/mj/Desktop/RIOT/sys/include/architecture.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/limits.h \
  /home/mj/Desktop/RIOT/cpu/cortexm_common/include/architecture_arch.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h:
 /usr/include/newlib/stdio.h:
 /usr/include/newlib/_ansi.h:
@@ -91,7 +91,7 @@
 /home/mj/Desktop/RIOT/core/lib/include/xfa.h:
 /home/mj/Desktop/RIOT/core/lib/include/macros/xtstr.h:
 /home/mj/Desktop/RIOT/core/lib/include/modules.h:
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/preprocessor/preprocessor_successor.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/preprocessor/preprocessor_successor.h:
 /home/mj/Desktop/RIOT/sys/auto_init/include/auto_init_priorities.h:
 /home/mj/Desktop/RIOT/core/lib/include/debug.h:
 /home/mj/Desktop/RIOT/core/include/thread.h:

@@ -7,11 +7,6 @@ BOARD ?= nrf52840dk
 # This has to be the absolute path to the RIOT base directory:
 RIOTBASE ?= $(CURDIR)/../../RIOT
 
-# Add source files in subfolders manually
-# SRC += main.c
-# SRC += /src/saul_utils.c
-# SRC += $(wildcard *.c saul_utils.c) 
-
 # Comment this out to disable code in RIOT that does safety checking
 # which is not needed in a production environment but helps in the
 # development process:
