@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/periph_common/init.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/periph_common/init.o: \
  /home/mj/Desktop/RIOT/drivers/periph_common/init.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/core/lib/include/kernel_defines.h \
  /home/mj/Desktop/RIOT/core/lib/include/modules.h \
  /home/mj/Desktop/RIOT/core/lib/include/riot_version.h \
@@ -61,7 +61,7 @@
  /home/mj/Desktop/RIOT/drivers/include/periph/gpio.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/limits.h \
  /home/mj/Desktop/RIOT/sys/include/usb/usbopt.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/core/lib/include/kernel_defines.h:
 /home/mj/Desktop/RIOT/core/lib/include/modules.h:
 /home/mj/Desktop/RIOT/core/lib/include/riot_version.h:

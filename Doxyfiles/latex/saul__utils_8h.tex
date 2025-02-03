@@ -1,0 +1,82 @@
+\doxysection{/home/mj/\+Desktop/\+Io\+T-\/\+Chat-\/\+Digitalization/saul/saul\+\_\+utils.h File Reference}
+\hypertarget{saul__utils_8h}{}\label{saul__utils_8h}\index{/home/mj/Desktop/IoT-\/Chat-\/Digitalization/saul/saul\_utils.h@{/home/mj/Desktop/IoT-\/Chat-\/Digitalization/saul/saul\_utils.h}}
+
+
+Header-\/\+Datei für die SAUL-\/\+Geräteverwaltung und Datenverarbeitung.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include "{}saul\+\_\+reg.\+h"{}}\newline
+{\ttfamily \#include "{}shell.\+h"{}}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include "{}log.\+h"{}}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+Include dependency graph for saul\+\_\+utils.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{saul__utils_8h_a83f97845c2d0db42574c117e37b44c99}\label{saul__utils_8h_a83f97845c2d0db42574c117e37b44c99} 
+int {\bfseries read\+\_\+bme280\+\_\+temperature} (const char \texorpdfstring{$\ast$}{*}, const char \texorpdfstring{$\ast$}{*}request\+\_\+unit, char \texorpdfstring{$\ast$}{*}json\+\_\+buffer, size\+\_\+t \texorpdfstring{$\ast$}{*}json\+\_\+size)
+\item 
+\Hypertarget{saul__utils_8h_af6b3a4515254bba9fcc365f021c07438}\label{saul__utils_8h_af6b3a4515254bba9fcc365f021c07438} 
+int {\bfseries read\+\_\+bme280\+\_\+pressure} (const char \texorpdfstring{$\ast$}{*}device\+\_\+name, const char \texorpdfstring{$\ast$}{*}request\+\_\+unit, char \texorpdfstring{$\ast$}{*}json\+\_\+buffer, size\+\_\+t \texorpdfstring{$\ast$}{*}json\+\_\+size)
+\item 
+\Hypertarget{saul__utils_8h_ab90c73614e3d06522eea7acf63c72f55}\label{saul__utils_8h_ab90c73614e3d06522eea7acf63c72f55} 
+int {\bfseries read\+\_\+bme280\+\_\+humidity} (const char \texorpdfstring{$\ast$}{*}device\+\_\+name, char \texorpdfstring{$\ast$}{*}json\+\_\+buffer, size\+\_\+t \texorpdfstring{$\ast$}{*}json\+\_\+size)
+\item 
+\Hypertarget{saul__utils_8h_a001387a1d2fc180c68690967a32ef9fc}\label{saul__utils_8h_a001387a1d2fc180c68690967a32ef9fc} 
+void {\bfseries escape\+\_\+json} (const char \texorpdfstring{$\ast$}{*}input, char \texorpdfstring{$\ast$}{*}output)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{saul__utils_8h_a728a5f7dd7f7e7cf48ce6ec9c6104370}{nrf\+\_\+temp}}
+\begin{DoxyCompactList}\small\item\em Name des NRF\+\_\+\+TEMP Geräts ~\newline
+ \end{DoxyCompactList}\item 
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{saul__utils_8h_a8648884f1f8c1f38281376f873131ddd}{bme\+\_\+280\+\_\+name}}
+\begin{DoxyCompactList}\small\item\em Name des BME\+\_\+280 Sensors ~\newline
+ \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header-\/\+Datei für die SAUL-\/\+Geräteverwaltung und Datenverarbeitung. 
+
+Diese Datei enthält die Deklarationen von Funktionen und Variablen, die zur Verwaltung und Verarbeitung von SAUL-\/\+Geräten verwendet werden. Sie stellt Funktionen zum Lesen von Sensordaten und zur Umwandlung der Daten in das JSON-\/\+Format bereit. Die Datei enthält außerdem Deklarationen für globale Variablen, die die Namen spezifischer SAUL-\/\+Geräte enthalten.
+
+\begin{DoxyAuthor}{Author}
+Mohammadjavad Esmaeili 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{saul__utils_8h_a8648884f1f8c1f38281376f873131ddd}\label{saul__utils_8h_a8648884f1f8c1f38281376f873131ddd} 
+\index{saul\_utils.h@{saul\_utils.h}!bme\_280\_name@{bme\_280\_name}}
+\index{bme\_280\_name@{bme\_280\_name}!saul\_utils.h@{saul\_utils.h}}
+\doxysubsubsection{\texorpdfstring{bme\_280\_name}{bme\_280\_name}}
+{\footnotesize\ttfamily const char\texorpdfstring{$\ast$}{*} bme\+\_\+280\+\_\+name\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Name des BME\+\_\+280 Sensors ~\newline
+ 
+
+\begin{DoxyNote}{Note}
+Diese Variablen sind konstant und kann nicht verändert werden. 
+\end{DoxyNote}
+\Hypertarget{saul__utils_8h_a728a5f7dd7f7e7cf48ce6ec9c6104370}\label{saul__utils_8h_a728a5f7dd7f7e7cf48ce6ec9c6104370} 
+\index{saul\_utils.h@{saul\_utils.h}!nrf\_temp@{nrf\_temp}}
+\index{nrf\_temp@{nrf\_temp}!saul\_utils.h@{saul\_utils.h}}
+\doxysubsubsection{\texorpdfstring{nrf\_temp}{nrf\_temp}}
+{\footnotesize\ttfamily const char\texorpdfstring{$\ast$}{*} nrf\+\_\+temp\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Name des NRF\+\_\+\+TEMP Geräts ~\newline
+ 
+
+\begin{DoxyNote}{Note}
+Diese Variablen sind konstant und kann nicht verändert werden. 
+\end{DoxyNote}

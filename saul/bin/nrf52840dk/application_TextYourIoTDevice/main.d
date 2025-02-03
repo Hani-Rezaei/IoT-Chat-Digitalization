@@ -66,7 +66,7 @@
  /home/mj/Desktop/RIOT/sys/include/phydat.h /usr/include/newlib/math.h \
  /home/mj/Desktop/RIOT/core/lib/include/log.h \
  /usr/include/newlib/stdlib.h /usr/include/newlib/machine/stdlib.h \
- /home/mj/Desktop/IoT-Chat-Digitalization/saul/blinky_utils.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/saul/led_utils.h \
  /home/mj/Desktop/RIOT/sys/include/clk.h \
  /home/mj/Desktop/RIOT/boards/nrf52840dk/include/periph_conf.h \
  /home/mj/Desktop/RIOT/boards/common/nrf52xxxdk/include/periph_conf_common.h \
@@ -252,7 +252,7 @@
 /home/mj/Desktop/RIOT/core/lib/include/log.h:
 /usr/include/newlib/stdlib.h:
 /usr/include/newlib/machine/stdlib.h:
-/home/mj/Desktop/IoT-Chat-Digitalization/saul/blinky_utils.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/saul/led_utils.h:
 /home/mj/Desktop/RIOT/sys/include/clk.h:
 /home/mj/Desktop/RIOT/boards/nrf52840dk/include/periph_conf.h:
 /home/mj/Desktop/RIOT/boards/common/nrf52xxxdk/include/periph_conf_common.h:

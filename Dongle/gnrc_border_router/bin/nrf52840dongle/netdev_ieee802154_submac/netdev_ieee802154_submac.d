@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/netdev_ieee802154_submac/netdev_ieee802154_submac.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/netdev_ieee802154_submac/netdev_ieee802154_submac.o: \
  /home/mj/Desktop/RIOT/drivers/netdev_ieee802154_submac/netdev_ieee802154_submac.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/drivers/include/net/netdev/ieee802154_submac.h \
  /home/mj/Desktop/RIOT/drivers/include/net/netdev.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h \
@@ -91,7 +91,7 @@
  /home/mj/Desktop/RIOT/sys/include/ptrtag.h \
  /home/mj/Desktop/RIOT/sys/include/ztimer.h \
  /home/mj/Desktop/RIOT/sys/include/event/callback.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/drivers/include/net/netdev/ieee802154_submac.h:
 /home/mj/Desktop/RIOT/drivers/include/net/netdev.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h:
