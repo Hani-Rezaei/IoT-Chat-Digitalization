@@ -28,7 +28,7 @@ static volatile int message_ready = 0;  // Flag zur Synchronisation
 static MQTTClient client;
 static Network network;
 
-static char saul_response[1024];
+static char saul_response[PUFFER_SIZE];
 static char saul_topic_to_publish[MAX_LEN_TOPIC];
 
 static unsigned char buf[BUF_SIZE];
@@ -69,7 +69,7 @@ static int bme280_pub(int argc, char **argv)
 static char *get_response(const char* topic, const char* request_unit) {
     
     // static char response[64]; // Speicher für die Antwort
-    static char escape_json_buffer[1024];  // Angemessene Puffergröße
+    static char escape_json_buffer[PUFFER_SIZE];  // Angemessene Puffergröße
     size_t json_size;
     // Reaktion auf spezifische Topics
     if (strncmp(topic, TOPIC_TEMPERATURE, strlen(TOPIC_TEMPERATURE)) == 0) {
@@ -161,7 +161,7 @@ static void _on_msg_received(MessageData *data)
     // }
 
     // Payload in einen Null-terminierten String umwandeln
-    char payload[256];
+    char payload[PUFFER_SIZE];
     if (data->message->payloadlen < sizeof(payload)) {
         strncpy(payload, (char *)data->message->payload, data->message->payloadlen);
         payload[data->message->payloadlen] = '\0'; // Null-Terminierung

@@ -24,6 +24,8 @@
 #include "log.h"
 #include <stdlib.h>
 
+#define PUFFER_SIZE 256
+
 /**
  * @brief Name des NRF_TEMP Geräts         
  * @note Diese Variablen sind konstant und kann nicht verändert werden.
@@ -39,10 +41,5 @@ extern const char* bme_280_name;
 int read_bme280_temperature (const char*, const char* request_unit, char* json_buffer, size_t* json_size);
 int read_bme280_pressure (const char* device_name, const char* request_unit, char* json_buffer, size_t* json_size);
 int read_bme280_humidity (const char* device_name, char* json_buffer, size_t* json_size);
-
-void escape_json(const char *input, char *output);
-int read_device_values(saul_reg_t* saul_device, char** json_buffer);
-
-int read_saul_reg_dev (const char* device_name);
 
 #endif  /* SAUL_UTILS_H */
