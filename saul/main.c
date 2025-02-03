@@ -11,7 +11,6 @@
 
 // SAUL
 #include "saul_utils.h"
-// const char* bme_280_name = "BME280";
 
 // Log
 #include "log.h"
@@ -20,7 +19,6 @@
 
 // LEDs
 #include "led_utils.h"
-
 
 // MQTT
 #include "mqtt_utils.h"
