@@ -55,6 +55,7 @@
  /home/mj/Desktop/RIOT/core/lib/include/xfa.h \
  /home/mj/Desktop/RIOT/sys/include/flash_utils.h \
  /usr/include/newlib/string.h /usr/include/newlib/sys/string.h \
+ /usr/include/newlib/stdlib.h /usr/include/newlib/machine/stdlib.h \
  /home/mj/Desktop/IoT-Chat-Digitalization/saul/saul_utils.h \
  /home/mj/Desktop/RIOT/sys/include/saul_reg.h \
  /home/mj/Desktop/RIOT/drivers/include/saul.h /usr/include/newlib/errno.h \
@@ -65,7 +66,6 @@
  /home/mj/Desktop/RIOT/sys/include/phydat.h \
  /home/mj/Desktop/RIOT/sys/include/phydat.h /usr/include/newlib/math.h \
  /home/mj/Desktop/RIOT/core/lib/include/log.h \
- /usr/include/newlib/stdlib.h /usr/include/newlib/machine/stdlib.h \
  /home/mj/Desktop/IoT-Chat-Digitalization/saul/led_utils.h \
  /home/mj/Desktop/RIOT/sys/include/clk.h \
  /home/mj/Desktop/RIOT/boards/nrf52840dk/include/periph_conf.h \
@@ -237,6 +237,8 @@
 /home/mj/Desktop/RIOT/sys/include/flash_utils.h:
 /usr/include/newlib/string.h:
 /usr/include/newlib/sys/string.h:
+/usr/include/newlib/stdlib.h:
+/usr/include/newlib/machine/stdlib.h:
 /home/mj/Desktop/IoT-Chat-Digitalization/saul/saul_utils.h:
 /home/mj/Desktop/RIOT/sys/include/saul_reg.h:
 /home/mj/Desktop/RIOT/drivers/include/saul.h:
@@ -250,8 +252,6 @@
 /home/mj/Desktop/RIOT/sys/include/phydat.h:
 /usr/include/newlib/math.h:
 /home/mj/Desktop/RIOT/core/lib/include/log.h:
-/usr/include/newlib/stdlib.h:
-/usr/include/newlib/machine/stdlib.h:
 /home/mj/Desktop/IoT-Chat-Digitalization/saul/led_utils.h:
 /home/mj/Desktop/RIOT/sys/include/clk.h:
 /home/mj/Desktop/RIOT/boards/nrf52840dk/include/periph_conf.h:

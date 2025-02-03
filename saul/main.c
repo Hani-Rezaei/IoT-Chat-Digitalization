@@ -8,23 +8,16 @@
 
 #include <stdio.h>
 #include "shell.h"
-
-// SAUL
-#include "saul_utils.h"
-
-// Log
-#include "log.h"
 #include <string.h>
 #include <stdlib.h>
+#include "saul_utils.h" // saul_utils header 
+#include "log.h" // log header
+#include "led_utils.h" // led_utils header
+#include "mqtt_utils.h" // mqtt_utils header 
 
-// LEDs
-#include "led_utils.h"
-
-// MQTT
-#include "mqtt_utils.h"
 #define MAIN_QUEUE_SIZE (8)
-static volatile int message_ready = 0;  // Flag zur Synchronisation
 
+static volatile int message_ready = 0;  // Flag zur Synchronisation
 static MQTTClient client;
 static Network network;
 
@@ -38,110 +31,154 @@ static unsigned char readbuf[BUF_SIZE];
 static int topic_cnt = 0;
 static char _topic_to_subscribe[MAX_TOPICS][MAX_LEN_TOPIC];
 
-static int bme280_pub(int argc, char **argv)
+/**
+ * @brief Veröffentlicht die BME280-Sensordaten über MQTT.
+ * 
+ * Diese Funktion sendet die in `saul_response` gespeicherten Daten 
+ * an das MQTT-Topic `saul_topic_to_publish`.
+ * 
+ * @return 0 bei Erfolg, negativer Fehlercode bei Misserfolg.
+ */
+static int publish_bme280_data(void)
 {
-    (void)argc;
-    (void)argv;
-
     enum QoS qos = QOS0;
 
     MQTTMessage message;
     message.qos = qos;
     message.retained = IS_RETAINED_MSG;
-
     message.payload = saul_response;
-    printf("saul_response: %s\n",saul_response);
-
     message.payloadlen = strlen(message.payload);
-
 
     int rc;
     if ((rc = MQTTPublish(&client, saul_topic_to_publish, &message)) < 0) {
-        printf("mqtt_example: Unable to publish (%d)\n", rc);
+        LOG_ERROR("mqtt_example: Unable to publish (%d)\n", rc);
     }
     else {
-        printf("mqtt_example: Message (%s) has been published to topic %s"
+        LOG_INFO("mqtt_example: Message (%s) has been published to topic %s"
                "with QOS %d\n",
                (char *)message.payload, saul_topic_to_publish, (int)message.qos);
     }
     return rc;
 }
 
-static char *get_response(const char* topic, const char* request_unit) {
+/**
+ * @brief Generiert die MQTT-Antwort basierend auf dem empfangenen Topic.
+ * 
+ * Diese Funktion ruft die entsprechenden Sensorwerte ab, basierend auf dem übergebenen Topic,
+ * und speichert das JSON-Ergebnis in einem statischen Puffer.
+ * 
+ * @param topic        Das empfangene MQTT-Topic.
+ * @param request_unit Die angeforderte Einheit für die Sensordaten (z. B. °C, hPa).
+ * 
+ * @return Ein Zeiger auf den statischen JSON-Puffer mit der Antwort.
+ */
+static char *generate_sensor_response(const char* topic, const char* request_unit) {
     
-    static char escape_json_buffer[PUFFER_SIZE];  // Angemessene Puffergröße
+    static char response_buffer[PUFFER_SIZE];  // Puffer für die JSON-Antwort    size_t json_size;
     size_t json_size;
+
     // Reaktion auf spezifische Topics
     if (strncmp(topic, TOPIC_TEMPERATURE, strlen(TOPIC_TEMPERATURE)) == 0) {
         
-        size_t topic_len = strlen(TOPIC_TEMPERATURE_TO_PUBLISH);
-        strncpy(saul_topic_to_publish, TOPIC_TEMPERATURE_TO_PUBLISH, topic_len);
-        saul_topic_to_publish[topic_len] = '\0'; // Null-Terminierung erzwingen
+        strncpy(saul_topic_to_publish, TOPIC_TEMPERATURE_TO_PUBLISH, sizeof(saul_topic_to_publish) - 1);
+        saul_topic_to_publish[sizeof(saul_topic_to_publish) - 1] = '\0'; // Null-Terminierung erzwingen
         
-        int res = read_bme280_temperature (bme_280_name, request_unit, escape_json_buffer, &json_size);
+        int res = read_bme280_temperature (bme_280_name, request_unit, response_buffer, &json_size);
         if (res < 0){
-            printf("Fehler: %d\n", res);
+            snprintf(response_buffer, sizeof(response_buffer), "{\"error\": \"Failed to read temperature\"}");
+            LOG_ERROR("Fehler: Failed to read temperature");
         }
     }
     else if (strncmp(topic, TOPIC_HUMIDITY, strlen(TOPIC_HUMIDITY)) == 0) {
 
-        size_t topic_len = strlen(TOPIC_HUMIDITY_TO_PUBLISH);
-        strncpy(saul_topic_to_publish, TOPIC_HUMIDITY_TO_PUBLISH, topic_len);
-        saul_topic_to_publish[topic_len] = '\0'; // Null-Terminierung erzwingen
+        strncpy(saul_topic_to_publish, TOPIC_HUMIDITY_TO_PUBLISH, sizeof(saul_topic_to_publish) - 1);
+        saul_topic_to_publish[sizeof(saul_topic_to_publish) - 1] = '\0'; // Null-Terminierung erzwingen
 
-        int res = read_bme280_humidity (bme_280_name, escape_json_buffer, &json_size);
+        int res = read_bme280_humidity (bme_280_name, response_buffer, &json_size);
         if (res < 0){
-            printf("Fehler: %d\n", res);
+            snprintf(response_buffer, sizeof(response_buffer), "{\"error\": \"Failed to read temperature\"}");
+            LOG_ERROR("Fehler: Failed to read humidity");
         }
     } 
     else if (strncmp(topic, TOPIC_PRESSURE, strlen(TOPIC_PRESSURE)) == 0) {
 
-        size_t topic_len = strlen(TOPIC_PRESSURE_TO_PUBLISH);
-        strncpy(saul_topic_to_publish, TOPIC_PRESSURE_TO_PUBLISH, topic_len);
-        saul_topic_to_publish[topic_len] = '\0'; // Null-Terminierung erzwingen
+        strncpy(saul_topic_to_publish, TOPIC_PRESSURE_TO_PUBLISH, sizeof(saul_topic_to_publish) - 1);
+        saul_topic_to_publish[sizeof(saul_topic_to_publish) - 1] = '\0'; // Null-Terminierung erzwingen
 
-        int res = read_bme280_pressure (bme_280_name, request_unit, escape_json_buffer, &json_size);
+        int res = read_bme280_pressure (bme_280_name, request_unit, response_buffer, &json_size);
         if (res < 0){
-            printf("Fehler: %d\n", res);
+            snprintf(response_buffer, sizeof(response_buffer), "{\"error\": \"Failed to read pressure\"}");
+            LOG_ERROR("Fehler: Failed to read pressure");
         }
     }
     else {
-        // Kein spezifisches Topic erkannt
-        snprintf(escape_json_buffer, sizeof(escape_json_buffer), "No action for topic: %s", topic);
+        snprintf(response_buffer, sizeof(response_buffer), "No action for topic: %s", topic);
+        LOG_ERROR("Fehler: No action for topic");
     }
-    return escape_json_buffer;
+    return response_buffer;
 }
 
+/**
+ * @brief Extrahiert die Einheit und die Chat-ID aus einem JSON-String.
+ * 
+ * Diese Funktion durchsucht den übergebenen JSON-String nach den Schlüsseln `"u"` und `"chat_id"`
+ * und kopiert die entsprechenden Werte in die bereitgestellten Puffer.
+ * 
+ * @param payload        Der JSON-String, der analysiert werden soll.
+ * @param unit           Puffer, um die extrahierte Einheit (z. B. "°C", "Pa") zu speichern.
+ * @param unit_size      Die maximale Größe des Einheit-Puffers.
+ * @param chat_id        Puffer, um die extrahierte Chat-ID zu speichern.
+ * @param chat_id_size   Die maximale Größe des Chat-ID-Puffers.
+ */
 void parse_payload_for_unit(const char *payload, char *unit, size_t unit_size, char *chat_id, size_t chat_id_size) {
+    
     // Suche nach "u" (Einheit)
     char *unit_start = strstr(payload, "\"u\": \"");
     if (unit_start) {
-        unit_start += 6; // Überspringe `"u": "`
+        unit_start += 6; // Position nach `"u": "` setzen
         char *unit_end = strchr(unit_start, '"');
         if (unit_end) {
             size_t length = unit_end - unit_start;
             if (length < unit_size) {
                 strncpy(unit, unit_start, length);
-                unit[length] = '\0';
+                unit[length] = '\0'; // Null-Terminierung
+            } else {
+                LOG_WARNING("Warnung: Einheit überschreitet Puffergröße, abgeschnitten.\n");
+                strncpy(unit, unit_start, unit_size - 1);
+                unit[unit_size - 1] = '\0'; // Sicherheits-Null-Terminierung
             }
+        } else {
+            LOG_WARNING("Warnung: Abschlusszeichen für Einheit nicht gefunden.\n");
         }
+    } else {
+        LOG_WARNING("Warnung: Schlüssel \"u\" nicht gefunden.\n");
     }
 
-    // Suche nach "chat_id"
+    // Suche nach der Chat-ID ("chat_id")
     char *chat_start = strstr(payload, "\"chat_id\": \"");
     if (chat_start) {
-        chat_start += 12; // Überspringe `"chat_id": "`
+        chat_start += 12; // Position nach `"chat_id": "` setzen
         char *chat_end = strchr(chat_start, '"');
         if (chat_end) {
             size_t length = chat_end - chat_start;
             if (length < chat_id_size) {
                 strncpy(chat_id, chat_start, length);
-                chat_id[length] = '\0';
+                chat_id[length] = '\0'; // Null-Terminierung
+            } else {
+                LOG_WARNING("Warnung: Chat-ID überschreitet Puffergröße, abgeschnitten.\n");
+                strncpy(chat_id, chat_start, chat_id_size - 1);
+                chat_id[chat_id_size - 1] = '\0'; // Sicherheits-Null-Terminierung
             }
+        } else {
+            LOG_WARNING("Warnung: Abschlusszeichen für Chat-ID nicht gefunden.\n");
         }
+    } else {
+        LOG_WARNING("Warnung: Schlüssel \"chat_id\" nicht gefunden.\n");
     }
 }
 
+
+///////////////////////// BIS HIER
 static void _on_msg_received(MessageData *data)
 {
     printf("_on_msg_received: message received on topic"
@@ -173,7 +210,7 @@ static void _on_msg_received(MessageData *data)
 
     if (unit[0] != '\0') {  // Prüfen, ob Einheit gefunden wurde
 
-        const char* response = get_response(topic, unit);
+        const char* response = generate_sensor_response(topic, unit);
         if (response) {
 
             // JSON mit `chat_id` hinzufügen
@@ -309,7 +346,7 @@ static void custom_event_loop(void)
             led_set_state("LED 4", 1);
             printf("saul_topic_to_publish = %s\n", saul_topic_to_publish);
 
-            bme280_pub(0, NULL);       
+            publish_bme280_data();       
             message_ready = 0;  // Flag zurücksetzen
             led_set_state("LED 4", 0);
         }
@@ -354,18 +391,7 @@ int main(void)
     }
     led_set_state("LED 3", 1);
 
-    // if (MQTTSubscribe(&client, _topic_to_subscribe[0], QOS0, _on_msg_received) < 0) {
-    // if (MQTTSubscribe(&client, TOPIC_TO_SUBSCRIBE, QOS0, _on_msg_received) < 0) {
-    //     fprintf(stderr, "Fehler: Thema konnte nicht abonniert werden.\n");
-    //     return -1;
-    // }
-
-    // Event-Loop starten
     custom_event_loop();
-    
-
-    // char line_buf[SHELL_DEFAULT_BUFSIZE];
-    // shell_run(shell_commands, line_buf, SHELL_DEFAULT_BUFSIZE);
 
     return 0;
 }
