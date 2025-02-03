@@ -1,15 +1,9 @@
 var searchData=
 [
-  ['certificates_0',['+ &lt;strong&gt;Solution:&lt;/strong&gt; Verify the broker IP and TLS certificates.',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md39',1,'']]],
-  ['certificates_20and_20keys_3a_20strong_1',['&lt;strong&gt;Certificates and Keys:&lt;/strong&gt;',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md27',1,'']]],
-  ['check_20the_20mosquitto_20configuration_20and_20aws_20iot_20policies_2',['- &lt;strong&gt;Solution:&lt;/strong&gt; Check the Mosquitto configuration and AWS IoT policies.',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md40',1,'']]],
-  ['cloudwatch_3',['Implement logging for debugging and monitoring IoT devices using AWS CloudWatch',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md23',1,'']]],
-  ['components_3a_20strong_4',['&lt;strong&gt;Components:&lt;/strong&gt;',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md20',1,'']]],
-  ['config_5',['gnrc_border_router with manual config',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2Dongle_2gnrc__border__router_2README.html#autotoc_md7',1,'']]],
-  ['configuration_6',['configuration',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2Dongle_2gnrc__border__router_2README.html#autotoc_md12',1,'Configuration'],['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2Dongle_2gnrc__border__router_2README.html',1,'gnrc_border_router using automatic configuration']]],
-  ['configuration_20and_20aws_20iot_20policies_7',['- &lt;strong&gt;Solution:&lt;/strong&gt; Check the Mosquitto configuration and AWS IoT policies.',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md40',1,'']]],
-  ['connect_20app_3a_20for_20flashing_20the_20firmware_20in_20dongle_8',['- nRF Desktop Connect APP: For flashing the firmware in Dongle',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md29',1,'']]],
-  ['connection_20sharing_20with_20host_9',['Connection sharing with host',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2Dongle_2gnrc__border__router_2README.html#autotoc_md2',1,'']]],
-  ['contents_20strong_10',['📚 &lt;strong&gt;Table of Contents&lt;/strong&gt;',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md15',1,'']]],
-  ['core_20strong_11',['&lt;strong&gt;4. The MQTT Broker on AWS IoT Core&lt;/strong&gt;',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md35',1,'']]]
+  ['bme_5f280_5fname_0',['bme_280_name',['../saul__utils_8c.html#a8648884f1f8c1f38281376f873131ddd',1,'bme_280_name:&#160;saul_utils.c'],['../saul__utils_8h.html#a8648884f1f8c1f38281376f873131ddd',1,'bme_280_name:&#160;saul_utils.c']]],
+  ['bot_20strong_1',['&lt;strong&gt;5. Telegram Bot&lt;/strong&gt;',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md38',1,'']]],
+  ['bot_3a_20strong_20allows_20interaction_20with_20the_20iot_20system_2',['9. &lt;strong&gt;Telegram Bot:&lt;/strong&gt; Allows interaction with the IoT system.',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md23',1,'']]],
+  ['broker_20ip_20and_20tls_20certificates_3',['broker ip and tls certificates',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md41',1,'+ &lt;strong&gt;Solution:&lt;/strong&gt; Verify the broker IP and TLS certificates.'],['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md46',1,'+ &lt;strong&gt;Solution:&lt;/strong&gt; Verify the broker IP and TLS certificates.']]],
+  ['broker_20on_20aws_20ec2_20strong_4',['&lt;strong&gt;3. The MQTT Broker on AWS EC2&lt;/strong&gt;',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md36',1,'']]],
+  ['broker_20on_20aws_20iot_20core_20strong_5',['&lt;strong&gt;4. The MQTT Broker on AWS IoT Core&lt;/strong&gt;',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md37',1,'']]]
 ];

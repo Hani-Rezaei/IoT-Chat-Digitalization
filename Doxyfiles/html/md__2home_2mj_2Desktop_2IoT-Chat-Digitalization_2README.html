@@ -21,8 +21,9 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">TextYourIoTDevice
+   <div id="projectname">TextYourIoTDevice<span id="projectnumber">&#160;V_1.0.0</span>
    </div>
+   <div id="projectbrief">This project demonstrates how to connect a Nordic nRF52840 Development Kit (DK) to AWS IoT Core via an MQTT broker (Mosquitto)</div>
   </td>
  </tr>
  </tbody>
@@ -72,9 +73,9 @@ $(function() {
   <div class="headertitle"><div class="title">🌐 &lt;strong&gt;TextYourIoTDevice&lt;/strong&gt;</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md13"></a> This project demonstrates how to connect a Nordic nRF52840 Development Kit (DK) to AWS IoT Core via an MQTT broker (Mosquitto) and integrate a Telegram bot for interaction and notifications. The system uses LEDs for status indication and includes logging and monitoring capabilities through AWS CloudWatch.</p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md15"></a> This project demonstrates how to connect a Nordic nRF52840 Development Kit (DK) to AWS IoT Core via an MQTT broker (Mosquitto) and integrate a Telegram bot for interaction and notifications. The system uses LEDs for status indication and includes logging and monitoring capabilities through AWS CloudWatch.</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="autotoc_md17"></a>
 📚 &lt;strong&gt;Table of Contents&lt;/strong&gt;</h1>
 <ol type="1">
 <li>Project Overview</li>
@@ -95,15 +96,15 @@ $(function() {
 <li>Documentation</li>
 </ol>
 <hr  />
-<h1><a class="anchor" id="autotoc_md17"></a>
+<h1><a class="anchor" id="autotoc_md19"></a>
 📜 &lt;strong&gt;Project Overview&lt;/strong&gt;</h1>
 <p>This project enables IoT devices to communicate with AWS IoT Core using the MQTT protocol. A Telegram bot is integrated to provide a user interface for sending and receiving messages. <br  />
  The primary use case involves a DK that collects sensor data, sends it to an MQTT broker (Mosquitto), which forwards it securely to AWS IoT Core using TLS encryption. The system supports feedback loops via Telegram bot interaction.</p>
 <hr  />
-<h1><a class="anchor" id="autotoc_md19"></a>
+<h1><a class="anchor" id="autotoc_md21"></a>
 📐 &lt;strong&gt;System Architecture&lt;/strong&gt;</h1>
 <p><img src="images/architecture.png" alt="Drag Racing" class="inline"/> </p>
-<h2><a class="anchor" id="autotoc_md20"></a>
+<h2><a class="anchor" id="autotoc_md22"></a>
 &lt;strong&gt;Components:&lt;/strong&gt;</h2>
 <ol type="1">
 <li><b>Sensor BME280:</b> Temperature, air pressure and humidity sensor</li>
@@ -115,9 +116,9 @@ $(function() {
 <li><b>AWS API Gateaway:</b></li>
 <li><b>Webhook:</b> </li>
 </ol>
-<h1><a class="anchor" id="autotoc_md21"></a>
+<h1><a class="anchor" id="autotoc_md23"></a>
 9. &lt;strong&gt;Telegram Bot:&lt;/strong&gt; Allows interaction with the IoT system.</h1>
-<h1><a class="anchor" id="autotoc_md22"></a>
+<h1><a class="anchor" id="autotoc_md24"></a>
 ✨ &lt;strong&gt;Features&lt;/strong&gt;</h1>
 <ul>
 <li><b>End-to-End Encryption:</b> TLS ensures secure communication between Mosquitto and Telegram bot.</li>
@@ -125,11 +126,11 @@ $(function() {
 <li><b>Interactive Telegram Bot:</b> Receive and send messages through a Telegram bot.</li>
 <li><b>Logging and Monitoring:</b> </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md23"></a>
+<h1><a class="anchor" id="autotoc_md25"></a>
 Implement logging for debugging and monitoring IoT devices using AWS CloudWatch</h1>
-<h1><a class="anchor" id="autotoc_md24"></a>
+<h1><a class="anchor" id="autotoc_md26"></a>
 🛠️ &lt;strong&gt;Requirements&lt;/strong&gt;</h1>
-<h2><a class="anchor" id="autotoc_md25"></a>
+<h2><a class="anchor" id="autotoc_md27"></a>
 &lt;strong&gt;Hardware:&lt;/strong&gt;</h2>
 <ul>
 <li>Nordic nRF52840 DK</li>
@@ -137,7 +138,7 @@ Implement logging for debugging and monitoring IoT devices using AWS CloudWatch<
 <li>Raspberry Pi (optional for border router setup)</li>
 <li>Sensor BME280 (If the sensor is not connected, only the value of the internal sensor can be read from the DK)</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md26"></a>
+<h2><a class="anchor" id="autotoc_md28"></a>
 &lt;strong&gt;Software:&lt;/strong&gt;</h2>
 <ul>
 <li>RIOT OS with <code>paho_mqtt</code> running on the DK</li>
@@ -152,21 +153,21 @@ Implement logging for debugging and monitoring IoT devices using AWS CloudWatch<
 <li>Telegram Bot API <br  />
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="autotoc_md29"></a>
 &lt;strong&gt;Certificates and Keys:&lt;/strong&gt;</h2>
 <ul>
 <li>AWS IoT Core Root CA certificate "*AmazonRootCA.pem*"</li>
 <li>Device certificate "*certificate.pem.crt*"</li>
 <li>private key "*private.pem.key*"</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md28"></a>
+<h2><a class="anchor" id="autotoc_md30"></a>
 &lt;strong&gt;Tools:&lt;/strong&gt;</h2>
 <ul>
 <li>FileZilla: SSH client for AWS EC2 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md29"></a>
+<h1><a class="anchor" id="autotoc_md31"></a>
 - nRF Desktop Connect APP: For flashing the firmware in Dongle</h1>
-<h1><a class="anchor" id="autotoc_md30"></a>
+<h1><a class="anchor" id="autotoc_md32"></a>
 📂 &lt;strong&gt;Project structure&lt;/strong&gt;</h1>
 <p>The following is an overview of the project's structure:</p>
 <div class="fragment"><div class="line">TextYourIoTDevice/</div>
@@ -183,9 +184,9 @@ Implement logging for debugging and monitoring IoT devices using AWS CloudWatch<
 <div class="line">│   └── views.py            # </div>
 <div class="line">├── archive.zip/            # </div>
 <div class="line">└── README.md               # </div>
-</div><!-- fragment --> <h1><a class="anchor" id="autotoc_md31"></a>
+</div><!-- fragment --> <h1><a class="anchor" id="autotoc_md33"></a>
 🚀 &lt;strong&gt;Setup Instructions&lt;/strong&gt;</h1>
-<h2><a class="anchor" id="autotoc_md32"></a>
+<h2><a class="anchor" id="autotoc_md34"></a>
 &lt;strong&gt;1. Flashing the DK&lt;/strong&gt;</h2>
 <ol type="1">
 <li>Clone the project repository: <div class="fragment"><div class="line">git clone https://github.com/Hani-Rezaei/IoT-Chat-Digitalization.git</div>
@@ -197,7 +198,7 @@ Implement logging for debugging and monitoring IoT devices using AWS CloudWatch<
 <li>Flash the firmware and verify the flashing process by checking the serial output: <div class="fragment"><div class="line">make BOARD=nrf52840dk TextYourIoTDevice/ flash term</div>
 </div><!-- fragment --> </li>
 </ol>
-<h2><a class="anchor" id="autotoc_md33"></a>
+<h2><a class="anchor" id="autotoc_md35"></a>
 &lt;strong&gt;2. Flashing the Dongle&lt;/strong&gt;</h2>
 <ol type="1">
 <li>Build the application for the Dongle: <div class="fragment"><div class="line">make BOARD=nrf52840dongle dongle/ all</div>
@@ -212,47 +213,80 @@ Implement logging for debugging and monitoring IoT devices using AWS CloudWatch<
 <ol type="1">
 <li>flash the firmware</li>
 </ol>
-<h2><a class="anchor" id="autotoc_md34"></a>
+<h2><a class="anchor" id="autotoc_md36"></a>
 &lt;strong&gt;3. The MQTT Broker on AWS EC2&lt;/strong&gt;</h2>
 <p>The mqtt broker on AWS EC2 should work fine.</p>
 <p>If it doesn't, contact developers or look at the documentation. to know how the broker was created and configured.</p>
-<h2><a class="anchor" id="autotoc_md35"></a>
+<h2><a class="anchor" id="autotoc_md37"></a>
 &lt;strong&gt;4. The MQTT Broker on AWS IoT Core&lt;/strong&gt;</h2>
 <p>The mqtt broker on AWS IoT Core should work fine.</p>
 <p>If it doesn't, contact developers or look at the documentation. to know how the broker was created and configured.</p>
-<h2><a class="anchor" id="autotoc_md36"></a>
+<h2><a class="anchor" id="autotoc_md38"></a>
 &lt;strong&gt;5. Telegram Bot&lt;/strong&gt;</h2>
 <p>Using the Telegram Bot <b>TextYourIoTDevice</b> </p><div class="fragment"><div class="line">Username: @TextYourIoTDevicebot</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md37"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md39"></a>
 🔬 &lt;strong&gt;Testing the System&lt;/strong&gt;</h1>
 <ol type="1">
 <li>Power on the DK and verify the LEDs indicate the connection status.</li>
 <li>Send a message via the Telegram bot and observe it being processed by AWS IoT Core.</li>
 <li>Monitor logs in AWS CloudWatch for debugging and performance insights. </li>
 </ol>
-<h1><a class="anchor" id="autotoc_md38"></a>
+<h1><a class="anchor" id="autotoc_md40"></a>
 🛠️ &lt;strong&gt;Troubleshooting&lt;/strong&gt;</h1>
 <ol type="1">
 <li>Issue: DK cannot connect to Mosquitto. </li>
 </ol>
-<h1><a class="anchor" id="autotoc_md39"></a>
+<h1><a class="anchor" id="autotoc_md41"></a>
 + &lt;strong&gt;Solution:&lt;/strong&gt; Verify the broker IP and TLS certificates.</h1>
 <ol type="1">
 <li>Issue: Messages are not visible in AWS IoT Core. </li>
 </ol>
-<h1><a class="anchor" id="autotoc_md40"></a>
+<h1><a class="anchor" id="autotoc_md42"></a>
 - &lt;strong&gt;Solution:&lt;/strong&gt; Check the Mosquitto configuration and AWS IoT policies.</h1>
-<h1><a class="anchor" id="autotoc_md41"></a>
+<ul>
+<li>Using the Telegram Bot TextYourIoTDevice <div class="fragment"><div class="line">Username: @TextYourIoTDevicebot</div>
+</div><!-- fragment --></li>
+</ul>
+<h2><a class="anchor" id="autotoc_md43"></a>
+&lt;strong&gt;6. Linking Everything&lt;/strong&gt;</h2>
+<ol type="1">
+<li>Ensure the DK is connected to the Mosquitto broker: <div class="fragment"><div class="line">con your-ec2-public-ip 8883 clientID</div>
+</div><!-- fragment --></li>
+<li>Use a test client to publish and subscribe to MQTT topics: <div class="fragment"><div class="line">mosquitto_pub -h your-ec2-public-ip -t &quot;test/topic&quot; -m &quot;Hello World&quot;</div>
+<div class="line">mosquitto_sub -h your-ec2-public-ip -t &quot;test/topic&quot;</div>
+</div><!-- fragment --></li>
+<li>Verify the connection between Mosquitto and AWS IoT Core by publishing a message from the DK and observing it in the AWS IoT Core MQTT Test Client.</li>
+</ol>
+<h1><a class="anchor" id="autotoc_md44"></a>
+🔬 &lt;strong&gt;Testing the System&lt;/strong&gt;</h1>
+<ol type="1">
+<li>Power on the DK and verify the LEDs indicate the connection status.</li>
+<li>Send a message via the Telegram bot and observe it being processed by AWS IoT Core.</li>
+<li>Monitor logs in AWS CloudWatch for debugging and performance insights. </li>
+</ol>
+<h1><a class="anchor" id="autotoc_md45"></a>
+🛠️ &lt;strong&gt;Troubleshooting&lt;/strong&gt;</h1>
+<ol type="1">
+<li>Issue: DK cannot connect to Mosquitto. </li>
+</ol>
+<h1><a class="anchor" id="autotoc_md46"></a>
++ &lt;strong&gt;Solution:&lt;/strong&gt; Verify the broker IP and TLS certificates.</h1>
+<ol type="1">
+<li>Issue: Messages are not visible in AWS IoT Core. </li>
+</ol>
+<h1><a class="anchor" id="autotoc_md47"></a>
+- &lt;strong&gt;Solution:&lt;/strong&gt; Check the Mosquitto configuration and AWS IoT policies.</h1>
+<h1><a class="anchor" id="autotoc_md48"></a>
 📖 &lt;strong&gt;Documentation&lt;/strong&gt;</h1>
 <p><b>1. Inline Code Documentation and code structur:</b></p>
 <ul>
 <li>Doxygen is used for code-level documentation.<ol type="1">
-<li>Doxygen <code>bash sudo apt install doxygen </code></li>
+<li>Doxygen <code>bash sudo apt install doxygen # Auf Linux &lt;br&gt; </code></li>
 <li>Doxygen-Konfigurationsdatei generieren: <code>bash doxygen -g </code></li>
 <li>Die generierte Doxyfile anpassen: <code>plaintext ~/Doxyfile/ </code></li>
 <li>Doxygen ausführen: <code>bash doxygen Doxyfile </code></li>
 <li>Die generierte Dokumentation wird im angegebenen <em>OUTPUT_DIRECTORY</em> gespeichert.</li>
-<li>Im einem Browser, um die Dokumentation anzusehen: <code>bash xdg-open doc/html/index.html # Auf Linux open doc/html/index.html # Auf macOS </code></li>
+<li>Im einem Browser, um die Dokumentation anzusehen: <code>bash xdg-open doc/html/index.html # Auf Linux </code></li>
 </ol>
 </li>
 <li>If required, there is inline code in each file</li>

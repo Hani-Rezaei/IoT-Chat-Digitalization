@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['requirements_0',['requirements',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2Dongle_2gnrc__border__router_2README.html#autotoc_md3',1,'Requirements'],['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2Dongle_2gnrc__border__router_2README.html#autotoc_md11',1,'Requirements']]],
-  ['requirements_20strong_1',['🛠️ &lt;strong&gt;Requirements&lt;/strong&gt;',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md24',1,'']]]
+  ['policies_0',['policies',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md42',1,'- &lt;strong&gt;Solution:&lt;/strong&gt; Check the Mosquitto configuration and AWS IoT policies.'],['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md47',1,'- &lt;strong&gt;Solution:&lt;/strong&gt; Check the Mosquitto configuration and AWS IoT policies.']]],
+  ['project_20overview_20strong_1',['📜 &lt;strong&gt;Project Overview&lt;/strong&gt;',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md19',1,'']]],
+  ['project_20structure_20strong_2',['📂 &lt;strong&gt;Project structure&lt;/strong&gt;',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md32',1,'']]]
 ];

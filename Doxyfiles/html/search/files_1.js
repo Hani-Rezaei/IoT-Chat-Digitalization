@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['saul_5futils_2ec_0',['saul_utils.c',['../saul__utils_8c.html',1,'']]],
-  ['saul_5futils_2eh_1',['saul_utils.h',['../saul__utils_8h.html',1,'']]]
+  ['main_2ec_0',['main.c',['../Dongle_2gnrc__border__router_2main_8c.html',1,'(Global Namespace)'],['../saul_2main_8c.html',1,'(Global Namespace)']]]
 ];

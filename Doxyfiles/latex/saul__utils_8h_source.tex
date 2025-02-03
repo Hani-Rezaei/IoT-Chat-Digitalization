@@ -15,17 +15,16 @@
 \DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ "{}log.h"{}}}
 \DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
 \DoxyCodeLine{00026\ }
-\DoxyCodeLine{00031\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{saul__utils_8h_a728a5f7dd7f7e7cf48ce6ec9c6104370}{nrf\_temp}};}
-\DoxyCodeLine{00032\ }
-\DoxyCodeLine{00037\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{saul__utils_8h_a8648884f1f8c1f38281376f873131ddd}{bme\_280\_name}};}
-\DoxyCodeLine{00038\ }
-\DoxyCodeLine{00039\ \textcolor{keywordtype}{int}\ read\_bme280\_temperature\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ request\_unit,\ \textcolor{keywordtype}{char}*\ json\_buffer,\ \textcolor{keywordtype}{size\_t}*\ json\_size);}
-\DoxyCodeLine{00040\ \textcolor{keywordtype}{int}\ read\_bme280\_pressure\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ device\_name,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ request\_unit,\ \textcolor{keywordtype}{char}*\ json\_buffer,\ \textcolor{keywordtype}{size\_t}*\ json\_size);}
-\DoxyCodeLine{00041\ \textcolor{keywordtype}{int}\ read\_bme280\_humidity\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ device\_name,\ \textcolor{keywordtype}{char}*\ json\_buffer,\ \textcolor{keywordtype}{size\_t}*\ json\_size);}
-\DoxyCodeLine{00042\ }
-\DoxyCodeLine{00043\ \textcolor{keywordtype}{void}\ escape\_json(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *input,\ \textcolor{keywordtype}{char}\ *output);}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ PUFFER\_SIZE\ 256}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{saul__utils_8h_a728a5f7dd7f7e7cf48ce6ec9c6104370}{nrf\_temp}};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{saul__utils_8h_a8648884f1f8c1f38281376f873131ddd}{bme\_280\_name}};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{keywordtype}{int}\ read\_bme280\_temperature\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ request\_unit,\ \textcolor{keywordtype}{char}*\ json\_buffer,\ \textcolor{keywordtype}{size\_t}*\ json\_size);}
+\DoxyCodeLine{00042\ \textcolor{keywordtype}{int}\ read\_bme280\_pressure\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ device\_name,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ request\_unit,\ \textcolor{keywordtype}{char}*\ json\_buffer,\ \textcolor{keywordtype}{size\_t}*\ json\_size);}
+\DoxyCodeLine{00043\ \textcolor{keywordtype}{int}\ read\_bme280\_humidity\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ device\_name,\ \textcolor{keywordtype}{char}*\ json\_buffer,\ \textcolor{keywordtype}{size\_t}*\ json\_size);}
 \DoxyCodeLine{00044\ }
-\DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{/*\ SAUL\_UTILS\_H\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{/*\ SAUL\_UTILS\_H\ */}\textcolor{preprocessor}{}}
 
 \end{DoxyCode}

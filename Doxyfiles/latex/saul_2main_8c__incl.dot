@@ -26,7 +26,7 @@ digraph "/home/mj/Desktop/IoT-Chat-Digitalization/saul/main.c"
   Node9 [id="Node000009",label="string.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
   Node1 -> Node8 [id="edge37_Node000001_Node000008",color="steelblue1",style="solid",tooltip=" "];
   Node1 -> Node10 [id="edge38_Node000001_Node000010",color="steelblue1",style="solid",tooltip=" "];
-  Node10 [id="Node000010",label="blinky_utils.h",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$blinky__utils_8h_source.html",tooltip=" "];
+  Node10 [id="Node000010",label="led_utils.h",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$led__utils_8h.html",tooltip="Header-Datei für die SAUL-Geräteverwaltung und LED-Steuerung."];
   Node10 -> Node11 [id="edge39_Node000010_Node000011",color="steelblue1",style="solid",tooltip=" "];
   Node11 [id="Node000011",label="clk.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
   Node10 -> Node12 [id="edge40_Node000010_Node000012",color="steelblue1",style="solid",tooltip=" "];

@@ -21,8 +21,9 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">TextYourIoTDevice
+   <div id="projectname">TextYourIoTDevice<span id="projectnumber">&#160;V_1.0.0</span>
    </div>
+   <div id="projectbrief">This project demonstrates how to connect a Nordic nRF52840 Development Kit (DK) to AWS IoT Core via an MQTT broker (Mosquitto)</div>
   </td>
  </tr>
  </tbody>
@@ -124,7 +125,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#define MAIN_QUEUE_SIZE     (8)</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="keyword">static</span> msg_t _main_msg_queue[MAIN_QUEUE_SIZE];</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="keyword">static</span> msg_t _main_msg_queue[<a class="code hl_define" href="Dongle_2gnrc__border__router_2main_8c.html#a6eb1641558b3240329cff7a42c609f26">MAIN_QUEUE_SIZE</a>];</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#define BUF_SIZE                        1024</span></div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#define MQTT_VERSION_v311               4       </span><span class="comment">/* MQTT v3.1.1 version is 4 */</span><span class="preprocessor"></span></div>
@@ -158,6 +159,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#define IS_RETAINED_MSG                 0</span></div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#endif </span><span class="comment">/* MQTT_UTILS_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="aDongle_2gnrc__border__router_2main_8c_html_a6eb1641558b3240329cff7a42c609f26"><div class="ttname"><a href="Dongle_2gnrc__border__router_2main_8c.html#a6eb1641558b3240329cff7a42c609f26">MAIN_QUEUE_SIZE</a></div><div class="ttdeci">#define MAIN_QUEUE_SIZE</div><div class="ttdef"><b>Definition</b> main.c:26</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -21,8 +21,9 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">TextYourIoTDevice
+   <div id="projectname">TextYourIoTDevice<span id="projectnumber">&#160;V_1.0.0</span>
    </div>
+   <div id="projectbrief">This project demonstrates how to connect a Nordic nRF52840 Development Kit (DK) to AWS IoT Core via an MQTT broker (Mosquitto)</div>
   </td>
  </tr>
  </tbody>
@@ -74,6 +75,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">saul_utils.h File Reference</div></div>
@@ -101,6 +103,12 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="saul__utils_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a6b8fd02587311eac5b7a06d83c86fb1b" id="r_a6b8fd02587311eac5b7a06d83c86fb1b"><td class="memItemLeft" align="right" valign="top"><a id="a6b8fd02587311eac5b7a06d83c86fb1b" name="a6b8fd02587311eac5b7a06d83c86fb1b"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PUFFER_SIZE</b>&#160;&#160;&#160;256</td></tr>
+<tr class="separator:a6b8fd02587311eac5b7a06d83c86fb1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a83f97845c2d0db42574c117e37b44c99" id="r_a83f97845c2d0db42574c117e37b44c99"><td class="memItemLeft" align="right" valign="top"><a id="a83f97845c2d0db42574c117e37b44c99" name="a83f97845c2d0db42574c117e37b44c99"></a>
@@ -112,9 +120,6 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>read_bme280_pressure</
 <tr class="memitem:ab90c73614e3d06522eea7acf63c72f55" id="r_ab90c73614e3d06522eea7acf63c72f55"><td class="memItemLeft" align="right" valign="top"><a id="ab90c73614e3d06522eea7acf63c72f55" name="ab90c73614e3d06522eea7acf63c72f55"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>read_bme280_humidity</b> (const char *device_name, char *json_buffer, size_t *json_size)</td></tr>
 <tr class="separator:ab90c73614e3d06522eea7acf63c72f55"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a001387a1d2fc180c68690967a32ef9fc" id="r_a001387a1d2fc180c68690967a32ef9fc"><td class="memItemLeft" align="right" valign="top"><a id="a001387a1d2fc180c68690967a32ef9fc" name="a001387a1d2fc180c68690967a32ef9fc"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>escape_json</b> (const char *input, char *output)</td></tr>
-<tr class="separator:a001387a1d2fc180c68690967a32ef9fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>

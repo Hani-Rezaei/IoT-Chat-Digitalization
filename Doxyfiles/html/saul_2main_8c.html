@@ -21,8 +21,9 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">TextYourIoTDevice
+   <div id="projectname">TextYourIoTDevice<span id="projectnumber">&#160;V_1.0.0</span>
    </div>
+   <div id="projectbrief">This project demonstrates how to connect a Nordic nRF52840 Development Kit (DK) to AWS IoT Core via an MQTT broker (Mosquitto)</div>
   </td>
  </tr>
  </tbody>
@@ -89,7 +90,7 @@ $(function() {
 <code>#include &quot;log.h&quot;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
-<code>#include &quot;blinky_utils.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="led__utils_8h_source.html">led_utils.h</a>&quot;</code><br />
 <code>#include &quot;mqtt_utils.h&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for main.c:</div>
@@ -105,9 +106,9 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:abc8b560d966bc5bc72fe2c880e8490a8" id="r_abc8b560d966bc5bc72fe2c880e8490a8"><td class="memItemLeft" align="right" valign="top"><a id="abc8b560d966bc5bc72fe2c880e8490a8" name="abc8b560d966bc5bc72fe2c880e8490a8"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>parse_payload_for_unit</b> (const char *payload)</td></tr>
-<tr class="separator:abc8b560d966bc5bc72fe2c880e8490a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74a712f3c4e10c8a637b4c24aa7f1b7a" id="r_a74a712f3c4e10c8a637b4c24aa7f1b7a"><td class="memItemLeft" align="right" valign="top"><a id="a74a712f3c4e10c8a637b4c24aa7f1b7a" name="a74a712f3c4e10c8a637b4c24aa7f1b7a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>parse_payload_for_unit</b> (const char *payload, char *unit, size_t unit_size, char *chat_id, size_t chat_id_size)</td></tr>
+<tr class="separator:a74a712f3c4e10c8a637b4c24aa7f1b7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a840291bc02cba5474a4cb46a9b9566fe" id="r_a840291bc02cba5474a4cb46a9b9566fe"><td class="memItemLeft" align="right" valign="top"><a id="a840291bc02cba5474a4cb46a9b9566fe" name="a840291bc02cba5474a4cb46a9b9566fe"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>main</b> (void)</td></tr>
 <tr class="separator:a840291bc02cba5474a4cb46a9b9566fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
