@@ -49,9 +49,20 @@ def lambda_handler(event, context):
             # This is the data coming from IoT Core (e.g., temperature value)
             value = event.get("d", "unknown")
             unit = event.get("u", "unknown")
+            chat_id = event.get("chat_id", "unknown")
+
+            # Determine the message based on the unit
+            if unit in ["°C", "°F"]:
+                message = f"Temperature is: {value} {unit}"
+            elif unit in ["Bar", "Pa"]:
+                message = f"Pressure is: {value} {unit}"
+            elif unit == "%":
+                message = f"Humidity is: {value} {unit}"
+            else:
+                message = f"Received data: {value} {unit}"
 
             # Send the data to Telegram
-            send_message_to_telegram(7812968215, f"Received data: {value} {unit}")
+            send_message_to_telegram(chat_id, message)
 
             return {
                 "statusCode": 200,
@@ -191,7 +202,8 @@ def fetch_data_from_iot(chat_id, function_name, preferences):
     # Construct the payload
     preference_value = next(iter(preferences.values()))  # Get the first value from the dictionary
     payload = {
-        "u": preference_value  # Assign the value directly to "u"
+        "u": preference_value,  # Assign the unit value to "u"
+        "chat_id": str(chat_id)  # Mapp chat_id as string
     }
 
     try:
@@ -203,7 +215,7 @@ def fetch_data_from_iot(chat_id, function_name, preferences):
         )
         print(f"Successfully published to {topic}: {response}")
 
-        return f"✅ Fetching {function_name.replace('get_', ' ')} data with preference: {preference_value}."
+        return f"✅ Fetching {function_name.replace('get_', ' ')} ..."
     except Exception as e:
         print(f"Failed to publish to MQTT: {e}")
         return "❌ Failed to fetch data from IoT Core."
