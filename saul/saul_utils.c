@@ -88,7 +88,13 @@ int read_bme280_temperature (const char* device_name, const char* request_unit, 
             // Schritt 2: Speicher für JSON-Daten
             char json_buffer[PUFFER_SIZE]; // Speicher für JSON-Puffer
             phydat_to_json(&result, num_elements, json_buffer);  // JSON-Daten in den Puffer schreiben
+            
+            // Neues JSON-Objekt mit chat_id als erstes Element erstellen
+            // char extended_json[PUFFER_SIZE]; // Zusätzlicher Speicherplatz für chat_id
+            // snprintf(extended_json, sizeof(extended_json), "{ \"chat_id\": \"%s\", %s", chat_id, json_buffer + 1);
+
             if (escape_json_buffer != NULL) {
+                // strncpy(escape_json_buffer, json_buffer, *json_size);
                 strncpy(escape_json_buffer, json_buffer, *json_size);
                 printf("JSON \": %s\n", escape_json_buffer); // Ausgabe der JSON-Daten
                 return 0; // Erfolgreicher Abschluss

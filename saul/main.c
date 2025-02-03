@@ -28,7 +28,8 @@ static volatile int message_ready = 0;  // Flag zur Synchronisation
 static MQTTClient client;
 static Network network;
 
-static char saul_response[PUFFER_SIZE];
+static char saul_response[1024];
+static char final_response[512];
 static char saul_topic_to_publish[MAX_LEN_TOPIC];
 
 static unsigned char buf[BUF_SIZE];
@@ -68,7 +69,6 @@ static int bme280_pub(int argc, char **argv)
 
 static char *get_response(const char* topic, const char* request_unit) {
     
-    // static char response[64]; // Speicher für die Antwort
     static char escape_json_buffer[PUFFER_SIZE];  // Angemessene Puffergröße
     size_t json_size;
     // Reaktion auf spezifische Topics
@@ -79,13 +79,10 @@ static char *get_response(const char* topic, const char* request_unit) {
         saul_topic_to_publish[topic_len] = '\0'; // Null-Terminierung erzwingen
         
         int res = read_bme280_temperature (bme_280_name, request_unit, escape_json_buffer, &json_size);
-        if (res >= 0) {
-            printf("Temperatur: %d\n", res);
-            printf("JSON-Daten: %s\n", escape_json_buffer);
-        } else {
+        if (res < 0){
             printf("Fehler: %d\n", res);
         }
-    } 
+    }
     else if (strncmp(topic, TOPIC_HUMIDITY, strlen(TOPIC_HUMIDITY)) == 0) {
 
         size_t topic_len = strlen(TOPIC_HUMIDITY_TO_PUBLISH);
@@ -93,10 +90,7 @@ static char *get_response(const char* topic, const char* request_unit) {
         saul_topic_to_publish[topic_len] = '\0'; // Null-Terminierung erzwingen
 
         int res = read_bme280_humidity (bme_280_name, escape_json_buffer, &json_size);
-        if (res >= 0) {
-            printf("humidity: %d\n", res);
-            printf("JSON-Daten: %s\n", escape_json_buffer);
-        } else {
+        if (res < 0){
             printf("Fehler: %d\n", res);
         }
     } 
@@ -107,10 +101,7 @@ static char *get_response(const char* topic, const char* request_unit) {
         saul_topic_to_publish[topic_len] = '\0'; // Null-Terminierung erzwingen
 
         int res = read_bme280_pressure (bme_280_name, request_unit, escape_json_buffer, &json_size);
-        if (res >= 0) {
-            printf("Pressure: %d\n", res);
-            printf("JSON-Daten: %s\n", escape_json_buffer);
-        } else {
+        if (res < 0){
             printf("Fehler: %d\n", res);
         }
     }
@@ -118,23 +109,52 @@ static char *get_response(const char* topic, const char* request_unit) {
         // Kein spezifisches Topic erkannt
         snprintf(escape_json_buffer, sizeof(escape_json_buffer), "No action for topic: %s", topic);
     }
-    // return response;
     return escape_json_buffer;
 }
 
-const char* parse_payload_for_unit(const char *payload)
-{
-    // Einfacher Parser für den Wert von "u"
-    char *key_start = strstr(payload, "\"u\": \"");
-    if (key_start) {
-        key_start += 6; // Um den Start von "u" zu überspringen
-        char *key_end = strchr(key_start, '"');
-        if (key_end) {
-            *key_end = '\0'; // Null-Terminierung
-            return key_start; // Rückgabe des gefundenen Wertes
+// const char* parse_payload_for_unit(const char *payload)
+// {
+//     // Einfacher Parser für den Wert von "u"
+//     char *key_start = strstr(payload, "\"u\": \"");
+//     if (key_start) {
+//         key_start += 6; // Um den Start von "u" zu überspringen
+//         char *key_end = strchr(key_start, '"');
+//         if (key_end) {
+//             *key_end = '\0'; // Null-Terminierung
+//             return key_start; // Rückgabe des gefundenen Wertes
+//         }
+//     }
+//     return NULL; // Kein Wert gefunden
+// }
+
+void parse_payload_for_unit(const char *payload, char *unit, size_t unit_size, char *chat_id, size_t chat_id_size) {
+    // Suche nach "u" (Einheit)
+    char *unit_start = strstr(payload, "\"u\": \"");
+    if (unit_start) {
+        unit_start += 6; // Überspringe `"u": "`
+        char *unit_end = strchr(unit_start, '"');
+        if (unit_end) {
+            size_t length = unit_end - unit_start;
+            if (length < unit_size) {
+                strncpy(unit, unit_start, length);
+                unit[length] = '\0';
+            }
         }
     }
-    return NULL; // Kein Wert gefunden
+
+    // Suche nach "chat_id"
+    char *chat_start = strstr(payload, "\"chat_id\": \"");
+    if (chat_start) {
+        chat_start += 12; // Überspringe `"chat_id": "`
+        char *chat_end = strchr(chat_start, '"');
+        if (chat_end) {
+            size_t length = chat_end - chat_start;
+            if (length < chat_id_size) {
+                strncpy(chat_id, chat_start, length);
+                chat_id[length] = '\0';
+            }
+        }
+    }
 }
 
 static void _on_msg_received(MessageData *data)
@@ -147,18 +167,6 @@ static void _on_msg_received(MessageData *data)
 
     // Zugriff auf das Topic
     const char *topic = data->topicName->lenstring.data;
-    // int topic_len = data->topicName->lenstring.len;
-
-    // // Kopieren des Topics in den globalen Speicher
-    // if (topic_len < MAX_LEN_TOPIC) {
-    //     strncpy(saul_topic_to_publish, topic, topic_len);
-    //     saul_topic_to_publish[topic_len] = '\0'; // Null-Terminierung erzwingen
-
-    //     // Ausgabe der global gespeicherten Daten
-    //     printf("Global Topic: %s\n", saul_topic_to_publish);
-    // } else {
-    //     fprintf(stderr, "Fehler: Topic ist zu lang, um global gespeichert zu werden.\n");
-    // }
 
     // Payload in einen Null-terminierten String umwandeln
     char payload[PUFFER_SIZE];
@@ -169,17 +177,28 @@ static void _on_msg_received(MessageData *data)
         fprintf(stderr, "Fehler: Payload ist zu groß, um verarbeitet zu werden.\n");
         return;
     }
-    printf("Payload: %s\n", payload);
+    printf("Payload: %s\n", payload);    
 
-    // Aufruf der parse_payload_for_unit Funktion
-    const char *unit = parse_payload_for_unit(payload);
-    if (unit) {
-        printf("Einheit: %s\n", unit);
-        
+    // Speicher für extrahierte Werte
+    char unit[10];
+    char chat_id[50];
+
+    // Extrahiere Einheit und chat_id aus dem Payload
+    parse_payload_for_unit(payload, unit, sizeof(unit), chat_id, sizeof(chat_id));
+
+    if (unit[0] != '\0') {  // Prüfen, ob Einheit gefunden wurde
+
         const char* response = get_response(topic, unit);
         if (response) {
-            snprintf(saul_response, sizeof(saul_response), "%s", response);
-            printf("Antwort generiert: %s\n", saul_response);
+
+            // JSON mit `chat_id` hinzufügen
+            snprintf(final_response, sizeof(final_response) - 1, "{ \"chat_id\": \"%s\", %s", chat_id, response + 1);
+            final_response[sizeof(final_response) - 1] = '\0'; // Sicherheits-Null-Terminierung
+            
+            printf("Antwort generiert: %s\n", final_response);
+            // Antwort in globalen Speicher kopieren
+            snprintf(saul_response, sizeof(saul_response), "%s", final_response);
+
             message_ready = 1;  // Flag setzen
         } else {
             fprintf(stderr, "Fehler: Keine gültige Antwort generiert.\n");
