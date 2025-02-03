@@ -302,12 +302,12 @@ static void custom_event_loop(void)
 {
     while (1) {
         if (message_ready) {
-            led_conf("LED 4", 1);
+            led_set_state("LED 4", 1);
             printf("saul_topic_to_publish = %s\n", saul_topic_to_publish);
 
             bme280_pub(0, NULL);       
             message_ready = 0;  // Flag zurücksetzen
-            led_conf("LED 4", 0);
+            led_set_state("LED 4", 0);
         }
     }
 }
@@ -334,21 +334,21 @@ int main(void)
 
     MQTTStartTask(&client);
 
-    led_conf("LED 1", 1);
+    led_set_state("LED 1", 1);
 
     // Verbindung zum Broker herstellen
     if (cmd_con(0, NULL) < 0) {
         fprintf(stderr, "Fehler: Verbindung zum Broker fehlgeschlagen.\n");
         return -1;
     }
-    led_conf("LED 2", 1);
+    led_set_state("LED 2", 1);
 
     // Automatisches Abonnieren eines Themas
     if (cmd_sub(0, NULL) < 0) {
         fprintf(stderr, "Fehler: Abonnieren des Themas fehlgeschlagen.\n");
         return -1;
     }
-    led_conf("LED 3", 1);
+    led_set_state("LED 3", 1);
 
     // if (MQTTSubscribe(&client, _topic_to_subscribe[0], QOS0, _on_msg_received) < 0) {
     // if (MQTTSubscribe(&client, TOPIC_TO_SUBSCRIBE, QOS0, _on_msg_received) < 0) {
