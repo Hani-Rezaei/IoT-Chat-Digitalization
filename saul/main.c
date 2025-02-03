@@ -29,7 +29,7 @@ static MQTTClient client;
 static Network network;
 
 static char saul_response[1024];
-static char final_response[512];
+static char temp_response[512];
 static char saul_topic_to_publish[MAX_LEN_TOPIC];
 
 static unsigned char buf[BUF_SIZE];
@@ -112,21 +112,6 @@ static char *get_response(const char* topic, const char* request_unit) {
     return escape_json_buffer;
 }
 
-// const char* parse_payload_for_unit(const char *payload)
-// {
-//     // Einfacher Parser für den Wert von "u"
-//     char *key_start = strstr(payload, "\"u\": \"");
-//     if (key_start) {
-//         key_start += 6; // Um den Start von "u" zu überspringen
-//         char *key_end = strchr(key_start, '"');
-//         if (key_end) {
-//             *key_end = '\0'; // Null-Terminierung
-//             return key_start; // Rückgabe des gefundenen Wertes
-//         }
-//     }
-//     return NULL; // Kein Wert gefunden
-// }
-
 void parse_payload_for_unit(const char *payload, char *unit, size_t unit_size, char *chat_id, size_t chat_id_size) {
     // Suche nach "u" (Einheit)
     char *unit_start = strstr(payload, "\"u\": \"");
@@ -192,12 +177,12 @@ static void _on_msg_received(MessageData *data)
         if (response) {
 
             // JSON mit `chat_id` hinzufügen
-            snprintf(final_response, sizeof(final_response) - 1, "{ \"chat_id\": \"%s\", %s", chat_id, response + 1);
-            final_response[sizeof(final_response) - 1] = '\0'; // Sicherheits-Null-Terminierung
+            snprintf(temp_response, sizeof(temp_response) - 1, "{ \"chat_id\": \"%s\", %s", chat_id, response + 1);
+            temp_response[sizeof(temp_response) - 1] = '\0'; // Sicherheits-Null-Terminierung
             
-            printf("Antwort generiert: %s\n", final_response);
             // Antwort in globalen Speicher kopieren
-            snprintf(saul_response, sizeof(saul_response), "%s", final_response);
+            snprintf(saul_response, sizeof(saul_response), "%s", temp_response);
+            printf("Antwort generiert: %s\n", temp_response);
 
             message_ready = 1;  // Flag setzen
         } else {
