@@ -215,7 +215,7 @@ def fetch_data_from_iot(chat_id, function_name, preferences):
         )
         print(f"Successfully published to {topic}: {response}")
 
-        return f"✅ Fetching {function_name.replace('get_', ' ')} ..."
+        return f"✅ Fetching data from IoT Device ..."
     except Exception as e:
         print(f"Failed to publish to MQTT: {e}")
         return "❌ Failed to fetch data from IoT Core."
