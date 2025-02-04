@@ -7,9 +7,6 @@ import requests
 TELEGRAM_API_TOKEN = os.getenv("TELEGRAM_API_TOKEN")
 iot_client = boto3.client('iot-data', region_name='us-east-1')  # IoT Core client
 
-# Store user settings (in-memory for simplicity; consider a database for persistence)
-user_settings = {}
-
 def lambda_handler(event, context):
     try:
         # Log the incoming event
@@ -52,11 +49,20 @@ def lambda_handler(event, context):
             # This is the data coming from IoT Core (e.g., temperature value)
             value = event.get("d", "unknown")
             unit = event.get("u", "unknown")
+            chat_id = event.get("chat_id", "unknown")
 
-            # chat_id = event.get("848343887", "unknown")
+            # Determine the message based on the unit
+            if unit in ["°C", "°F"]:
+                message = f"Temperature is: {value} {unit}"
+            elif unit in ["Bar", "Pa"]:
+                message = f"Pressure is: {value} {unit}"
+            elif unit == "%":
+                message = f"Humidity is: {value} {unit}"
+            else:
+                message = f"Received data: {value} {unit}"
 
             # Send the data to Telegram
-            send_message_to_telegram(7812968215, f"Received data: {value} {unit}")
+            send_message_to_telegram(chat_id, message)
 
             return {
                 "statusCode": 200,
@@ -89,16 +95,14 @@ def send_info_selection_message(chat_id):
         "What information would you like to retrieve?\n\n"
         "1️⃣ Temperature\n"
         "2️⃣ Humidity\n"
-        "3️⃣ Air Pressure\n"
-        # "4️⃣ All Info"
+        "3️⃣ Air Pressure"
     )
     # Inline keyboard for selecting information
     buttons = {
         "inline_keyboard": [
             [{"text": "🌡 Temperature", "callback_data": "temperature"}],
             [{"text": "💧 Humidity", "callback_data": "humidity"}],
-            [{"text": "🌬 Air Pressure", "callback_data": "air_pressure"}],
-            # [{"text": "📊 All Info", "callback_data": "all_info"}]
+            [{"text": "🌬 Air Pressure", "callback_data": "air_pressure"}]
         ]
     }
     payload = {
@@ -117,8 +121,7 @@ def process_callback_data(chat_id, callback_data):
     """
     Processes the callback data from button clicks and sends the appropriate command to IoT Core.
     """
-    if callback_data in ["temperature", "humidity", "air_pressure", "all_info"]:
-        # user_settings[chat_id] = {"selected_info": callback_data}
+    if callback_data in ["temperature", "humidity", "air_pressure"]:
         if callback_data == "temperature":
             send_temperature_unit_buttons(chat_id)
             return "In which unit would you like the temperature? Choose one below:"
@@ -129,21 +132,13 @@ def process_callback_data(chat_id, callback_data):
             # Fetch humidity directly (no unit selection needed)
             preferences = {"humidity": "%"}
             return fetch_data_from_iot(chat_id, "get_humidity", preferences)
-        elif callback_data == "all_info":
-            # Fetch all info (default units for all)
-            preferences = {"temperature": "celsius", "pressure": "pa", "humidity": "%"}
-            return fetch_data_from_iot(chat_id, "get_all_info", preferences)
 
-    elif callback_data in ["celsius", "fahrenheit"]:
-        preferences = user_settings.get(chat_id, {})
-        preferences["temperature"] = callback_data
-        user_settings[chat_id] = preferences
+    elif callback_data in ["°C", "°F"]:
+        preferences = {"temperature": callback_data}
         return fetch_data_from_iot(chat_id, "get_temperature", preferences)
 
-    elif callback_data in ["pa", "bar"]:
-        preferences = user_settings.get(chat_id, {})
-        preferences["pressure"] = callback_data
-        user_settings[chat_id] = preferences
+    elif callback_data in ["Pa", "Bar"]:
+        preferences = {"pressure": callback_data}
         return fetch_data_from_iot(chat_id, "get_air_pressure", preferences)
 
     else:
@@ -156,8 +151,8 @@ def send_temperature_unit_buttons(chat_id):
     url = f"https://api.telegram.org/bot{TELEGRAM_API_TOKEN}/sendMessage"
     buttons = {
         "inline_keyboard": [
-            [{"text": "🌡 Celsius (°C)", "callback_data": "celsius"}],
-            [{"text": "🌡 Fahrenheit (°F)", "callback_data": "fahrenheit"}]
+            [{"text": "🌡 Celsius (°C)", "callback_data": "°C"}],
+            [{"text": "🌡 Fahrenheit (°F)", "callback_data": "°F"}]
         ]
     }
     payload = {
@@ -175,8 +170,8 @@ def send_pressure_unit_buttons(chat_id):
     url = f"https://api.telegram.org/bot{TELEGRAM_API_TOKEN}/sendMessage"
     buttons = {
         "inline_keyboard": [
-            [{"text": "🌬 Pascals (Pa)", "callback_data": "pa"}],
-            [{"text": "🌬 Bar (Bar)", "callback_data": "bar"}]
+            [{"text": "🌬 Pascals (Pa)", "callback_data": "Pa"}],
+            [{"text": "🌬 Bar (Bar)", "callback_data": "Bar"}]
         ]
     }
     payload = {
@@ -193,18 +188,22 @@ def fetch_data_from_iot(chat_id, function_name, preferences):
     """
     # Map the function_name to the corresponding topic
     topic_mapping = {
-        "get_temperature": "both_directions/temperature",
-        "get_humidity": "both_directions/humidity",
-        "get_air_pressure": "both_directions/pressure",
-        "get_all_info": "both_directions/all_values"
+        "get_temperature": "awsiot_to_localgateway/temperature",
+        "get_humidity": "awsiot_to_localgateway/humidity",
+        "get_air_pressure": "awsiot_to_localgateway/pressure"
     }
 
     # Determine the topic based on the function_name
-    topic = topic_mapping.get(function_name, "both_directions")
+    topic = topic_mapping.get(function_name)
     
+    if not topic:
+        return "❌ Invalid topic for the requested function."
+
     # Construct the payload
+    preference_value = next(iter(preferences.values()))  # Get the first value from the dictionary
     payload = {
-        "units": preferences
+        "u": preference_value,  # Assign the unit value to "u"
+        "chat_id": str(chat_id)  # Mapp chat_id as string
     }
 
     try:
@@ -216,9 +215,7 @@ def fetch_data_from_iot(chat_id, function_name, preferences):
         )
         print(f"Successfully published to {topic}: {response}")
 
-        preference_value = next(iter(preferences.values()))  # Get the first value from the dictionary
-
-        return f"✅ Fetching {function_name.replace('get_', ' ')} data with preference: {preference_value}."
+        return f"✅ Fetching data from IoT Device ..."
     except Exception as e:
         print(f"Failed to publish to MQTT: {e}")
         return "❌ Failed to fetch data from IoT Core."
