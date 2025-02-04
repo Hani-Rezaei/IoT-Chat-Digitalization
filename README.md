@@ -126,7 +126,7 @@ TextYourIoTDevice/
     
     1. Connect the sensor BME280 to DK as shown in the following photo:
 
-    ![hardware](images/hardware.png)
+    ![Hardware connections](images/hardware_connections.png)
 
     **BME280 Pinout (for I2C)**:
 
