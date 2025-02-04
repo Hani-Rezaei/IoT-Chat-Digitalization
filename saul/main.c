@@ -386,6 +386,18 @@ static void mqtt_event_loop(void)
     }
 }
 
+/**
+ * @brief Hauptfunktion des Programms zur Initialisierung und Steuerung der MQTT-Kommunikation.
+ *
+ * Diese Funktion:
+ * - Initialisiert das Netzwerk und den MQTT-Client.
+ * - Stellt die Verbindung zum MQTT-Broker her.
+ * - Abonniert das vordefinierte MQTT-Topic.
+ * - Startet die Event-Schleife zur Verarbeitung von Nachrichten.
+ *
+ * @return 0 bei erfolgreicher Ausführung, -1 und -2 bei Fehlern.
+ */
+
 int main(void)
 {
     LOG_INFO("Welcome to RIOT!\n");
@@ -423,7 +435,7 @@ int main(void)
     }
     led_set_state("LED 3", 1); // Status-LED für erfolgreiches Abonnement
 
-    custom_event_loop();
+    mqtt_event_loop();
 
     return 0;
 }

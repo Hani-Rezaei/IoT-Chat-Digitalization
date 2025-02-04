@@ -1,25 +1,28 @@
-# name of your application
+# Name der Anwendung
 APPLICATION = TextYourIoTDevice
 
-# If no BOARD is found in the environment, use this default:
+# Standard-Board setzen, falls keine spezifische Auswahl getroffen wurde
 BOARD ?= nrf52840dk
 
-# This has to be the absolute path to the RIOT base directory:
+# Absoluter Pfad zum RIOT-Basisverzeichnis
 RIOTBASE ?= $(CURDIR)/../../RIOT
 
-# Comment this out to disable code in RIOT that does safety checking
-# which is not needed in a production environment but helps in the
-# development process:
+# Entwicklungsmodus aktivieren (nützliche Debugging-Hilfen und Sicherheitschecks)
+# Setze auf 0 für eine produktionsnahe Umgebung mit weniger Sicherheitsprüfungen
 DEVELHELP ?= 1
 
-# Change this to 0 show compiler invocation lines by default:
+# Unterdrücke Standardausgaben des Compilers (auf 0 setzen, um alle Aufrufe anzuzeigen)
 QUIET ?= 1
 
+# Einbinden der SAUL-spezifischen Makefile-Konfiguration
 include Makefile.saul
+
+# MQTT-Support einbinden
 include Makefile.mqtt
 
+# Einbinden der RIOT-spezifischen Build-Konfiguration
 include $(RIOTBASE)/Makefile.include
 
-# Set a custom channel if needed
+# Falls nötig, benutzerdefinierte Funkkanaleinstellungen laden
 include $(RIOTMAKE)/default-radio-settings.inc.mk
 
