@@ -19,7 +19,6 @@
 #ifndef TOPIC_TEMPERATURE
 #define TOPIC_TEMPERATURE   "awsiot_to_localgateway/temperature"
 #endif
-
 #ifndef TOPIC_TEMPERATURE_TO_PUBLISH
 #define TOPIC_TEMPERATURE_TO_PUBLISH   "localgateway_to_awsiot/temperature"
 #endif
@@ -27,7 +26,6 @@
 #ifndef TOPIC_HUMIDITY
 #define TOPIC_HUMIDITY               "awsiot_to_localgateway/humidity"
 #endif
-
 #ifndef TOPIC_HUMIDITY_TO_PUBLISH
 #define TOPIC_HUMIDITY_TO_PUBLISH    "localgateway_to_awsiot/humidity"
 #endif
@@ -35,7 +33,6 @@
 #ifndef TOPIC_PRESSURE
 #define TOPIC_PRESSURE               "awsiot_to_localgateway/pressure"
 #endif
-
 #ifndef TOPIC_PRESSURE_TO_PUBLISH
 #define TOPIC_PRESSURE_TO_PUBLISH    "localgateway_to_awsiot/pressure"
 #endif

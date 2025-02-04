@@ -22,7 +22,6 @@ static MQTTClient client;
 static Network network;
 
 static char saul_response[1024];
-static char temp_response[512];
 static char saul_topic_to_publish[MAX_LEN_TOPIC];
 
 static unsigned char buf[BUF_SIZE];
@@ -178,10 +177,17 @@ void parse_payload_for_unit(const char *payload, char *unit, size_t unit_size, c
 }
 
 
-///////////////////////// BIS HIER
-static void _on_msg_received(MessageData *data)
+/**
+ * @brief Verarbeitet empfangene MQTT-Nachrichten.
+ *
+ * Diese Funktion wird aufgerufen, wenn eine Nachricht auf einem bestimmten MQTT-Topic empfangen wird.
+ * Sie analysiert die Nachricht, extrahiert relevante Informationen und generiert eine passende Antwort.
+ *
+ * @param[in] data Zeiger auf die empfangene Nachricht und Metadaten.
+ */
+static void handle_mqtt_message(MessageData *data)
 {
-    printf("_on_msg_received: message received on topic"
+    LOG_INFO("handle_mqtt_message: message received on topic"
            " %.*s: %.*s\n",
            (int)data->topicName->lenstring.len,
            data->topicName->lenstring.data, (int)data->message->payloadlen,
@@ -196,16 +202,16 @@ static void _on_msg_received(MessageData *data)
         strncpy(payload, (char *)data->message->payload, data->message->payloadlen);
         payload[data->message->payloadlen] = '\0'; // Null-Terminierung
     } else {
-        fprintf(stderr, "Fehler: Payload ist zu groß, um verarbeitet zu werden.\n");
+        LOG_ERROR("Fehler: Payload ist zu groß, um verarbeitet zu werden.\n");
         return;
     }
-    printf("Payload: %s\n", payload);    
+    LOG_INFO("Empfangener Payload: %s\n", payload);
 
-    // Speicher für extrahierte Werte
-    char unit[10];
-    char chat_id[50];
+    // **Speicher für extrahierte Werte initialisieren**
+    char unit[10] = {0};
+    char chat_id[50] = {0};
 
-    // Extrahiere Einheit und chat_id aus dem Payload
+    // **Extrahiere Einheit und chat_id aus dem Payload**
     parse_payload_for_unit(payload, unit, sizeof(unit), chat_id, sizeof(chat_id));
 
     if (unit[0] != '\0') {  // Prüfen, ob Einheit gefunden wurde
@@ -213,54 +219,72 @@ static void _on_msg_received(MessageData *data)
         const char* response = generate_sensor_response(topic, unit);
         if (response) {
 
+            char temp_response[512];
+
             // JSON mit `chat_id` hinzufügen
             snprintf(temp_response, sizeof(temp_response) - 1, "{ \"chat_id\": \"%s\", %s", chat_id, response + 1);
             temp_response[sizeof(temp_response) - 1] = '\0'; // Sicherheits-Null-Terminierung
             
             // Antwort in globalen Speicher kopieren
             snprintf(saul_response, sizeof(saul_response), "%s", temp_response);
-            printf("Antwort generiert: %s\n", temp_response);
+            LOG_INFO("Antwort generiert: %s\n", saul_response);
 
             message_ready = 1;  // Flag setzen
         } else {
-            fprintf(stderr, "Fehler: Keine gültige Antwort generiert.\n");
+            LOG_ERROR("Fehler: Keine gültige Antwort generiert.\n");
             saul_response[0] = '\0'; // Leeren String setzen
         }
         // Antwort ausgeben (oder publizieren)
-        printf("Response to publish: %s\n", saul_response);
+        LOG_INFO("Response to publish: %s\n", saul_response);
     } else {
-        fprintf(stderr, "Fehler: Schlüssel 'u' nicht gefunden.\n");
+        LOG_ERROR("Fehler: Schlüssel 'u' nicht gefunden.\n");
     }
 }
 
-static int _cmd_discon(int argc, char **argv)
+/**
+ * @brief Trennt die MQTT-Verbindung und schließt das Netzwerk.
+ *
+ * Diese Funktion beendet die Verbindung zum MQTT-Broker und 
+ * trennt anschließend das Netzwerk. Falls die Trennung fehlschlägt, 
+ * wird eine Fehlermeldung ausgegeben.
+ *
+ *
+ * @return 0 bei erfolgreicher Trennung, negativer Wert bei Fehler.
+ */
+
+static int disconnect_mqtt_client(void)
 {
-    (void)argc;
-    (void)argv;
 
     int res = MQTTDisconnect(&client);
     if (res < 0) {
-        printf("mqtt_example: Unable to disconnect\n");
+        LOG_ERROR("Unable to disconnect\n");
     }
     else {
-        printf("mqtt_example: Disconnect successful\n");
+        LOG_INFO("Disconnect successful\n");
     }
 
     NetworkDisconnect(&network);
     return res;
 }
 
-static int cmd_con(int argc, char **argv)
+/**
+ * @brief Stellt eine Verbindung zum MQTT-Broker her.
+ *
+ * Diese Funktion verbindet den MQTT-Client mit dem definierten Broker.
+ * Falls bereits eine Verbindung besteht, wird diese getrennt und neu aufgebaut.
+ *
+ * @return 0 bei erfolgreicher Verbindung, negativer Wert bei Fehler.
+ */
+
+static int mqtt_client_connect(void)
 {
-    (void)argc;
-    (void)argv;
 
     char *remote_ip = BROKER_IPV6;
     int ret = -1;
 
-    /* ensure client isn't connected in case of a new connection */
+    /* Falls bereits eine Verbindung besteht, trennen */
     if (client.isconnected) {
-        printf("mqtt_example: client already connected, disconnecting it\n");
+        LOG_INFO("client already connected, disconnecting it\n");
         MQTTDisconnect(&client);
         NetworkDisconnect(&network);
     }
@@ -268,7 +292,6 @@ static int cmd_con(int argc, char **argv)
     int port = DEFAULT_MQTT_PORT;
     MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
     data.MQTTVersion = MQTT_VERSION_v311;
-
     data.clientID.cstring = DEFAULT_MQTT_CLIENT_ID;
     data.username.cstring = DEFAULT_MQTT_USER;
     data.password.cstring = DEFAULT_MQTT_PWD;
@@ -276,60 +299,65 @@ static int cmd_con(int argc, char **argv)
     data.cleansession = IS_CLEAN_SESSION;
     data.willFlag = 0;
 
-    printf("mqtt_example: Connecting to MQTT Broker from %s %d\n",
-            remote_ip, port);
-    printf("mqtt_example: Trying to connect to %s, port: %d\n",
+    LOG_INFO("Trying to connect to %s, port: %d\n",
             remote_ip, port);
     ret = NetworkConnect(&network, remote_ip, port);
     if (ret < 0) {
-        printf("mqtt_example: Unable to connect\n");
+        LOG_ERROR("Unable to connect\n");
         return ret;
     }
 
-    printf("user:%s clientId:%s password:%s\n", data.username.cstring,
+    LOG_INFO("user:%s clientId:%s password:%s\n", data.username.cstring,
              data.clientID.cstring, data.password.cstring);
     ret = MQTTConnect(&client, &data);
     if (ret < 0) {
-        printf("mqtt_example: Unable to connect client %d\n", ret);
-        _cmd_discon(0, NULL);
+        LOG_ERROR("Unable to connect client %d\n", ret);
+        disconnect_mqtt_client();
         return ret;
     }
     else {
-        printf("mqtt_example: Connection successfully\n");
+        LOG_INFO("Connection successfully\n");
     }
 
     return (ret > 0) ? 0 : 1;
 }
 
-static int cmd_sub(int argc, char **argv)
+/**
+ * @brief Abonniert ein MQTT-Topic.
+ *
+ * Diese Funktion überprüft, ob das maximale Limit der abonnierten 
+ * Topics erreicht wurde und ob das Topic nicht zu lang ist. Falls 
+ * alle Bedingungen erfüllt sind, wird eine Subscription eingerichtet.
+ *
+ * @return 0 bei Erfolg, negativer Wert bei Fehler.
+ */
+
+static int mqtt_subscribe_topic(void)
 {
-    (void)argc;
-    (void)argv;
-    
     enum QoS qos = QOS0;
 
     if (topic_cnt > MAX_TOPICS) {
-        printf("mqtt_example: Already subscribed to max %d topics,"
+        LOG_INFO("Already subscribed to max %d topics,"
                 "call 'unsub' command\n", topic_cnt);
         return -1;
     }
 
     if (strlen(TOPIC_TO_SUBSCRIBE) > MAX_LEN_TOPIC) {
-        printf("mqtt_example: Not subscribing, topic too long %s\n", TOPIC_TO_SUBSCRIBE);
-        return -1;
+        LOG_ERROR("Not subscribing, topic too long %s\n", TOPIC_TO_SUBSCRIBE);
+        return -2;
     }
     strncpy(_topic_to_subscribe[topic_cnt], TOPIC_TO_SUBSCRIBE, strlen(TOPIC_TO_SUBSCRIBE) + 1);
 
-    printf("mqtt_example: Subscribing to %s\n", _topic_to_subscribe[topic_cnt]);
+    LOG_INFO("mqtt_example: Subscribing to %s\n", _topic_to_subscribe[topic_cnt]);
     int ret = MQTTSubscribe(&client,
-              _topic_to_subscribe[topic_cnt], qos, _on_msg_received);
+              _topic_to_subscribe[topic_cnt], qos, handle_mqtt_message);
     if (ret < 0) {
-        printf("mqtt_example: Unable to subscribe to %s (%d)\n",
+        LOG_ERROR("mqtt_example: Unable to subscribe to %s (%d)\n",
                _topic_to_subscribe[topic_cnt], ret);
-        _cmd_discon(0, NULL);
+        disconnect_mqtt_client();
     }
     else {
-        printf("mqtt_example: Now subscribed to %s, QOS %d\n",
+        LOG_INFO("mqtt_example: Now subscribed to %s, QOS %d\n",
                TOPIC_TO_SUBSCRIBE, (int) qos);
         topic_cnt++;
     }
@@ -337,14 +365,19 @@ static int cmd_sub(int argc, char **argv)
 }
 
 /**
- * Event-Loop: Verarbeitet Nachrichten aus der Queue und veröffentlicht diese.
+ * @brief Endlosschleife zur Verarbeitung von MQTT-Nachrichten.
+ *
+ * Diese Funktion überprüft kontinuierlich, ob eine neue Nachricht bereit ist. 
+ * Falls ja, wird die LED 4 als Indikator aktiviert, die Nachricht publiziert 
+ * und das Flag zurückgesetzt. Danach wird die LED 4 deaktiviert.
  */
-static void custom_event_loop(void)
+
+static void mqtt_event_loop(void)
 {
     while (1) {
         if (message_ready) {
             led_set_state("LED 4", 1);
-            printf("saul_topic_to_publish = %s\n", saul_topic_to_publish);
+            LOG_INFO("saul_topic_to_publish = %s\n", saul_topic_to_publish);
 
             publish_bme280_data();       
             message_ready = 0;  // Flag zurücksetzen
@@ -355,41 +388,40 @@ static void custom_event_loop(void)
 
 int main(void)
 {
-    puts("Welcome to RIOT!\n");
+    LOG_INFO("Welcome to RIOT!\n");
+    LOG_INFO("This application runs on %s\n", RIOT_BOARD);
 
-    printf("This application runs on %s\n", RIOT_BOARD);
-
+    /* Nachrichtenschlange für ICMPv6 Echo initialisieren, falls benötigt */
     if (IS_USED(MODULE_GNRC_ICMPV6_ECHO)) {
         msg_init_queue(_main_msg_queue, MAIN_QUEUE_SIZE);
     }
 #ifdef MODULE_LWIP
-    /* let LWIP initialize */
+    /* Kurze Verzögerung für LWIP-Initialisierung */
     ztimer_sleep(ZTIMER_MSEC, 1 * MS_PER_SEC);
 #endif
 
+    /* Netzwerk und MQTT-Client initialisieren */
     NetworkInit(&network);
-
     MQTTClientInit(&client, &network, COMMAND_TIMEOUT_MS, buf, BUF_SIZE,
                    readbuf,
                    BUF_SIZE);
-
     MQTTStartTask(&client);
 
-    led_set_state("LED 1", 1);
+    led_set_state("LED 1", 1); // Status-LED für Initialisierung
 
     // Verbindung zum Broker herstellen
-    if (cmd_con(0, NULL) < 0) {
-        fprintf(stderr, "Fehler: Verbindung zum Broker fehlgeschlagen.\n");
+    if (mqtt_client_connect() < 0) {
+        LOG_ERROR("Fehler: Verbindung zum Broker fehlgeschlagen.\n");
         return -1;
     }
-    led_set_state("LED 2", 1);
+    led_set_state("LED 2", 1); // Status-LED für erfolgreiche Verbindung
 
     // Automatisches Abonnieren eines Themas
-    if (cmd_sub(0, NULL) < 0) {
-        fprintf(stderr, "Fehler: Abonnieren des Themas fehlgeschlagen.\n");
-        return -1;
+    if (mqtt_subscribe_topic() < 0) {
+        LOG_ERROR("Fehler: Abonnieren des Themas fehlgeschlagen.\n");
+        return -2;
     }
-    led_set_state("LED 3", 1);
+    led_set_state("LED 3", 1); // Status-LED für erfolgreiches Abonnement
 
     custom_event_loop();
 
