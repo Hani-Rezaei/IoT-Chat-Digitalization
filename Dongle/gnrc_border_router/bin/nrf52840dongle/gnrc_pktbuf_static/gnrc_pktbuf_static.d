@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/gnrc_pktbuf_static/gnrc_pktbuf_static.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/gnrc_pktbuf_static/gnrc_pktbuf_static.o: \
  /home/mj/Desktop/RIOT/sys/net/gnrc/pktbuf_static/gnrc_pktbuf_static.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/core/lib/include/assert.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h \
  /usr/include/newlib/errno.h /usr/include/newlib/sys/errno.h \
@@ -72,7 +72,7 @@
  /home/mj/Desktop/RIOT/sys/net/gnrc/pktbuf/include/pktbuf_internal.h \
  /home/mj/Desktop/RIOT/sys/net/gnrc/pktbuf_static/include/pktbuf_static.h \
  /home/mj/Desktop/RIOT/core/lib/include/debug.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/core/lib/include/assert.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h:
 /usr/include/newlib/errno.h:

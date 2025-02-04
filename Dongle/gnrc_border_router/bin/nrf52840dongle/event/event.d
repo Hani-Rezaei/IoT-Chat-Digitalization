@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/event/event.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/event/event.o: \
  /home/mj/Desktop/RIOT/sys/event/event.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/core/lib/include/assert.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdbool.h \
@@ -77,7 +77,7 @@
  /home/mj/Desktop/RIOT/boards/common/nrf52/include/cfg_timer_default.h \
  /home/mj/Desktop/RIOT/sys/include/timex.h \
  /home/mj/Desktop/RIOT/sys/include/ztimer.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/core/lib/include/assert.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdbool.h:

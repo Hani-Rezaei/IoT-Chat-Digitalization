@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/gnrc_pkt/gnrc_pkt.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/gnrc_pkt/gnrc_pkt.o: \
  /home/mj/Desktop/RIOT/sys/net/gnrc/pkt/gnrc_pkt.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/sys/include/net/gnrc/pkt.h \
  /usr/include/newlib/inttypes.h /usr/include/newlib/nano/newlib.h \
  /usr/include/newlib/_newlib_version.h /usr/include/newlib/sys/config.h \
@@ -30,7 +30,7 @@
  /home/mj/Desktop/RIOT/sys/include/net/ethertype.h \
  /home/mj/Desktop/RIOT/sys/include/net/protnum.h \
  /home/mj/Desktop/RIOT/core/lib/include/list.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/sys/include/net/gnrc/pkt.h:
 /usr/include/newlib/inttypes.h:
 /usr/include/newlib/nano/newlib.h:

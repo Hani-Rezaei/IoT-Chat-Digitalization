@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/ztimer_core/init.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/ztimer_core/init.o: \
  /home/mj/Desktop/RIOT/sys/ztimer/init.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/core/lib/include/kernel_defines.h \
  /home/mj/Desktop/RIOT/core/lib/include/modules.h \
  /home/mj/Desktop/RIOT/core/lib/include/riot_version.h \
@@ -76,7 +76,7 @@
  /home/mj/Desktop/RIOT/sys/include/ztimer/periph_rtc.h \
  /home/mj/Desktop/RIOT/sys/include/ztimer/config.h \
  /home/mj/Desktop/RIOT/core/lib/include/log.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/core/lib/include/kernel_defines.h:
 /home/mj/Desktop/RIOT/core/lib/include/modules.h:
 /home/mj/Desktop/RIOT/core/lib/include/riot_version.h:

@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/gnrc_sixlowpan_frag_rb/gnrc_sixlowpan_frag_rb.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/gnrc_sixlowpan_frag_rb/gnrc_sixlowpan_frag_rb.o: \
  /home/mj/Desktop/RIOT/sys/net/gnrc/network_layer/sixlowpan/frag/rb/gnrc_sixlowpan_frag_rb.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/core/lib/include/assert.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h \
  /usr/include/newlib/inttypes.h /usr/include/newlib/nano/newlib.h \
@@ -141,7 +141,7 @@
  /home/mj/Desktop/RIOT/sys/include/net/sixlowpan/sfr.h \
  /home/mj/Desktop/RIOT/sys/include/bitfield.h \
  /home/mj/Desktop/RIOT/core/lib/include/debug.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/core/lib/include/assert.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h:
 /usr/include/newlib/inttypes.h:

@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/gnrc_ipv6_nib/_nib-slaac.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/gnrc_ipv6_nib/_nib-slaac.o: \
  /home/mj/Desktop/RIOT/sys/net/gnrc/network_layer/ipv6/nib/_nib-slaac.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/core/lib/include/kernel_defines.h \
  /home/mj/Desktop/RIOT/core/lib/include/modules.h \
  /home/mj/Desktop/RIOT/core/lib/include/riot_version.h \
@@ -145,7 +145,7 @@
  /home/mj/Desktop/RIOT/sys/include/net/gnrc/sixlowpan/ctx.h \
  /home/mj/Desktop/RIOT/sys/include/random.h \
  /home/mj/Desktop/RIOT/core/lib/include/debug.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/core/lib/include/kernel_defines.h:
 /home/mj/Desktop/RIOT/core/lib/include/modules.h:
 /home/mj/Desktop/RIOT/core/lib/include/riot_version.h:

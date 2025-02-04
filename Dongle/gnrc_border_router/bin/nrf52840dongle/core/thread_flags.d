@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/core/thread_flags.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/core/thread_flags.o: \
  /home/mj/Desktop/RIOT/core/thread_flags.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/core/include/thread_flags.h \
  /home/mj/Desktop/RIOT/core/include/sched.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stddef.h \
@@ -50,7 +50,7 @@
  /home/mj/Desktop/RIOT/sys/include/architecture.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/limits.h \
  /home/mj/Desktop/RIOT/cpu/cortexm_common/include/architecture_arch.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/core/include/thread_flags.h:
 /home/mj/Desktop/RIOT/core/include/sched.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stddef.h:

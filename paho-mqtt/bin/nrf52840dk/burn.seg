@@ -1,4 +1,0 @@
-loadfile /home/mj/Desktop/IoT-Chat-Digitalization/paho-mqtt/bin/nrf52840dk/TextYourIoTDevice.elf
-r
-g
-exit

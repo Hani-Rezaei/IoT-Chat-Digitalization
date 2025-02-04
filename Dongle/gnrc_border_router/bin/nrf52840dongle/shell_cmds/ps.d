@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/shell_cmds/ps.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/shell_cmds/ps.o: \
  /home/mj/Desktop/RIOT/sys/shell/cmds/ps.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/sys/include/ps.h \
  /home/mj/Desktop/RIOT/sys/include/shell.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h \
@@ -56,7 +56,7 @@
  /home/mj/Desktop/RIOT/core/lib/include/xfa.h \
  /home/mj/Desktop/RIOT/sys/include/flash_utils.h \
  /usr/include/newlib/string.h /usr/include/newlib/sys/string.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/sys/include/ps.h:
 /home/mj/Desktop/RIOT/sys/include/shell.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h:

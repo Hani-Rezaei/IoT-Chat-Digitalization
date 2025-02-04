@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/tsrb/tsrb.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/tsrb/tsrb.o: \
  /home/mj/Desktop/RIOT/sys/tsrb/tsrb.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/core/lib/include/irq.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdbool.h \
  /home/mj/Desktop/RIOT/cpu/nrf52/include/cpu_conf.h \
@@ -24,7 +24,7 @@
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stddef.h \
  /home/mj/Desktop/RIOT/sys/include/debug_irq_disable.h \
  /home/mj/Desktop/RIOT/sys/include/tsrb.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/core/lib/include/irq.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdbool.h:
 /home/mj/Desktop/RIOT/cpu/nrf52/include/cpu_conf.h:

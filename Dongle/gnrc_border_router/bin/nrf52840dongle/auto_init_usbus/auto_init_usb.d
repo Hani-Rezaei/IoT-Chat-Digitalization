@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/auto_init_usbus/auto_init_usb.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/auto_init_usbus/auto_init_usb.o: \
  /home/mj/Desktop/RIOT/sys/auto_init/usb/auto_init_usb.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/core/lib/include/assert.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h \
  /home/mj/Desktop/RIOT/sys/include/usb/usbus.h \
@@ -97,7 +97,7 @@
  /home/mj/Desktop/RIOT/sys/include/usb/usbus/cdc/acm.h \
  /home/mj/Desktop/RIOT/sys/include/usb/cdc.h \
  /home/mj/Desktop/RIOT/sys/include/tsrb.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/core/lib/include/assert.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h:
 /home/mj/Desktop/RIOT/sys/include/usb/usbus.h:

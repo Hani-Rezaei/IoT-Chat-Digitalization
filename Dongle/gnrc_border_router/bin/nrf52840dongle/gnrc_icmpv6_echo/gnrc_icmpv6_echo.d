@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/gnrc_icmpv6_echo/gnrc_icmpv6_echo.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/gnrc_icmpv6_echo/gnrc_icmpv6_echo.o: \
  /home/mj/Desktop/RIOT/sys/net/gnrc/network_layer/icmpv6/echo/gnrc_icmpv6_echo.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /usr/include/newlib/inttypes.h /usr/include/newlib/nano/newlib.h \
  /usr/include/newlib/_newlib_version.h /usr/include/newlib/sys/config.h \
  /usr/include/newlib/machine/ieeefp.h /usr/include/newlib/sys/features.h \
@@ -142,7 +142,7 @@
  /home/mj/Desktop/RIOT/sys/include/net/gnrc/ipv6/nib/nc.h \
  /home/mj/Desktop/RIOT/sys/include/net/gnrc/ipv6/nib/pl.h \
  /home/mj/Desktop/RIOT/core/lib/include/debug.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /usr/include/newlib/inttypes.h:
 /usr/include/newlib/nano/newlib.h:
 /usr/include/newlib/_newlib_version.h:

@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/gnrc_dhcpv6/client_simple_pd.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/gnrc_dhcpv6/client_simple_pd.o: \
  /home/mj/Desktop/RIOT/sys/net/gnrc/application_layer/dhcpv6/client_simple_pd.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/sys/include/event.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdbool.h \
@@ -137,7 +137,7 @@
  /home/mj/Desktop/RIOT/sys/include/net/gnrc/ipv6/nib/pl.h \
  /home/mj/Desktop/RIOT/sys/include/net/icmpv6.h \
  /home/mj/Desktop/RIOT/sys/include/net/gnrc/dhcpv6/client/simple_pd.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/sys/include/event.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdbool.h:

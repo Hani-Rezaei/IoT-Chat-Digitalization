@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/core_lib/atomic_c11.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/core_lib/atomic_c11.o: \
  /home/mj/Desktop/RIOT/core/lib/atomic_c11.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stddef.h \
  /usr/include/newlib/stdlib.h /usr/include/newlib/machine/ieeefp.h \
  /usr/include/newlib/_ansi.h /usr/include/newlib/nano/newlib.h \
@@ -34,7 +34,7 @@
  /home/mj/Desktop/RIOT/core/lib/include/compiler_hints.h \
  /home/mj/Desktop/RIOT/core/lib/include/container.h \
  /home/mj/Desktop/RIOT/sys/include/debug_irq_disable.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stddef.h:
 /usr/include/newlib/stdlib.h:
 /usr/include/newlib/machine/ieeefp.h:

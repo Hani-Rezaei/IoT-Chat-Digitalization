@@ -1,6 +1,6 @@
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/l2util/l2util.o: \
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/l2util/l2util.o: \
  /home/mj/Desktop/RIOT/sys/net/link_layer/l2util/l2util.c \
- /home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
+ /home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h \
  /home/mj/Desktop/RIOT/core/lib/include/assert.h \
  /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h \
  /home/mj/Desktop/RIOT/core/lib/include/log.h /usr/include/newlib/stdio.h \
@@ -49,7 +49,7 @@
  /home/mj/Desktop/RIOT/core/lib/include/container.h \
  /home/mj/Desktop/RIOT/sys/include/net/l2util.h \
  /home/mj/Desktop/RIOT/sys/include/net/ndp.h
-/home/mj/Desktop/IoT-Chat-Digitalization/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
+/home/mj/Desktop/IoT-Chat-Digitalization/Dongle/gnrc_border_router/bin/nrf52840dongle/riotbuild/riotbuild.h:
 /home/mj/Desktop/RIOT/core/lib/include/assert.h:
 /usr/lib/gcc/arm-none-eabi/13.2.1/include/stdint.h:
 /home/mj/Desktop/RIOT/core/lib/include/log.h:

@@ -1,0 +1,83 @@
+\doxysection{mqtt\+\_\+utils.\+h}
+\hypertarget{mqtt__utils_8h_source}{}\label{mqtt__utils_8h_source}\index{/home/mj/Desktop/IoT-\/Chat-\/Digitalization/saul/mqtt\_utils.h@{/home/mj/Desktop/IoT-\/Chat-\/Digitalization/saul/mqtt\_utils.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ MQTT\_UTILS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ MQTT\_UTILS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}thread.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}mutex.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}paho\_mqtt.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}MQTTClient.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ BROKER\_IPV6}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ BROKER\_IPV6\ \ \ \ \ \ \ \ \ "{}2600:1f18:74ea:15df:f67c:5919:5bab:51f1"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#ifndef\ TOPIC\_TO\_SUBSCRIBE}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ TOPIC\_TO\_SUBSCRIBE\ \ \ "{}awsiot\_to\_localgateway/\#"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#ifndef\ TOPIC\_TEMPERATURE}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#define\ TOPIC\_TEMPERATURE\ \ \ "{}awsiot\_to\_localgateway/temperature"{}}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifndef\ TOPIC\_TEMPERATURE\_TO\_PUBLISH}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ TOPIC\_TEMPERATURE\_TO\_PUBLISH\ \ \ "{}localgateway\_to\_awsiot/temperature"{}}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#ifndef\ TOPIC\_HUMIDITY}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ TOPIC\_HUMIDITY\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}awsiot\_to\_localgateway/humidity"{}}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#ifndef\ TOPIC\_HUMIDITY\_TO\_PUBLISH}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ TOPIC\_HUMIDITY\_TO\_PUBLISH\ \ \ \ "{}localgateway\_to\_awsiot/humidity"{}}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#ifndef\ TOPIC\_PRESSURE}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ TOPIC\_PRESSURE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}awsiot\_to\_localgateway/pressure"{}}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#ifndef\ TOPIC\_PRESSURE\_TO\_PUBLISH}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ TOPIC\_PRESSURE\_TO\_PUBLISH\ \ \ \ "{}localgateway\_to\_awsiot/pressure"{}}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ MAIN\_QUEUE\_SIZE\ \ \ \ \ (8)}}
+\DoxyCodeLine{00044\ \textcolor{keyword}{static}\ msg\_t\ \_main\_msg\_queue[MAIN\_QUEUE\_SIZE];}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ BUF\_SIZE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1024}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ MQTT\_VERSION\_v311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 4\ \ \ \ \ \ \ }\textcolor{comment}{/*\ MQTT\ v3.1.1\ version\ is\ 4\ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ COMMAND\_TIMEOUT\_MS\ \ \ \ \ \ \ \ \ \ \ \ \ \ 4000}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#ifndef\ DEFAULT\_MQTT\_CLIENT\_ID}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ DEFAULT\_MQTT\_CLIENT\_ID\ \ \ \ \ \ \ \ \ \ "{}"{}}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#ifndef\ DEFAULT\_MQTT\_USER}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ DEFAULT\_MQTT\_USER\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}"{}}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#ifndef\ DEFAULT\_MQTT\_PWD}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ DEFAULT\_MQTT\_PWD\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ "{}"{}}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ DEFAULT\_MQTT\_PORT\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 8080}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#define\ DEFAULT\_KEEPALIVE\_SEC\ \ \ \ \ \ \ \ \ \ \ 10}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#ifndef\ MAX\_LEN\_TOPIC}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ MAX\_LEN\_TOPIC\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 100}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#ifndef\ MAX\_TOPICS}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ MAX\_TOPICS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 4}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#define\ IS\_CLEAN\_SESSION\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ IS\_RETAINED\_MSG\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ MQTT\_UTILS\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

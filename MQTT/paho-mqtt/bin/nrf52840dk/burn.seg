@@ -1,4 +1,0 @@
-loadfile /home/mj/Desktop/IoT-Chat-Digitalization/MQTT/paho-mqtt/bin/nrf52840dk/paho-mqtt-example.elf
-r
-g
-exit

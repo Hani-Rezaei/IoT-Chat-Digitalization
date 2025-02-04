@@ -235,3 +235,6 @@ def send_message_to_telegram(chat_id, text):
     except Exception as e:
         print(f"Failed to send message to Telegram: {e}")
         raise
+    except Exception as e:
+        print(f"Failed to send message to Telegram: {e}")
+        raise
