@@ -20,10 +20,8 @@ The system uses LEDs for status indication and includes logging and monitoring c
     - [6. The AWS API Gateaway](#6-the-aws-api-gateaway)
     - [7. The Webhook](#7-the-webhook)
     - [8. Telegram Bot](#5-telegram-bot)
-7. [Testing the System](#-testing-the-system)
-8. [Troubleshooting](#️-troubleshooting)
-9. [Documentation](#-documentation)
-10. [Contact](#-contact)
+7. [Documentation](#-documentation)
+8. [Contact](#-contact)
 
 ---
 
