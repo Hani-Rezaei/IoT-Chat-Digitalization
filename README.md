@@ -19,7 +19,7 @@ The system uses LEDs for status indication and includes logging and monitoring c
     - [5. The AWS Lambda TelegramBotHandler](#5-the-aws-lambda-telegrambothandler)
     - [6. The AWS API Gateaway](#6-the-aws-api-gateaway)
     - [7. The Webhook](#7-the-webhook)
-    - [8. Telegram Bot](#5-telegram-bot)
+    - [8. Telegram Bot](#8-telegram-bot)
 7. [Documentation](#-documentation)
 8. [Contact](#-contact)
 
