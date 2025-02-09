@@ -1,0 +1,59 @@
+\doxysection{/home/mj/\+Desktop/\+Io\+T-\/\+Chat-\/\+Digitalization/\+Text\+Your\+Io\+TDevice/led\+\_\+utils.h File Reference}
+\hypertarget{led__utils_8h}{}\label{led__utils_8h}\index{/home/mj/Desktop/IoT-\/Chat-\/Digitalization/TextYourIoTDevice/led\_utils.h@{/home/mj/Desktop/IoT-\/Chat-\/Digitalization/TextYourIoTDevice/led\_utils.h}}
+
+
+Header-\/\+Datei für die SAUL-\/\+Geräteverwaltung und LED-\/\+Steuerung.  
+
+
+{\ttfamily \#include "{}clk.\+h"{}}\newline
+{\ttfamily \#include "{}board.\+h"{}}\newline
+{\ttfamily \#include "{}periph\+\_\+conf.\+h"{}}\newline
+{\ttfamily \#include "{}timex.\+h"{}}\newline
+{\ttfamily \#include "{}ztimer.\+h"{}}\newline
+Include dependency graph for led\+\_\+utils.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{led__utils_8h_ad0c9454f445f19c5292752ac281ad1f6}{led\+\_\+set\+\_\+state}} (const char \texorpdfstring{$\ast$}{*}device\+\_\+name, uint8\+\_\+t is\+\_\+on)
+\begin{DoxyCompactList}\small\item\em Setzt den Zustand einer LED basierend auf ihrem Gerätenamen. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header-\/\+Datei für die SAUL-\/\+Geräteverwaltung und LED-\/\+Steuerung. 
+
+Diese Datei enthält die Deklarationen für die Steuerung von LED-\/\+Geräten, die mit dem SAUL-\/\+Register (Sensor, Actuator, and User Logic) verwaltet werden. Sie ermöglicht das Ein-\/ und Ausschalten von LEDs über ihre Gerätenamen.
+
+\begin{DoxyAuthor}{Author}
+Mohammadjavad Esmaeili 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2025 
+\end{DoxyDate}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{led__utils_8h_ad0c9454f445f19c5292752ac281ad1f6}\label{led__utils_8h_ad0c9454f445f19c5292752ac281ad1f6} 
+\index{led\_utils.h@{led\_utils.h}!led\_set\_state@{led\_set\_state}}
+\index{led\_set\_state@{led\_set\_state}!led\_utils.h@{led\_utils.h}}
+\doxysubsubsection{\texorpdfstring{led\_set\_state()}{led\_set\_state()}}
+{\footnotesize\ttfamily int led\+\_\+set\+\_\+state (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{device\+\_\+name,  }\item[{uint8\+\_\+t}]{is\+\_\+on }\end{DoxyParamCaption})}
+
+
+
+Setzt den Zustand einer LED basierend auf ihrem Gerätenamen. 
+
+Diese Funktion sucht ein Gerät anhand des übergebenen Namens im SAUL-\/\+Register und setzt dessen Zustand auf AN oder AUS, abhängig vom Parameter {\ttfamily is\+\_\+on}.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em device\+\_\+name} & Name des LED-\/\+Geräts im SAUL-\/\+Register. \\
+\hline
+\mbox{\texttt{ in}}  & {\em is\+\_\+on} & Status der LED\+: 1 für AN, 0 für AUS.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 bei Erfolg, -\/1 wenn das Gerät nicht gefunden wurde, -\/2 falls das Setzen des Zustands fehlschlägt. 
+\end{DoxyReturn}

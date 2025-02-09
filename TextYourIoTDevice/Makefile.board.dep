@@ -1,0 +1,13 @@
+# Hier werden Board-spezifische Abhängigkeiten definiert
+
+# Falls ein ESP32/ESP8266-Board genutzt wird, das `arch_esp` als Feature hat,
+# wird das WLAN-Modul `esp_wifi` automatisch eingebunden.
+ifneq (,$(filter arch_esp,$(FEATURES_USED)))
+  USEMODULE += esp_wifi
+endif
+
+# Falls das Board `native` oder `native64` ist (z. B. für Simulationen),
+# wird das Standard-Netzwerkgerät (`netdev_default`) genutzt.
+ifneq (,$(filter native native64,$(BOARD)))
+  USEMODULE += netdev_default
+endif

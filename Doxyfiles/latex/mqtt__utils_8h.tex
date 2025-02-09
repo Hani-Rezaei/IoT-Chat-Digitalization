@@ -1,0 +1,106 @@
+\doxysection{/home/mj/\+Desktop/\+Io\+T-\/\+Chat-\/\+Digitalization/\+Text\+Your\+Io\+TDevice/mqtt\+\_\+utils.h File Reference}
+\hypertarget{mqtt__utils_8h}{}\label{mqtt__utils_8h}\index{/home/mj/Desktop/IoT-\/Chat-\/Digitalization/TextYourIoTDevice/mqtt\_utils.h@{/home/mj/Desktop/IoT-\/Chat-\/Digitalization/TextYourIoTDevice/mqtt\_utils.h}}
+
+
+Header-\/\+Datei für die MQTT-\/\+Kommunikation und -\/Konfiguration.  
+
+
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include "{}thread.\+h"{}}\newline
+{\ttfamily \#include "{}mutex.\+h"{}}\newline
+{\ttfamily \#include "{}paho\+\_\+mqtt.\+h"{}}\newline
+{\ttfamily \#include "{}MQTTClient.\+h"{}}\newline
+Include dependency graph for mqtt\+\_\+utils.\+h\+:
+% FIG 0
+This graph shows which files directly or indirectly include this file\+:
+% FIG 1
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{mqtt__utils_8h_a617c303f7738e23badeb429b99d005dd}\label{mqtt__utils_8h_a617c303f7738e23badeb429b99d005dd} 
+\#define {\bfseries BROKER\+\_\+\+IPV6}~"{}2600\+:1f18\+:74ea\+:15df\+:f67c\+:5919\+:5bab\+:51f1"{}
+\begin{DoxyCompactList}\small\item\em IPv6-\/\+Adresse des MQTT-\/\+Brokers. \end{DoxyCompactList}\item 
+\Hypertarget{mqtt__utils_8h_a5753c5d50fceead38a4b27a282338dd6}\label{mqtt__utils_8h_a5753c5d50fceead38a4b27a282338dd6} 
+\#define {\bfseries TOPIC\+\_\+\+TO\+\_\+\+SUBSCRIBE}~"{}awsiot\+\_\+to\+\_\+localgateway/\#"{}
+\begin{DoxyCompactList}\small\item\em Standard-\/\+Topic für Abonnements. \end{DoxyCompactList}\item 
+\Hypertarget{mqtt__utils_8h_a6eb1641558b3240329cff7a42c609f26}\label{mqtt__utils_8h_a6eb1641558b3240329cff7a42c609f26} 
+\#define {\bfseries MAIN\+\_\+\+QUEUE\+\_\+\+SIZE}~(8)
+\begin{DoxyCompactList}\small\item\em Größe der Hauptnachrichtenwarteschlange. \end{DoxyCompactList}\item 
+\Hypertarget{mqtt__utils_8h_a6821bafc3c88dfb2e433a095df9940c6}\label{mqtt__utils_8h_a6821bafc3c88dfb2e433a095df9940c6} 
+\#define {\bfseries BUF\+\_\+\+SIZE}~1024
+\begin{DoxyCompactList}\small\item\em Größe des Puffers für MQTT-\/\+Nachrichten. \end{DoxyCompactList}\item 
+\Hypertarget{mqtt__utils_8h_a8bd89dbe1606f36016288b2d586348ca}\label{mqtt__utils_8h_a8bd89dbe1606f36016288b2d586348ca} 
+\#define {\bfseries MQTT\+\_\+\+VERSION\+\_\+v311}~4       /\texorpdfstring{$\ast$}{*} MQTT v3.\+1.\+1 version is 4 \texorpdfstring{$\ast$}{*}/
+\begin{DoxyCompactList}\small\item\em MQTT-\/\+Protokollversion (v3.\+1.\+1) \end{DoxyCompactList}\item 
+\Hypertarget{mqtt__utils_8h_aaccae77dd0ec9bf8de503250665c7185}\label{mqtt__utils_8h_aaccae77dd0ec9bf8de503250665c7185} 
+\#define {\bfseries COMMAND\+\_\+\+TIMEOUT\+\_\+\+MS}~4000
+\begin{DoxyCompactList}\small\item\em MQTT-\/\+Protokollversion (v3.\+1.\+1) \end{DoxyCompactList}\item 
+\Hypertarget{mqtt__utils_8h_a01342056d524ed0b20f9e0ccc800d1db}\label{mqtt__utils_8h_a01342056d524ed0b20f9e0ccc800d1db} 
+\#define {\bfseries DEFAULT\+\_\+\+MQTT\+\_\+\+PORT}~8080
+\begin{DoxyCompactList}\small\item\em Standardport für die MQTT-\/\+Verbindung. \end{DoxyCompactList}\item 
+\Hypertarget{mqtt__utils_8h_a36ee403a37aa755f2306ccff42265ad0}\label{mqtt__utils_8h_a36ee403a37aa755f2306ccff42265ad0} 
+\#define {\bfseries DEFAULT\+\_\+\+KEEPALIVE\+\_\+\+SEC}~10
+\begin{DoxyCompactList}\small\item\em Keepalive-\/\+Intervall in Sekunden. \end{DoxyCompactList}\item 
+\Hypertarget{mqtt__utils_8h_a3655f3a4170546f3af926c3e51251bb3}\label{mqtt__utils_8h_a3655f3a4170546f3af926c3e51251bb3} 
+\#define {\bfseries MAX\+\_\+\+LEN\+\_\+\+TOPIC}~100
+\begin{DoxyCompactList}\small\item\em Maximale Länge eines MQTT-\/\+Topics. \end{DoxyCompactList}\item 
+\Hypertarget{mqtt__utils_8h_a91bc2cac3c4615c062e7524ba2ea2278}\label{mqtt__utils_8h_a91bc2cac3c4615c062e7524ba2ea2278} 
+\#define {\bfseries MAX\+\_\+\+TOPICS}~4
+\begin{DoxyCompactList}\small\item\em Maximale Anzahl der abonnierten Topics. \end{DoxyCompactList}\item 
+\Hypertarget{mqtt__utils_8h_a4c6bf3e7cb013d38de441d1b0cbdce58}\label{mqtt__utils_8h_a4c6bf3e7cb013d38de441d1b0cbdce58} 
+\#define {\bfseries IS\+\_\+\+CLEAN\+\_\+\+SESSION}~1
+\begin{DoxyCompactList}\small\item\em Angabe, ob eine neue Verbindung eine saubere Sitzung ist. \end{DoxyCompactList}\item 
+\Hypertarget{mqtt__utils_8h_a58b2f6302f0379a0d958a7f6c4f3e272}\label{mqtt__utils_8h_a58b2f6302f0379a0d958a7f6c4f3e272} 
+\#define {\bfseries IS\+\_\+\+RETAINED\+\_\+\+MSG}~0
+\begin{DoxyCompactList}\small\item\em Angabe, ob MQTT-\/\+Nachrichten als "{}\+Retained Messages"{} gespeichert werden sollen. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{Indent}\textbf{ MQTT-\/\+Themen für Sensordaten}\par
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{mqtt__utils_8h_aef5816f45c406cf7d1c533418760cf2d}\label{mqtt__utils_8h_aef5816f45c406cf7d1c533418760cf2d} 
+\#define {\bfseries TOPIC\+\_\+\+TEMPERATURE}~"{}awsiot\+\_\+to\+\_\+localgateway/temperature"{}
+\item 
+\Hypertarget{mqtt__utils_8h_a5acc97ca437c0b2eb156c5c063758ed1}\label{mqtt__utils_8h_a5acc97ca437c0b2eb156c5c063758ed1} 
+\#define {\bfseries TOPIC\+\_\+\+TEMPERATURE\+\_\+\+TO\+\_\+\+PUBLISH}~"{}localgateway\+\_\+to\+\_\+awsiot/temperature"{}
+\item 
+\Hypertarget{mqtt__utils_8h_ad30a27859ffa87adf31e6d39c1cc8bfe}\label{mqtt__utils_8h_ad30a27859ffa87adf31e6d39c1cc8bfe} 
+\#define {\bfseries TOPIC\+\_\+\+HUMIDITY}~"{}awsiot\+\_\+to\+\_\+localgateway/humidity"{}
+\item 
+\Hypertarget{mqtt__utils_8h_a1330f667087a3d488299e27e5c3876f2}\label{mqtt__utils_8h_a1330f667087a3d488299e27e5c3876f2} 
+\#define {\bfseries TOPIC\+\_\+\+HUMIDITY\+\_\+\+TO\+\_\+\+PUBLISH}~"{}localgateway\+\_\+to\+\_\+awsiot/humidity"{}
+\item 
+\Hypertarget{mqtt__utils_8h_a74d547f224e4c3f645e89fc5d6ae1837}\label{mqtt__utils_8h_a74d547f224e4c3f645e89fc5d6ae1837} 
+\#define {\bfseries TOPIC\+\_\+\+PRESSURE}~"{}awsiot\+\_\+to\+\_\+localgateway/pressure"{}
+\item 
+\Hypertarget{mqtt__utils_8h_a89c9ce33c0f435e620d0bcf0718323d5}\label{mqtt__utils_8h_a89c9ce33c0f435e620d0bcf0718323d5} 
+\#define {\bfseries TOPIC\+\_\+\+PRESSURE\+\_\+\+TO\+\_\+\+PUBLISH}~"{}localgateway\+\_\+to\+\_\+awsiot/pressure"{}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ Standard-\/\+MQTT-\/\+Client-\/\+Anmeldedaten}\par
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{mqtt__utils_8h_abd02195e98057feff1f5ac5ae40bdabc}\label{mqtt__utils_8h_abd02195e98057feff1f5ac5ae40bdabc} 
+\#define {\bfseries DEFAULT\+\_\+\+MQTT\+\_\+\+CLIENT\+\_\+\+ID}~"{}"{}
+\item 
+\Hypertarget{mqtt__utils_8h_a9d937c709283df97eba77604ea250e29}\label{mqtt__utils_8h_a9d937c709283df97eba77604ea250e29} 
+\#define {\bfseries DEFAULT\+\_\+\+MQTT\+\_\+\+USER}~"{}"{}
+\item 
+\Hypertarget{mqtt__utils_8h_a0acc5dc651a874126fec47f603f7c1ce}\label{mqtt__utils_8h_a0acc5dc651a874126fec47f603f7c1ce} 
+\#define {\bfseries DEFAULT\+\_\+\+MQTT\+\_\+\+PWD}~"{}"{}
+\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\doxysubsection{Detailed Description}
+Header-\/\+Datei für die MQTT-\/\+Kommunikation und -\/Konfiguration. 
+
+Diese Datei enthält die Deklarationen von Konstanten und Makros, die für die MQTT-\/\+Kommunikation und -\/Konfiguration verwendet werden. Sie stellt Standardwerte für die Verbindung zum MQTT-\/\+Broker, die Definition von Topics und weitere MQTT-\/spezifische Parameter bereit.
+
+Es werden sowohl die Verbindungsdetails als auch die Themen für den Datenaustausch definiert, um eine grundlegende MQTT-\/basierte Kommunikation zu ermöglichen.
+
+\begin{DoxyAuthor}{Author}
+Mohammadjavad Esmaeili 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2025 
+\end{DoxyDate}
