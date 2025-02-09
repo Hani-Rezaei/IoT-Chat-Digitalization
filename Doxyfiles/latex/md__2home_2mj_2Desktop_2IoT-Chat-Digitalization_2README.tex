@@ -1,0 +1,237 @@
+\chapter{🌐 \texorpdfstring{$<$}{<}strong\texorpdfstring{$>$}{>}Text\+Your\+Io\+TDevice\texorpdfstring{$<$}{<}/strong\texorpdfstring{$>$}{>}}
+\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README}{}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README}\index{🌐 $<$strong$>$TextYourIoTDevice$<$/strong$>$@{🌐 $<$strong$>$TextYourIoTDevice$<$/strong$>$}}
+\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md15}%
+\Hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md15}%
+ This project demonstrates how to connect a Nordic n\+RF52840 Development Kit (DK) to AWS IoT Core via an MQTT broker (Mosquitto) and integrate a Telegram bot for interaction and notifications. The system uses LEDs for status indication and includes logging and monitoring capabilities through AWS Cloud\+Watch.
+
+\DoxyHorRuler{0}
+\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md17}{}\doxysection{\texorpdfstring{📚 $<$strong$>$\+Table of Contents$<$/strong$>$}{📚 <strong>Table of Contents</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md17}
+
+\begin{DoxyEnumerate}
+\item Project Overview
+\item System Architecture
+\item Features
+\item Requirements
+\item Project structure
+\item Setup Instructions
+\begin{DoxyItemize}
+\item 1. Flashing the DK
+\item 2. Flashing the Dongle
+\item 3. The MQTT Broker on AWS EC2
+\item 4. The MQTT Broker on AWS IoT Core
+\item 5. The AWS Lambda Telegram\+Bot\+Handler
+\item 6. The AWS API Gateaway
+\item 7. The Webhook
+\item 8. Telegram Bot
+\end{DoxyItemize}
+\item Documentation
+\item Contact
+\end{DoxyEnumerate}
+
+\DoxyHorRuler{0}
+\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md19}{}\doxysection{\texorpdfstring{📜 $<$strong$>$\+Project Overview$<$/strong$>$}{📜 <strong>Project Overview</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md19}
+This project enables IoT devices to communicate with AWS IoT Core using the MQTT protocol. A Telegram bot is integrated to provide a user interface for sending and receiving messages. ~\newline
+ The primary use case involves a DK that collects sensor data, sends it to an MQTT broker (Mosquitto), which forwards it securely to AWS IoT Core using TLS encryption. The system supports feedback loops via Telegram bot interaction.
+
+\DoxyHorRuler{0}
+\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md21}{}\doxysection{\texorpdfstring{📐 $<$strong$>$\+System Architecture$<$/strong$>$}{📐 <strong>System Architecture</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md21}
+ \hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md22}{}\doxysubsection{\texorpdfstring{$<$strong$>$\+Components\+:$<$/strong$>$}{<strong>Components:</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md22}
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Sensor BME280\+:}} Temperature, air pressure and humidity sensor
+\item {\bfseries{n\+RF52840 DK\+:}} Publishes sensor data via MQTT.
+\item {\bfseries{n\+RF52840 Dongle\+:}} Functions as a border router for the DK.
+\item {\bfseries{Mosquitto (MQTT Broker)\+:}} Acts as an intermediary between the DK and AWS IoT Core.
+\item {\bfseries{AWS IoT Core\+:}} Central hub for IoT device communication.
+\item {\bfseries{AWS Lamda\+:}}
+\item {\bfseries{AWS API Gateaway\+:}}
+\item {\bfseries{Webhook\+:}} 
+\end{DoxyEnumerate}\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md23}{}\doxysection{\texorpdfstring{9. $<$strong$>$\+Telegram Bot\+:$<$/strong$>$ Allows interaction with the Io\+T system.}{9. <strong>Telegram Bot:</strong> Allows interaction with the IoT system.}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md23}
+\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md24}{}\doxysection{\texorpdfstring{✨ $<$strong$>$\+Features$<$/strong$>$}{✨ <strong>Features</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md24}
+
+\begin{DoxyItemize}
+\item {\bfseries{End-\/to-\/\+End Encryption\+:}} TLS ensures secure communication between Mosquitto and Telegram bot.
+\item {\bfseries{Status Indicators\+:}} LEDs on the DK signal connection status and data transfer.
+\item {\bfseries{Interactive Telegram Bot\+:}} Receive and send messages through a Telegram bot.
+\item {\bfseries{Logging and Monitoring\+:}} 
+\end{DoxyItemize}\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md25}{}\doxysection{\texorpdfstring{Implement logging for debugging and monitoring Io\+T devices using AWS Cloud\+Watch}{Implement logging for debugging and monitoring IoT devices using AWS CloudWatch}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md25}
+\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md26}{}\doxysection{\texorpdfstring{🛠️ $<$strong$>$\+Requirements$<$/strong$>$}{🛠️ <strong>Requirements</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md26}
+\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md27}{}\doxysubsection{\texorpdfstring{$<$strong$>$\+Hardware\+:$<$/strong$>$}{<strong>Hardware:</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md27}
+
+\begin{DoxyItemize}
+\item Nordic n\+RF52840 DK
+\item n\+RF52840 Dongle (used as a border router)
+\item Raspberry Pi (optional for border router setup)
+\item Sensor BME280 (If the sensor is not connected, only the value of the internal sensor can be read from the DK)
+\end{DoxyItemize}\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md28}{}\doxysubsection{\texorpdfstring{$<$strong$>$\+Software\+:$<$/strong$>$}{<strong>Software:</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md28}
+
+\begin{DoxyItemize}
+\item RIOT OS with {\ttfamily paho\+\_\+mqtt} running on the DK
+\item RIOT OS with {\ttfamily gnrc\+\_\+border\+\_\+router} running on the Dongle
+\item Mosquitto MQTT Broker installed on an AWS EC2 instance ~\newline
+
+\item AWS IoT Core configured for MQTT communication
+\item 
+\item 
+\item 
+\item 
+\item Telegram Bot API ~\newline
+
+\end{DoxyItemize}\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md29}{}\doxysubsection{\texorpdfstring{$<$strong$>$\+Certificates and Keys\+:$<$/strong$>$}{<strong>Certificates and Keys:</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md29}
+
+\begin{DoxyItemize}
+\item AWS IoT Core Root CA certificate "{}\texorpdfstring{$\ast$}{*}\+Amazon\+Root\+CA.\+pem\texorpdfstring{$\ast$}{*}"{}
+\item Device certificate "{}\texorpdfstring{$\ast$}{*}certificate.\+pem.\+crt\texorpdfstring{$\ast$}{*}"{}
+\item private key "{}\texorpdfstring{$\ast$}{*}private.\+pem.\+key\texorpdfstring{$\ast$}{*}"{}
+\end{DoxyItemize}\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md30}{}\doxysubsection{\texorpdfstring{$<$strong$>$\+Tools\+:$<$/strong$>$}{<strong>Tools:</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md30}
+
+\begin{DoxyItemize}
+\item \href{https://filezilla-project.org/download.php}{\texttt{ File\+Zilla}}\+: SSH client for AWS EC2 
+\end{DoxyItemize}\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md31}{}\doxysection{\texorpdfstring{-\/ $<$a href="{}https\+://www.\+nordicsemi.\+com/\+Products/\+Development-\/tools/n\+RF-\/\+Connect-\/for-\/\+Desktop/\+Download\#infotabs"{} $>$n\+RF Connect for Desktop$<$/a$>$ \+: For flashing the firmware in Dongle}{- <a href="https://www.nordicsemi.com/Products/Development-tools/nRF-Connect-for-Desktop/Download\#infotabs" >nRF Connect for Desktop</a> : For flashing the firmware in Dongle}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md31}
+\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md32}{}\doxysection{\texorpdfstring{📂 $<$strong$>$\+Project structure$<$/strong$>$}{📂 <strong>Project structure</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md32}
+The following is an overview of the project\textquotesingle{}s structure\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{TextYourIoTDevice/}
+\DoxyCodeLine{├──\ aws/\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Contains\ configuration\ from\ AWS\ such\ as\ security\ certificates\ project.}
+\DoxyCodeLine{│\ \ \ ├──\ AWS\_EC2\_Conf/\ \ \ \ \ \ \ \ \ \ \ \#\ Configurations\ of\ AWS\ EC2}
+\DoxyCodeLine{│\ \ \ ├──\ AWS\_IoTCore\_TLS\_Conf/\ \ \ \#\ Configurations\ of\ AWS\ IoT\ Core\ and\ TLS\ certificates}
+\DoxyCodeLine{│\ \ \ ├──\ Lambda/\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Lambda\ functions\ }
+\DoxyCodeLine{├──\ Board\_Datasheet/\ \ \ \ \ \ \ \ \ \ \ \ \#\ Contains\ the\ datasheets\ of\ the\ board\ and\ sensors}
+\DoxyCodeLine{├──\ Dongle/\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Contains\ the\ code\ that\ is\ flashed\ on\ the\ dongle\ as\ a\ border\ router\ and\ the\ IPv6-\/address\ of\ dongle\ }
+\DoxyCodeLine{│\ \ \ ├──\ gnrc\_border\_router/\ \ \ \ \ \#\ The\ code\ of\ gnrc\_border\_router\ of\ RIOT\ flashed\ on\ the\ dongle}
+\DoxyCodeLine{│\ \ \ ├──\ ip\_address\_dongle.md\ \ \ \ \#\ The\ IPv6-\/address\ and\ the\ interface\ name\ of\ dongle\ }
+\DoxyCodeLine{├──\ Doxyfiles/\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ The\ Doxyfile\ and\ configurations}
+\DoxyCodeLine{├──\ images/\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ The\ images}
+\DoxyCodeLine{├──\ TextYourIoTDevice/\ \ \ \ \ \ \ \ \ \ \#\ The\ code\ of\ TextYourIoTDevice\ flashed\ on\ the\ DK}
+\DoxyCodeLine{│\ \ \ ├──\ led\_utils.h\ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Header\ file\ of\ led\_utils}
+\DoxyCodeLine{│\ \ \ ├──\ led\_utils.c\ \ \ \ \ \ \ \ \ \ \ \ \ \#\ C\ file\ of\ led\_utils}
+\DoxyCodeLine{│\ \ \ ├──\ main.c\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Main\ file}
+\DoxyCodeLine{│\ \ \ ├──\ Makefile\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Main\ makefile}
+\DoxyCodeLine{│\ \ \ ├──\ Makefile.board.dep\ \ \ \ \ \ \#\ Makefile\ of\ board.dep\ of\ RIOT}
+\DoxyCodeLine{│\ \ \ ├──\ Makefile.ci\ \ \ \ \ \ \ \ \ \ \ \ \ \#\ Makefile\ of\ ci\ of\ RIOT}
+\DoxyCodeLine{│\ \ \ ├──\ Makefile.gnrc\ \ \ \ \ \ \ \ \ \ \ \#\ Makefile\ of\ gnrc\ of\ RIOT}
+\DoxyCodeLine{│\ \ \ ├──\ Makefile.Iwip\ \ \ \ \ \ \ \ \ \ \ \#\ Makefile\ of\ Iwip\ of\ RIOT}
+\DoxyCodeLine{│\ \ \ ├──\ Makefile.mqtt\ \ \ \ \ \ \ \ \ \ \ \#\ Makefile\ of\ mqtt\ of\ RIOT}
+\DoxyCodeLine{│\ \ \ ├──\ Makefile.saul\ \ \ \ \ \ \ \ \ \ \ \#\ Makefile\ of\ saul\ of\ RIOT}
+\DoxyCodeLine{│\ \ \ ├──\ mqtt\_utils.h\ \ \ \ \ \ \ \ \ \ \ \ \#\ Header\ file\ of\ mqtt\_utils}
+\DoxyCodeLine{│\ \ \ ├──\ saul\_utils.h\ \ \ \ \ \ \ \ \ \ \ \ \#\ Header\ file\ of\ saul\_utils}
+\DoxyCodeLine{│\ \ \ ├──\ saul\_utils.c\ \ \ \ \ \ \ \ \ \ \ \ \#\ C\ file\ of\ saul\_utils}
+\DoxyCodeLine{│\ \ \ ├──\ shell\_command\_utils.c\ \ \ \#\ C\ file\ of\ shell\_command\_utils}
+\DoxyCodeLine{└──\ README.md\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#\ This\ documentation}
+
+\end{DoxyCode}
+ \hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md33}{}\doxysection{\texorpdfstring{🚀 $<$strong$>$\+Setup Instructions$<$/strong$>$}{🚀 <strong>Setup Instructions</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md33}
+\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md34}{}\doxysubsection{\texorpdfstring{$<$strong$>$1. Flashing the DK$<$/strong$>$}{<strong>1. Flashing the DK</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md34}
+
+\begin{DoxyEnumerate}
+\item Hardware Connections
+\begin{DoxyEnumerate}
+\item Connect the sensor BME280 to DK as shown in the following photo\+:
+\end{DoxyEnumerate}
+
+
+
+{\bfseries{BME280 Pinout (for I2C)}}\+: \begin{DoxyVerb}VCC (BME280) → 3.3V (nRF52840DK)
+GND (BME280) → GND (nRF52840DK)
+SDA (BME280) → SDA (Pin 26 on nRF52840DK)
+SCL (BME280) → SCL (Pin 27 on nRF52840DK)
+SDO (BME280) → GND (for I2C address 0x76) or 3.3V (for I2C address 0x77)
+\end{DoxyVerb}
+
+\end{DoxyEnumerate}
+
+{\bfseries{Important NOTE}}\+: The program is already flashed on the DK. If you still want to make it, go through the following steps.
+
+
+\begin{DoxyEnumerate}
+\item Clone the project repository\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git\ clone\ https://github.com/Hani-\/Rezaei/IoT-\/Chat-\/Digitalization.git}
+
+\end{DoxyCode}
+
+\item Into the directory 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ directory/}
+
+\end{DoxyCode}
+
+\item Build the application for the n\+RF52840 DK\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make\ BOARD=nrf52840dk\ TextYourIoTDevice/}
+
+\end{DoxyCode}
+
+\item Flash the firmware and verify the flashing process by checking the serial output\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make\ BOARD=nrf52840dk\ TextYourIoTDevice/\ flash\ term}
+
+\end{DoxyCode}
+ 
+\end{DoxyEnumerate}\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md35}{}\doxysubsection{\texorpdfstring{$<$strong$>$2. Flashing the Dongle$<$/strong$>$}{<strong>2. Flashing the Dongle</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md35}
+
+\begin{DoxyEnumerate}
+\item Build the application for the Dongle\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{make\ BOARD=nrf52840dongle\ dongle/\ all}
+
+\end{DoxyCode}
+
+\item Copy created build \texorpdfstring{$\ast$}{*}.hex\texorpdfstring{$\ast$}{*} ~\newline
+
+\item Start the tool \href{https://www.nordicsemi.com/Products/Development-tools/nRF-Connect-for-Desktop/Download\#infotabs}{\texttt{ n\+RF Connect for Desktop}}
+\item Flash the firmware in dongle (see documentation for detailed instructions)
+\end{DoxyEnumerate}\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md36}{}\doxysubsection{\texorpdfstring{$<$strong$>$3. The MQTT Broker on AWS EC2$<$/strong$>$}{<strong>3. The MQTT Broker on AWS EC2</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md36}
+The mqtt broker on AWS EC2 should work fine.
+
+If it doesn\textquotesingle{}t, contact developer or look at the documentation. to know how the broker was created and configured.\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md37}{}\doxysubsection{\texorpdfstring{$<$strong$>$4. The MQTT Broker on AWS Io\+T Core$<$/strong$>$}{<strong>4. The MQTT Broker on AWS IoT Core</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md37}
+The mqtt broker on AWS IoT Core should work fine.
+
+If it doesn\textquotesingle{}t, contact developers or look at the documentation. to know how the broker was created and configured.\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md38}{}\doxysubsection{\texorpdfstring{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}5. The AWS Lambda $<$em$>$\+Telegram\+Bot\+Handler\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}{**5. The AWS Lambda <em>TelegramBotHandler***}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md38}
+The AWS Lambda function \texorpdfstring{$\ast$}{*}\+Telegram\+Bot\+Handler should work fine.
+
+If not, contact the developers or read the documentation to learn how the function was created and configured.\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md39}{}\doxysubsection{\texorpdfstring{$<$strong$>$6. The AWS API Gateaway$<$/strong$>$}{<strong>6. The AWS API Gateaway</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md39}
+The AWS API Gateaway should work fine.
+
+If not, contact the developers or read the documentation to learn how the function was created and configured.\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md40}{}\doxysubsection{\texorpdfstring{$<$strong$>$7. The Webhook$<$/strong$>$}{<strong>7. The Webhook</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md40}
+The Webhook should work fine.
+
+If not, contact the developers or read the documentation to learn how the function was created and configured.\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md41}{}\doxysubsection{\texorpdfstring{$<$strong$>$8. Telegram Bot$<$/strong$>$}{<strong>8. Telegram Bot</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md41}
+Using the Telegram Bot {\bfseries{Text\+Your\+Io\+TDevice}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Username:\ @TextYourIoTDevicebot}
+
+\end{DoxyCode}
+\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md42}{}\doxysection{\texorpdfstring{📖 $<$strong$>$\+Documentation$<$/strong$>$}{📖 <strong>Documentation</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md42}
+{\bfseries{1. Inline Code Documentation and code structur\+:}}
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Doxygen}} is used for code-\/level documentation.
+\begin{DoxyEnumerate}
+\item Doxygen {\ttfamily bash sudo apt install doxygen \# Auf Linux \texorpdfstring{$<$}{<}br\texorpdfstring{$>$}{>} }
+\item Doxygen-\/\+Konfigurationsdatei generieren\+: {\ttfamily bash doxygen -\/g }
+\item Die generierte Doxyfile anpassen\+: {\ttfamily plaintext \texorpdfstring{$\sim$}{\string~}/\+Doxyfiles/\+Doxyfile }
+\item Doxygen ausführen\+: {\ttfamily bash doxygen Doxyfile }
+\item Die generierte Dokumentation wird im angegebenen {\itshape OUTPUT\+\_\+\+DIRECTORY} gespeichert.
+\item Im einem Browser, um die Dokumentation anzusehen\+: {\ttfamily bash xdg-\/open doc/html/index.\+html \# Auf Linux }
+\end{DoxyEnumerate}
+\item If required, there is {\bfseries{inline code}} in each file.
+\end{DoxyItemize}
+
+{\bfseries{2. README.\+md\+:}} This documentation (detailed steps for setup and usage).
+
+{\bfseries{3. Final Documentation\+:}} Comprehensive project report.\hypertarget{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md43}{}\doxysection{\texorpdfstring{👨‍💻 $<$strong$>$\+Contact$<$/strong$>$}{👨‍💻 <strong>Contact</strong>}}\label{md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README_autotoc_md43}
+
+\begin{DoxyEnumerate}
+\item Mohammadjavad Esmaeili
+
+📧 Email\+: \href{mohammadjavad.esmaeili@stud.fra-uas.de}{\texttt{ mohammadjavad.\+esmaeili@stud.\+fra-\/uas.\+de}}
+\end{DoxyEnumerate}
+\begin{DoxyEnumerate}
+\item Hani Rezaei
+
+📧 Email\+: \href{hani.rezaei@stud.fra-uas.de}{\texttt{ hani.\+rezaei@stud.\+fra-\/uas.\+de}} 
+\end{DoxyEnumerate}

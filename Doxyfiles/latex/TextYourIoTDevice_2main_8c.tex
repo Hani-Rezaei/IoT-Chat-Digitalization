@@ -1,0 +1,233 @@
+\doxysection{/home/mj/\+Desktop/\+Io\+T-\/\+Chat-\/\+Digitalization/\+Text\+Your\+Io\+TDevice/main.c File Reference}
+\hypertarget{TextYourIoTDevice_2main_8c}{}\label{TextYourIoTDevice_2main_8c}\index{/home/mj/Desktop/IoT-\/Chat-\/Digitalization/TextYourIoTDevice/main.c@{/home/mj/Desktop/IoT-\/Chat-\/Digitalization/TextYourIoTDevice/main.c}}
+
+
+MQTT-\/basierte Sensordatenkommunikation mit RIOT OS.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include "{}shell.\+h"{}}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include "{}saul\+\_\+utils.\+h"{}}\newline
+{\ttfamily \#include "{}log.\+h"{}}\newline
+{\ttfamily \#include "{}led\+\_\+utils.\+h"{}}\newline
+{\ttfamily \#include "{}mqtt\+\_\+utils.\+h"{}}\newline
+Include dependency graph for main.\+c\+:
+% FIG 0
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{TextYourIoTDevice_2main_8c_a6eb1641558b3240329cff7a42c609f26}\label{TextYourIoTDevice_2main_8c_a6eb1641558b3240329cff7a42c609f26} 
+\#define {\bfseries MAIN\+\_\+\+QUEUE\+\_\+\+SIZE}~(8)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{TextYourIoTDevice_2main_8c_a581296f950d602b619010f54789fab8a}{publish\+\_\+bme280\+\_\+data}} (void)
+\begin{DoxyCompactList}\small\item\em Veröffentlicht die BME280-\/\+Sensordaten über MQTT. \end{DoxyCompactList}\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{TextYourIoTDevice_2main_8c_a9a67c32fdf79f2a116a996f84f65feed}{generate\+\_\+sensor\+\_\+response}} (const char \texorpdfstring{$\ast$}{*}topic, const char \texorpdfstring{$\ast$}{*}request\+\_\+unit)
+\begin{DoxyCompactList}\small\item\em Generiert die MQTT-\/\+Antwort basierend auf dem empfangenen Topic. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{TextYourIoTDevice_2main_8c_a74a712f3c4e10c8a637b4c24aa7f1b7a}{parse\+\_\+payload\+\_\+for\+\_\+unit}} (const char \texorpdfstring{$\ast$}{*}payload, char \texorpdfstring{$\ast$}{*}unit, size\+\_\+t unit\+\_\+size, char \texorpdfstring{$\ast$}{*}chat\+\_\+id, size\+\_\+t chat\+\_\+id\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Extrahiert die Einheit und die Chat-\/\+ID aus einem JSON-\/\+String. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{TextYourIoTDevice_2main_8c_a81fa19b1d9d5ded093f563976feb7a17}{handle\+\_\+mqtt\+\_\+message}} (Message\+Data \texorpdfstring{$\ast$}{*}data)
+\begin{DoxyCompactList}\small\item\em Verarbeitet empfangene MQTT-\/\+Nachrichten. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{TextYourIoTDevice_2main_8c_ae107fb9cededb7cc12730ce7b4bcd0ab}{disconnect\+\_\+mqtt\+\_\+client}} (void)
+\begin{DoxyCompactList}\small\item\em Trennt die MQTT-\/\+Verbindung und schließt das Netzwerk. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{TextYourIoTDevice_2main_8c_a057452fece97ca0bb081cf0d2b2f606d}{connect\+\_\+mqtt\+\_\+client}} (void)
+\begin{DoxyCompactList}\small\item\em Stellt eine Verbindung zum MQTT-\/\+Broker her. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{TextYourIoTDevice_2main_8c_af9f01f054a88327607e18d33d73779fc}{mqtt\+\_\+subscribe\+\_\+topic}} (void)
+\begin{DoxyCompactList}\small\item\em Abonniert ein MQTT-\/\+Topic. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{TextYourIoTDevice_2main_8c_a24d70bebbde81f7bfb6b9cddd3479d99}{delay\+\_\+time}} (void)
+\begin{DoxyCompactList}\small\item\em Führt eine Verzögerung von ca. 2 Sekunden aus. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{TextYourIoTDevice_2main_8c_aa3e7e3a5ae5498e73aa9fc4fda5dc8b9}{mqtt\+\_\+event\+\_\+loop}} (void)
+\begin{DoxyCompactList}\small\item\em Endlosschleife zur Verarbeitung von MQTT-\/\+Nachrichten. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{TextYourIoTDevice_2main_8c_a840291bc02cba5474a4cb46a9b9566fe}{main}} (void)
+\begin{DoxyCompactList}\small\item\em Hauptfunktion des Programms zur Initialisierung und Steuerung der MQTT-\/\+Kommunikation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+MQTT-\/basierte Sensordatenkommunikation mit RIOT OS. 
+
+Dieses Programm initialisiert eine MQTT-\/\+Verbindung, abonniert Themen, verarbeitet empfangene Nachrichten und sendet Sensordaten basierend auf Anfragen über MQTT.
+
+\begin{DoxyAuthor}{Author}
+Mohammadjavad Esmaeili 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2025 
+\end{DoxyDate}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{TextYourIoTDevice_2main_8c_a057452fece97ca0bb081cf0d2b2f606d}\label{TextYourIoTDevice_2main_8c_a057452fece97ca0bb081cf0d2b2f606d} 
+\index{main.c@{main.c}!connect\_mqtt\_client@{connect\_mqtt\_client}}
+\index{connect\_mqtt\_client@{connect\_mqtt\_client}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{connect\_mqtt\_client()}{connect\_mqtt\_client()}}
+{\footnotesize\ttfamily int connect\+\_\+mqtt\+\_\+client (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Stellt eine Verbindung zum MQTT-\/\+Broker her. 
+
+Diese Funktion verbindet den MQTT-\/\+Client mit dem definierten Broker. Falls bereits eine Verbindung besteht, wird diese getrennt und neu aufgebaut.
+
+\begin{DoxyReturn}{Returns}
+0 bei erfolgreicher Verbindung, negativer Wert bei Fehler. 
+\end{DoxyReturn}
+\Hypertarget{TextYourIoTDevice_2main_8c_a24d70bebbde81f7bfb6b9cddd3479d99}\label{TextYourIoTDevice_2main_8c_a24d70bebbde81f7bfb6b9cddd3479d99} 
+\index{main.c@{main.c}!delay\_time@{delay\_time}}
+\index{delay\_time@{delay\_time}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{delay\_time()}{delay\_time()}}
+{\footnotesize\ttfamily void delay\+\_\+time (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Führt eine Verzögerung von ca. 2 Sekunden aus. 
+
+Diese Funktion verwendet entweder das ZTIMER-\/\+Modul oder eine CPU-\/basierte Schleife als Fallback, um eine Verzögerung zu erzeugen.
+
+
+\begin{DoxyItemize}
+\item Falls {\ttfamily MODULE\+\_\+\+ZTIMER} aktiviert ist, wird {\ttfamily ztimer\+\_\+sleep()} verwendet.
+\item Falls kein Timer-\/\+Treiber verfügbar ist, wird eine Schleife mit einer angenommenen CPU-\/\+Taktfrequenz genutzt. 
+\end{DoxyItemize}\Hypertarget{TextYourIoTDevice_2main_8c_ae107fb9cededb7cc12730ce7b4bcd0ab}\label{TextYourIoTDevice_2main_8c_ae107fb9cededb7cc12730ce7b4bcd0ab} 
+\index{main.c@{main.c}!disconnect\_mqtt\_client@{disconnect\_mqtt\_client}}
+\index{disconnect\_mqtt\_client@{disconnect\_mqtt\_client}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{disconnect\_mqtt\_client()}{disconnect\_mqtt\_client()}}
+{\footnotesize\ttfamily int disconnect\+\_\+mqtt\+\_\+client (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Trennt die MQTT-\/\+Verbindung und schließt das Netzwerk. 
+
+Diese Funktion beendet die Verbindung zum MQTT-\/\+Broker und trennt anschließend das Netzwerk. Falls die Trennung fehlschlägt, wird eine Fehlermeldung ausgegeben.
+
+\begin{DoxyReturn}{Returns}
+0 bei erfolgreicher Trennung, negativer Wert bei Fehler. 
+\end{DoxyReturn}
+\Hypertarget{TextYourIoTDevice_2main_8c_a9a67c32fdf79f2a116a996f84f65feed}\label{TextYourIoTDevice_2main_8c_a9a67c32fdf79f2a116a996f84f65feed} 
+\index{main.c@{main.c}!generate\_sensor\_response@{generate\_sensor\_response}}
+\index{generate\_sensor\_response@{generate\_sensor\_response}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{generate\_sensor\_response()}{generate\_sensor\_response()}}
+{\footnotesize\ttfamily char \texorpdfstring{$\ast$}{*} generate\+\_\+sensor\+\_\+response (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{topic,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{request\+\_\+unit }\end{DoxyParamCaption})}
+
+
+
+Generiert die MQTT-\/\+Antwort basierend auf dem empfangenen Topic. 
+
+Diese Funktion ruft die entsprechenden Sensorwerte ab, basierend auf dem übergebenen Topic, und speichert das JSON-\/\+Ergebnis in einem statischen Puffer.
+
+
+\begin{DoxyParams}{Parameters}
+{\em topic} & Das empfangene MQTT-\/\+Topic. \\
+\hline
+{\em request\+\_\+unit} & Die angeforderte Einheit für die Sensordaten (z. B. °C, h\+Pa).\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Ein Zeiger auf den statischen JSON-\/\+Puffer mit der Antwort. 
+\end{DoxyReturn}
+\Hypertarget{TextYourIoTDevice_2main_8c_a81fa19b1d9d5ded093f563976feb7a17}\label{TextYourIoTDevice_2main_8c_a81fa19b1d9d5ded093f563976feb7a17} 
+\index{main.c@{main.c}!handle\_mqtt\_message@{handle\_mqtt\_message}}
+\index{handle\_mqtt\_message@{handle\_mqtt\_message}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{handle\_mqtt\_message()}{handle\_mqtt\_message()}}
+{\footnotesize\ttfamily void handle\+\_\+mqtt\+\_\+message (\begin{DoxyParamCaption}\item[{Message\+Data \texorpdfstring{$\ast$}{*}}]{data }\end{DoxyParamCaption})}
+
+
+
+Verarbeitet empfangene MQTT-\/\+Nachrichten. 
+
+Diese Funktion wird aufgerufen, wenn eine Nachricht auf einem bestimmten MQTT-\/\+Topic empfangen wird. Sie analysiert die Nachricht, extrahiert relevante Informationen und generiert eine passende Antwort.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em data} & Zeiger auf die empfangene Nachricht und Metadaten. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{TextYourIoTDevice_2main_8c_a840291bc02cba5474a4cb46a9b9566fe}\label{TextYourIoTDevice_2main_8c_a840291bc02cba5474a4cb46a9b9566fe} 
+\index{main.c@{main.c}!main@{main}}
+\index{main@{main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Hauptfunktion des Programms zur Initialisierung und Steuerung der MQTT-\/\+Kommunikation. 
+
+Diese Funktion\+:
+\begin{DoxyItemize}
+\item Initialisiert das Netzwerk und den MQTT-\/\+Client.
+\item Stellt die Verbindung zum MQTT-\/\+Broker her.
+\item Abonniert das vordefinierte MQTT-\/\+Topic.
+\item Startet die Event-\/\+Schleife zur Verarbeitung von Nachrichten.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+0 bei erfolgreicher Ausführung, -\/1 und -\/2 bei Fehlern. 
+\end{DoxyReturn}
+\Hypertarget{TextYourIoTDevice_2main_8c_aa3e7e3a5ae5498e73aa9fc4fda5dc8b9}\label{TextYourIoTDevice_2main_8c_aa3e7e3a5ae5498e73aa9fc4fda5dc8b9} 
+\index{main.c@{main.c}!mqtt\_event\_loop@{mqtt\_event\_loop}}
+\index{mqtt\_event\_loop@{mqtt\_event\_loop}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{mqtt\_event\_loop()}{mqtt\_event\_loop()}}
+{\footnotesize\ttfamily void mqtt\+\_\+event\+\_\+loop (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Endlosschleife zur Verarbeitung von MQTT-\/\+Nachrichten. 
+
+Diese Funktion überprüft kontinuierlich, ob eine neue Nachricht bereit ist. Falls ja, wird die LED 4 als Indikator aktiviert, die Nachricht publiziert und das Flag zurückgesetzt. Danach wird die LED 4 deaktiviert. \Hypertarget{TextYourIoTDevice_2main_8c_af9f01f054a88327607e18d33d73779fc}\label{TextYourIoTDevice_2main_8c_af9f01f054a88327607e18d33d73779fc} 
+\index{main.c@{main.c}!mqtt\_subscribe\_topic@{mqtt\_subscribe\_topic}}
+\index{mqtt\_subscribe\_topic@{mqtt\_subscribe\_topic}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{mqtt\_subscribe\_topic()}{mqtt\_subscribe\_topic()}}
+{\footnotesize\ttfamily int mqtt\+\_\+subscribe\+\_\+topic (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Abonniert ein MQTT-\/\+Topic. 
+
+Diese Funktion überprüft, ob das maximale Limit der abonnierten Topics erreicht wurde und ob das Topic nicht zu lang ist. Falls alle Bedingungen erfüllt sind, wird eine Subscription eingerichtet.
+
+\begin{DoxyReturn}{Returns}
+0 bei Erfolg, negativer Wert bei Fehler. 
+\end{DoxyReturn}
+\Hypertarget{TextYourIoTDevice_2main_8c_a74a712f3c4e10c8a637b4c24aa7f1b7a}\label{TextYourIoTDevice_2main_8c_a74a712f3c4e10c8a637b4c24aa7f1b7a} 
+\index{main.c@{main.c}!parse\_payload\_for\_unit@{parse\_payload\_for\_unit}}
+\index{parse\_payload\_for\_unit@{parse\_payload\_for\_unit}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{parse\_payload\_for\_unit()}{parse\_payload\_for\_unit()}}
+{\footnotesize\ttfamily void parse\+\_\+payload\+\_\+for\+\_\+unit (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{payload,  }\item[{char \texorpdfstring{$\ast$}{*}}]{unit,  }\item[{size\+\_\+t}]{unit\+\_\+size,  }\item[{char \texorpdfstring{$\ast$}{*}}]{chat\+\_\+id,  }\item[{size\+\_\+t}]{chat\+\_\+id\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Extrahiert die Einheit und die Chat-\/\+ID aus einem JSON-\/\+String. 
+
+Diese Funktion durchsucht den übergebenen JSON-\/\+String nach den Schlüsseln {\ttfamily "{}u"{}} und {\ttfamily "{}chat\+\_\+id"{}} und kopiert die entsprechenden Werte in die bereitgestellten Puffer.
+
+
+\begin{DoxyParams}{Parameters}
+{\em payload} & Der JSON-\/\+String, der analysiert werden soll. \\
+\hline
+{\em unit} & Puffer, um die extrahierte Einheit (z. B. "{}°\+C"{}, "{}\+Pa"{}) zu speichern. \\
+\hline
+{\em unit\+\_\+size} & Die maximale Größe des Einheit-\/\+Puffers. \\
+\hline
+{\em chat\+\_\+id} & Puffer, um die extrahierte Chat-\/\+ID zu speichern. \\
+\hline
+{\em chat\+\_\+id\+\_\+size} & Die maximale Größe des Chat-\/\+ID-\/\+Puffers. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{TextYourIoTDevice_2main_8c_a581296f950d602b619010f54789fab8a}\label{TextYourIoTDevice_2main_8c_a581296f950d602b619010f54789fab8a} 
+\index{main.c@{main.c}!publish\_bme280\_data@{publish\_bme280\_data}}
+\index{publish\_bme280\_data@{publish\_bme280\_data}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{publish\_bme280\_data()}{publish\_bme280\_data()}}
+{\footnotesize\ttfamily int publish\+\_\+bme280\+\_\+data (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Veröffentlicht die BME280-\/\+Sensordaten über MQTT. 
+
+Diese Funktion sendet die in {\ttfamily saul\+\_\+response} gespeicherten Daten an das MQTT-\/\+Topic {\ttfamily saul\+\_\+topic\+\_\+to\+\_\+publish}.
+
+\begin{DoxyReturn}{Returns}
+0 bei Erfolg, negativer Fehlercode bei Misserfolg. 
+\end{DoxyReturn}

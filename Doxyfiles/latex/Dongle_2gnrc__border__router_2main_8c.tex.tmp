@@ -1,0 +1,57 @@
+\doxysection{/home/mj/\+Desktop/\+Io\+T-\/\+Chat-\/\+Digitalization/\+Dongle/gnrc\+\_\+border\+\_\+router/main.c File Reference}
+\hypertarget{Dongle_2gnrc__border__router_2main_8c}{}\label{Dongle_2gnrc__border__router_2main_8c}\index{/home/mj/Desktop/IoT-\/Chat-\/Digitalization/Dongle/gnrc\_border\_router/main.c@{/home/mj/Desktop/IoT-\/Chat-\/Digitalization/Dongle/gnrc\_border\_router/main.c}}
+
+
+Example application for demonstrating the RIOT network stack.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include "{}shell.\+h"{}}\newline
+{\ttfamily \#include "{}msg.\+h"{}}\newline
+Include dependency graph for main.\+c\+:
+% FIG 0
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{Dongle_2gnrc__border__router_2main_8c_a6eb1641558b3240329cff7a42c609f26}{MAIN\+\_\+\+QUEUE\+\_\+\+SIZE}}~(8)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{Dongle_2gnrc__border__router_2main_8c_a840291bc02cba5474a4cb46a9b9566fe}{main}} (void)
+\begin{DoxyCompactList}\small\item\em Main function for the RIOT border router application. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Example application for demonstrating the RIOT network stack. 
+
+\begin{DoxyAuthor}{Author}
+Hauke Petersen \href{mailto:hauke.petersen@fu-berlin.de}{\texttt{ hauke.\+petersen@fu-\/berlin.\+de}} 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{Dongle_2gnrc__border__router_2main_8c_a6eb1641558b3240329cff7a42c609f26}\label{Dongle_2gnrc__border__router_2main_8c_a6eb1641558b3240329cff7a42c609f26} 
+\index{main.c@{main.c}!MAIN\_QUEUE\_SIZE@{MAIN\_QUEUE\_SIZE}}
+\index{MAIN\_QUEUE\_SIZE@{MAIN\_QUEUE\_SIZE}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{MAIN\_QUEUE\_SIZE}{MAIN\_QUEUE\_SIZE}}
+{\footnotesize\ttfamily \#define MAIN\+\_\+\+QUEUE\+\_\+\+SIZE~(8)}
+
+Size of the main message queue 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{Dongle_2gnrc__border__router_2main_8c_a840291bc02cba5474a4cb46a9b9566fe}\label{Dongle_2gnrc__border__router_2main_8c_a840291bc02cba5474a4cb46a9b9566fe} 
+\index{main.c@{main.c}!main@{main}}
+\index{main@{main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Main function for the RIOT border router application. 
+
+Initializes the message queue, prints a startup message, and runs the shell for user interaction.
+
+\begin{DoxyReturn}{Returns}
+0 when the application ends (though this point is never reached). 
+\end{DoxyReturn}

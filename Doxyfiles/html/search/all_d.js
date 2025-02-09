@@ -1,0 +1,16 @@
+var searchData=
+[
+  ['debugging_20and_20monitoring_20iot_20devices_20using_20aws_20cloudwatch_0',['Implement logging for debugging and monitoring IoT devices using AWS CloudWatch',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md25',1,'']]],
+  ['default_5fkeepalive_5fsec_1',['DEFAULT_KEEPALIVE_SEC',['../mqtt__utils_8h.html#a36ee403a37aa755f2306ccff42265ad0',1,'mqtt_utils.h']]],
+  ['default_5fmqtt_5fport_2',['DEFAULT_MQTT_PORT',['../mqtt__utils_8h.html#a01342056d524ed0b20f9e0ccc800d1db',1,'mqtt_utils.h']]],
+  ['delay_5ftime_3',['delay_time',['../TextYourIoTDevice_2main_8c.html#a24d70bebbde81f7bfb6b9cddd3479d99',1,'main.c']]],
+  ['desktop_20download_20infotabs_20nrf_20connect_20for_20desktop_20a_20_3a_20for_20flashing_20the_20firmware_20in_20dongle_4',['- &lt;a href=&quot;https://www.nordicsemi.com/Products/Development-tools/nRF-Connect-for-Desktop/Download#infotabs&quot; &gt;nRF Connect for Desktop&lt;/a&gt; : For flashing the firmware in Dongle',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md31',1,'']]],
+  ['development_20tools_20nrf_20connect_20for_20desktop_20download_20infotabs_20nrf_20connect_20for_20desktop_20a_20_3a_20for_20flashing_20the_20firmware_20in_20dongle_5',['- &lt;a href=&quot;https://www.nordicsemi.com/Products/Development-tools/nRF-Connect-for-Desktop/Download#infotabs&quot; &gt;nRF Connect for Desktop&lt;/a&gt; : For flashing the firmware in Dongle',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md31',1,'']]],
+  ['devices_20using_20aws_20cloudwatch_6',['Implement logging for debugging and monitoring IoT devices using AWS CloudWatch',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md25',1,'']]],
+  ['disconnect_5fmqtt_5fclient_7',['disconnect_mqtt_client',['../TextYourIoTDevice_2main_8c.html#ae107fb9cededb7cc12730ce7b4bcd0ab',1,'main.c']]],
+  ['dk_20strong_8',['&lt;strong&gt;1. Flashing the DK&lt;/strong&gt;',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md34',1,'']]],
+  ['documentation_20strong_9',['📖 &lt;strong&gt;Documentation&lt;/strong&gt;',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md42',1,'']]],
+  ['dongle_10',['dongle',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md31',1,'- &lt;a href=&quot;https://www.nordicsemi.com/Products/Development-tools/nRF-Connect-for-Desktop/Download#infotabs&quot; &gt;nRF Connect for Desktop&lt;/a&gt; : For flashing the firmware in Dongle'],['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2Dongle_2ip__address__dongle.html#autotoc_md14',1,'Interface name of Dongle'],['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2Dongle_2ip__address__dongle.html',1,'IPv6 address of Dongle']]],
+  ['dongle_20strong_11',['&lt;strong&gt;2. Flashing the Dongle&lt;/strong&gt;',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md35',1,'']]],
+  ['download_20infotabs_20nrf_20connect_20for_20desktop_20a_20_3a_20for_20flashing_20the_20firmware_20in_20dongle_12',['- &lt;a href=&quot;https://www.nordicsemi.com/Products/Development-tools/nRF-Connect-for-Desktop/Download#infotabs&quot; &gt;nRF Connect for Desktop&lt;/a&gt; : For flashing the firmware in Dongle',['../md__2home_2mj_2Desktop_2IoT-Chat-Digitalization_2README.html#autotoc_md31',1,'']]]
+];

@@ -1,0 +1,26 @@
+\doxysection{saul\+\_\+utils.\+h}
+\hypertarget{saul__utils_8h_source}{}\label{saul__utils_8h_source}\index{/home/mj/Desktop/IoT-\/Chat-\/Digitalization/TextYourIoTDevice/saul\_utils.h@{/home/mj/Desktop/IoT-\/Chat-\/Digitalization/TextYourIoTDevice/saul\_utils.h}}
+\mbox{\hyperlink{saul__utils_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#ifndef\ SAUL\_UTILS\_H}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ SAUL\_UTILS\_H}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}saul\_reg.h"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}shell.h"{}}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <math.h>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ Log-\/Modul\ für\ Debugging\ und\ Fehlerausgabe}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ "{}log.h"{}}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ PUFFER\_SIZE\ 256}}
+\DoxyCodeLine{00033\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{saul__utils_8h_a728a5f7dd7f7e7cf48ce6ec9c6104370}{nrf\_temp}};}
+\DoxyCodeLine{00038\ \textcolor{keyword}{extern}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{saul__utils_8h_a8648884f1f8c1f38281376f873131ddd}{bme\_280\_name}};}
+\DoxyCodeLine{00049\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{saul__utils_8h_a83f97845c2d0db42574c117e37b44c99}{read\_bme280\_temperature}}\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ request\_unit,\ \textcolor{keywordtype}{char}*\ json\_buffer,\ \textcolor{keywordtype}{size\_t}*\ json\_size);}
+\DoxyCodeLine{00060\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{saul__utils_8h_af6b3a4515254bba9fcc365f021c07438}{read\_bme280\_pressure}}\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ device\_name,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ request\_unit,\ \textcolor{keywordtype}{char}*\ json\_buffer,\ \textcolor{keywordtype}{size\_t}*\ json\_size);}
+\DoxyCodeLine{00070\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{saul__utils_8h_ab90c73614e3d06522eea7acf63c72f55}{read\_bme280\_humidity}}\ (\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ device\_name,\ \textcolor{keywordtype}{char}*\ json\_buffer,\ \textcolor{keywordtype}{size\_t}*\ json\_size);}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{/*\ SAUL\_UTILS\_H\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}
