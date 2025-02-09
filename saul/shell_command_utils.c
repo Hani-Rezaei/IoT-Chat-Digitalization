@@ -1,3 +1,14 @@
+/**
+ * @file  shell_command_utils.c
+ * @brief MQTT Befehle für die Verbindung, Veröffentlichung und das Abonnieren von Themen.
+ *
+ * Dieser Code demonstriert die Verwendung von MQTT zur Verbindung mit einem Broker, 
+ * zum Veröffentlichen von Nachrichten und zum Abonnieren von Themen. Der Code enthält
+ * auch Befehlsfunktionen, die über eine Shell-Schnittstelle aufgerufen werden können.
+ * 
+ * @note Die Shell-Befehle sind hilfreich, um das Verhalten des MQTT-Clients zu debuggen.
+ */
+
 // #include <stdio.h>
 // #include "shell.h"
 // #include "mqtt_utils.h"

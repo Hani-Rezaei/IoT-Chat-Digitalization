@@ -6,20 +6,22 @@ The system uses LEDs for status indication and includes logging and monitoring c
 ---
 
 ## 📚 **Table of Contents**
-1. [Project Overview](#📜-project-overview)
-2. [System Architecture](#📐-system-architecture)
-3. [Features](#✨-features)
-4. [Requirements](#🛠️-requirements)
-5. [Project structure](#📂-project-structure)
-6. [Setup Instructions](#🚀-setup-instructions)
+1. [Project Overview](#-project-overview)
+2. [System Architecture](#-system-architecture)
+3. [Features](#-features)
+4. [Requirements](#-requirements)
+5. [Project structure](#-project-structure)
+6. [Setup Instructions](#-setup-instructions)
     - [1. Flashing the DK](#1-flashing-the-dk)
     - [2. Flashing the Dongle](#2-flashing-the-dongle)
     - [3. The MQTT Broker on AWS EC2](#3-the-mqtt-broker-on-aws-ec2)
     - [4. The MQTT Broker on AWS IoT Core](#4-the-mqtt-broker-on-aws-iot-core)
-    - [5. Telegram Bot](#5-telegram-bot)
-7. [Testing the System](#🔬-testing-the-system)
-8. [Troubleshooting](#🛠️-troubleshooting)
-9. [Documentation](#📖-documentation)
+    - [5. The AWS Lambda TelegramBotHandler](#5-the-aws-lambda-telegrambothandler)
+    - [6. The AWS API Gateaway](#6-the-aws-api-gateaway)
+    - [7. The Webhook](#7-the-webhook)
+    - [8. Telegram Bot](#8-telegram-bot)
+7. [Documentation](#-documentation)
+8. [Contact](#-contact)
 
 ---
 
@@ -31,7 +33,7 @@ The primary use case involves a DK that collects sensor data, sends it to an MQT
 ---
 
 ## 📐 **System Architecture**
-![Drag Racing](images/architecture.png)
+![architecture](images/architecture.png)
 ### **Components:**
 1. **Sensor BME280:**  Temperature, air pressure and humidity sensor
 2. **nRF52840 DK:** Publishes sensor data via MQTT.
@@ -77,9 +79,9 @@ Implement logging for debugging and monitoring IoT devices using AWS CloudWatch
 - Device certificate "*certificate.pem.crt*"
 - private key "*private.pem.key*"
 
-### **Tools:**
-- FileZilla: SSH client for AWS EC2
-- nRF Desktop Connect APP: For flashing the firmware in Dongle
+### **Tools:**  
+- [FileZilla](https://filezilla-project.org/download.php): SSH client for AWS EC2
+- [nRF Connect for Desktop](https://www.nordicsemi.com/Products/Development-tools/nRF-Connect-for-Desktop/Download#infotabs) : For flashing the firmware in Dongle
 ---
 
 ## 📂 **Project structure**
@@ -87,37 +89,67 @@ The following is an overview of the project's structure:
 
 ```plaintext
 TextYourIoTDevice/
-├── AWS_Conf/               # Contains configuration from AWS such as security certificates project).
-├── blinky/                 # temporär ???
-├── Board_Datasheet/        # Contains the datasheets of the board and sensors
-├── Dongle/                 # Contains the code that is flashed on the dongle as a border router and the IPv6-address of dongle 
-│   ├── gnrc_border_router/ # The code of gnrc_border_router of RIOT flashed on the dongle
-│   ├── IP_Dongle.txt       # The IPv6-address and the interface name of dongle 
-├── images/                 # The images
-├── saul/                   # 
-│   ├── bin/                #
-│   ├── Doxyfiles           # 
-│   └── views.py            # 
-├── archive.zip/            # 
-└── README.md               # 
+├── aws/                        # Contains configuration from AWS such as security certificates project.
+│   ├── AWS_EC2_Conf/           # Configurations of AWS EC2
+│   ├── AWS_IoTCore_TLS_Conf/   # Configurations of AWS IoT Core and TLS certificates
+│   ├── Lambda/                 # Lambda functions 
+├── Board_Datasheet/            # Contains the datasheets of the board and sensors
+├── Dongle/                     # Contains the code that is flashed on the dongle as a border router and the IPv6-address of dongle 
+│   ├── gnrc_border_router/     # The code of gnrc_border_router of RIOT flashed on the dongle
+│   ├── ip_address_dongle.md    # The IPv6-address and the interface name of dongle 
+├── Doxyfiles/                  # The Doxyfile and configurations
+├── images/                     # The images
+├── TextYourIoTDevice/          # The code of TextYourIoTDevice flashed on the DK
+│   ├── led_utils.h             # Header file of led_utils
+│   ├── led_utils.c             # C file of led_utils
+│   ├── main.c                  # Main file
+│   ├── Makefile                # Main makefile
+│   ├── Makefile.board.dep      # Makefile of board.dep of RIOT
+│   ├── Makefile.ci             # Makefile of ci of RIOT
+│   ├── Makefile.gnrc           # Makefile of gnrc of RIOT
+│   ├── Makefile.Iwip           # Makefile of Iwip of RIOT
+│   ├── Makefile.mqtt           # Makefile of mqtt of RIOT
+│   ├── Makefile.saul           # Makefile of saul of RIOT
+│   ├── mqtt_utils.h            # Header file of mqtt_utils
+│   ├── saul_utils.h            # Header file of saul_utils
+│   ├── saul_utils.c            # C file of saul_utils
+│   ├── shell_command_utils.c   # C file of shell_command_utils
+└── README.md                   # This documentation
 ```
 ## 🚀 **Setup Instructions**
 
 ### **1. Flashing the DK**
 
-1. Clone the project repository:
+1. Hardware Connections
+    
+    1. Connect the sensor BME280 to DK as shown in the following photo:
+
+    ![Hardware connections](images/hardware_connections.png)
+
+    **BME280 Pinout (for I2C)**:
+
+        VCC (BME280) → 3.3V (nRF52840DK)
+        GND (BME280) → GND (nRF52840DK)
+        SDA (BME280) → SDA (Pin 26 on nRF52840DK)
+        SCL (BME280) → SCL (Pin 27 on nRF52840DK)
+        SDO (BME280) → GND (for I2C address 0x76) or 3.3V (for I2C address 0x77)
+
+
+**Important NOTE**: The program is already flashed on the DK. If you still want to make it, go through the following steps.
+
+2. Clone the project repository:
    ```bash
     git clone https://github.com/Hani-Rezaei/IoT-Chat-Digitalization.git
    ```
-2. Into the directory
+3. Into the directory
     ```bash
     cd directory/
     ```
-3. Build the application for the nRF52840 DK:
+4. Build the application for the nRF52840 DK:
     ```bash
     make BOARD=nrf52840dk TextYourIoTDevice/
     ```
-4. Flash the firmware and verify the flashing process by checking the serial output:
+5. Flash the firmware and verify the flashing process by checking the serial output:
     ```bash
     make BOARD=nrf52840dk TextYourIoTDevice/ flash term
     ```
@@ -127,49 +159,52 @@ TextYourIoTDevice/
     ```bash
     make BOARD=nrf52840dongle dongle/ all
     ```
-2. Copy created build .hex  
+2. Copy created build *.hex*  
 
-3. start the tool:
-- ????????????????????
+3. Start the tool
+[nRF Connect for Desktop](https://www.nordicsemi.com/Products/Development-tools/nRF-Connect-for-Desktop/Download#infotabs)
 
-4. flash the firmware
+4. Flash the firmware in dongle (see documentation for detailed instructions)
 
 ### **3. The MQTT Broker on AWS EC2**
 
 The mqtt broker on AWS EC2 should work fine.
 
-If it doesn't, contact developers or look at the documentation. to know how the broker was created and configured.
+If it doesn't, contact developer or look at the documentation. to know how the broker was created and configured.
 
 ### **4. The MQTT Broker on AWS IoT Core**
 The mqtt broker on AWS IoT Core should work fine.
 
 If it doesn't, contact developers or look at the documentation. to know how the broker was created and configured.
 
-### **5. Telegram Bot**
+### **5. The AWS Lambda *TelegramBotHandler***
+The AWS Lambda function *TelegramBotHandler* should work fine.
+
+If not, contact the developers or read the documentation to learn how the function was created and configured.
+
+### **6. The AWS API Gateaway**
+The AWS API Gateaway should work fine.
+
+If not, contact the developers or read the documentation to learn how the function was created and configured.
+
+### **7. The Webhook**
+The Webhook should work fine.
+
+If not, contact the developers or read the documentation to learn how the function was created and configured.
+
+### **8. Telegram Bot**
 Using the Telegram Bot **TextYourIoTDevice**
 ```bash
     Username: @TextYourIoTDevicebot
 ```
 
-## 🔬 **Testing the System**
-1. Power on the DK and verify the LEDs indicate the connection status.
-2. Send a message via the Telegram bot and observe it being processed by AWS IoT Core.
-3. Monitor logs in AWS CloudWatch for debugging and performance insights.
-## 🛠️ **Troubleshooting**
-1. Issue: DK cannot connect to Mosquitto.
-+ **Solution:** Verify the broker IP and TLS certificates.
----
-2. Issue: Messages are not visible in AWS IoT Core.
-- **Solution:** Check the Mosquitto configuration and AWS IoT policies.
----
-
 ## 📖 **Documentation**
 **1. Inline Code Documentation and code structur:** 
 
-- Doxygen is used for code-level documentation.
+- **Doxygen** is used for code-level documentation.
     1. Doxygen
         ```bash
-            sudo apt install doxygen
+            sudo apt install doxygen # Auf Linux  
         ```
     2. Doxygen-Konfigurationsdatei generieren:
         ```bash
@@ -177,7 +212,7 @@ Using the Telegram Bot **TextYourIoTDevice**
         ```
     3. Die generierte Doxyfile anpassen:
         ```plaintext
-        ~/Doxyfile/
+        ~/Doxyfiles/Doxyfile
         ```
     4. Doxygen ausführen:
         ```bash
@@ -188,10 +223,20 @@ Using the Telegram Bot **TextYourIoTDevice**
     6. Im einem Browser, um die Dokumentation anzusehen:
         ```bash
         xdg-open doc/html/index.html  # Auf Linux
-        open doc/html/index.html      # Auf macOS
         ```
-- If required, there is inline code in each file
+- If required, there is **inline code** in each file.
 
 **2. README.md:** This documentation (detailed steps for setup and usage).
 
 **3. Final Documentation:** Comprehensive project report.
+
+## 👨‍💻 **Contact**
+
+1. Mohammadjavad Esmaeili 
+
+    📧 Email: [mohammadjavad.esmaeili@stud.fra-uas.de](mohammadjavad.esmaeili@stud.fra-uas.de)
+       
+1. Hani Rezaei 
+
+    📧 Email: [hani.rezaei@stud.fra-uas.de](hani.rezaei@stud.fra-uas.de)
+
