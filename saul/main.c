@@ -1,11 +1,14 @@
 /**
- * @file    main.c
- * @brief   
- * @details 
+ * @file main.c
+ * @brief MQTT-basierte Sensordatenkommunikation mit RIOT OS
  *
- * @author  Mohammadjavad Esmaeili
+ * Dieses Programm initialisiert eine MQTT-Verbindung, abonniert Themen,
+ * verarbeitet empfangene Nachrichten und sendet Sensordaten basierend
+ * auf Anfragen über MQTT.
+ *
+ * @author Mohammadjavad Esmaeili
+ * @date 2025
  */
-
 #include <stdio.h>
 #include "shell.h"
 #include <string.h>
