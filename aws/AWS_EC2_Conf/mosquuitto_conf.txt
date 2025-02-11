@@ -1,0 +1,60 @@
+# Place your local configuration in /etc/mosquitto/conf.d/
+#
+# A full description of the configuration file is at
+# /usr/share/doc/mosquitto/examples/mosquitto.conf.example
+
+#pid_file /run/mosquitto/mosquitto.pid
+listener 8080
+listener 8883
+allow_anonymous true
+
+
+persistence true
+persistence_location /var/lib/mosquitto/
+
+log_dest file /var/log/mosquitto/mosquitto.log
+
+include_dir /etc/mosquitto/conf.d
+
+
+# ============================================================
+# Bridge to AWS IOT
+# ============================================================
+
+connection awsiot
+
+#<Paste your AWS IoT Core ATS endpoint retrieved from the AWS CLI in the form of xxxxxxxxxxxxxxx-ats.iot.<region>.amazonaws.com:8883
+# address xxxxxxxxxxxxxxx-ats.iot.<region>.amazonaws.com:8883
+address a1wr6xs1y6lp2l-ats.iot.us-east-1.amazonaws.com:8883
+
+# Specifying which topics are bridged and in what fashion
+topic awsiot_to_localgateway/# both 1
+topic localgateway_to_awsiot/# both 1
+# topic both_directions both 1
+
+# Setting protocol version explicitly
+bridge_protocol_version mqttv311
+bridge_insecure false
+
+# Bridge connection name and MQTT client Id, enabling the connection automatically when the broker starts.
+cleansession true
+clientid bridgeawsiot
+start_type automatic
+notifications false
+log_type all
+
+# ============================================================
+# Certificate based SSL/TLS support
+# ============================================================
+
+#Path to the rootCA
+bridge_cafile /etc/mosquitto/ca_certificates/AmazonRootCA1.pem
+
+# Path to the PEM encoded client certificate
+bridge_certfile /etc/mosquitto/certs/certificate.pem.crt
+
+# Path to the PEM encoded client private key
+bridge_keyfile /etc/mosquitto/certs/private.pem.key
+
+#END of bridge.conf
+
