@@ -67,12 +67,7 @@ Implement logging for debugging and monitoring IoT devices using AWS CloudWatch
 - RIOT OS with `paho_mqtt` running on the DK
 - RIOT OS with `gnrc_border_router` running on the Dongle
 - Mosquitto MQTT Broker installed on an AWS EC2 instance  
-- AWS IoT Core configured for MQTT communication
--
--
--
--
-- Telegram Bot API  
+- AWS Lambda *TelegramBotHandler* for processing telegram requests and responses 
 
 ### **Certificates and Keys:**
 - AWS IoT Core Root CA certificate "*AmazonRootCA.pem*"
