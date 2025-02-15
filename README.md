@@ -40,9 +40,9 @@ The primary use case involves a DK that collects sensor data, sends it to an MQT
 3. **nRF52840 Dongle:** Functions as a border router for the DK.
 4. **Mosquitto (MQTT Broker):** Acts as an intermediary between the DK and AWS IoT Core.
 5. **AWS IoT Core:** Central hub for IoT device communication.
-6. **AWS Lamda:** 
-7. **AWS API Gateaway:** 
-8. **Webhook:** 
+6. **AWS Lamda:** Processes incoming MQTT messages, applies business logic, and triggers further actions.
+7. **AWS API Gateaway:** Provides a RESTful interface for external applications to interact with the IoT system. 
+8. **Webhook:** Sends real-time notifications or data updates from AWS services to external applications, such as triggering events in the Telegram bot.
 9. **Telegram Bot:** Allows interaction with the IoT system.
 ---
 
@@ -67,7 +67,7 @@ Implement logging for debugging and monitoring IoT devices using AWS CloudWatch
 - RIOT OS with `paho_mqtt` running on the DK
 - RIOT OS with `gnrc_border_router` running on the Dongle
 - Mosquitto MQTT Broker installed on an AWS EC2 instance  
-- AWS Lambda *TelegramBotHandler* for processing telegram requests and responses 
+- AWS Lambda funbction *TelegramBotHandler* for processing telegram requests and responses 
 
 ### **Certificates and Keys:**
 - AWS IoT Core Root CA certificate "*AmazonRootCA.pem*"
