@@ -29,7 +29,7 @@
 /** 
  * @brief IPv6-Adresse des MQTT-Brokers 
  */
-#define BROKER_IPV6         "2600:1f18:74ea:15df:f67c:5919:5bab:51f1"
+#define BROKER_IPV6         "2600:1f18:32ca:c1ff:59:553f:6820:ff3b"
 #endif
 
 #ifndef TOPIC_TO_SUBSCRIBE
