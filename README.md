@@ -109,6 +109,9 @@ TextYourIoTDevice/
 │   ├── saul_utils.h            # Header file of saul_utils
 │   ├── saul_utils.c            # C file of saul_utils
 │   ├── shell_command_utils.c   # C file of shell_command_utils
+├── Ducumentation/              # Comprehensive project report and Milestone Chart
+│   ├── Documentation_TextYourIoTDevice.pdf     # Comprehensive project documentation
+│   ├── MilestoneChart_TextYourIoTDevice.xlsx   # Milestone Chart
 └── README.md                   # This documentation
 ```
 ## 🚀 **Setup Instructions**
